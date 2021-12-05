@@ -1,0 +1,7 @@
+# system files
+.DS_Store
+.Rhistory
+.Rproj.user
+
+# archived or test files
+z_*
