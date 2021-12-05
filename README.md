@@ -1,4 +1,4 @@
-## FPCountR: Fluorescence protein counting in microplate readers
+## FPCountR: Fluorescent protein calibration for plate readers
 
 The R package **FPCountR** enables the calibration of microplate readers using fluorescent protein calibrants. This enables users to monitor cellular fluorescent protein expression in absolute units.
 
@@ -31,4 +31,4 @@ devtools::install_github("ec363/fpcountr")
 
 ## Examples
 
-For a guide to getting started, see the vignettes on the FPCountR package website.
+For a guide to getting started, see the [vignette on the FPCountR package website](https://ec363.github.io/fpcountr/articles/fpcountr.html).
