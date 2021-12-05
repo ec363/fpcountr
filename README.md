@@ -4,7 +4,7 @@ The R package **FPCountR** enables the calibration of microplate readers using f
 
 Background: Protein expression may be quantified by fluorescence where a fluorescent protein ('FP') is used as a reporter gene. Microplate readers allow us to quantify fluorescence in high-throughput using 96-well plates, as well as to monitor the kinetics of expression over time. It has long been noted that arbitrary units produced by such instruments prevents us from comparing experimental results between instruments, and that calibration of these instruments using standards can allow us to do so. However, existing calibrants do not allow us to express FP levels in terms of molecular or molar units, such as '100 molecules per cell', or '100 nM'. To do this, we need to use the FPs themselves as calibrants.
 
-This method aims to describe a simple and accurate way to do just this. Our wet lab protocols are available on protocols.io (TBC) and our analysis package on GitHub (TBC). The paper accompanying these is available here (TBC).
+This method aims to describe a simple and accurate way to do just this. Our wet lab protocols are available on protocols.io and our analysis package on GitHub. The paper accompanying these will be available in due course.
 
 ## Overview of the package
 
