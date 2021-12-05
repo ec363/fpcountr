@@ -8,7 +8,7 @@ Authors@R:
            email = "e.csibra@imperial.ac.uk",
            comment = c(ORCID = "0000-0003-4759-5921"))
 Description: Calibrate microplate readers using fluorescent protein calibrants to allow quantification in molecular units. Functions in this package allow for the quantification of fluorescent proteins using any of three different quantification methods, as well as the comparison of protein concentrations with fluorescence intensity readings to obtain 'conversion factors'. These can then be used to convert fluorescence readings from microbiological growth and gene expression assays from 'arbitrary units' into 'molecules per cell'.
-License: MIT + file LICENSE
+License: GPL (>= 3)
 URL: https://ec363.github.io/fpcountr, https://github.com/ec363/fpcountr
 Encoding: UTF-8
 LazyData: true
