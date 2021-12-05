@@ -1,0 +1,18 @@
+---
+title: "fpcountr"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+## Installation
+
+The package is written in R and can be installed straight from GitHub:
+
+```{r eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("ec363/fpcountr")
+```
