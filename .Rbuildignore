@@ -1,3 +1,5 @@
 ^fpcountr\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^z_buildfile\.R$
+^\.Rhistory$
