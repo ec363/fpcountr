@@ -3,3 +3,6 @@
 ^LICENSE\.md$
 ^z_buildfile\.R$
 ^\.Rhistory$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
