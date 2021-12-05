@@ -1,1 +1,39 @@
 url: https://ec363.github.io/fpcountr/
+
+reference:
+- title: "Functions for performing calibrations"
+  desc: ""
+- contents:
+  - get_conc_A280
+  - get_conc_ECmax
+  - get_conc_bca
+  - generate_cfs
+  - plot_absorbance_spectrum
+  - view_kfactors
+- title: "Experimental data handling functions"
+  desc: ""
+- contents:
+  - calc_fppercell
+  - calc_fpconc
+  - process_plate
+- title: "Parser functions"
+  desc: "Functions that format and tidy data"
+- contents:
+  - ends_with("_parse")
+- title: "Helper functions"
+  desc: "Functions that are used internally by other functions"
+- contents:
+  - calibrate_flu
+  - calibrate_od
+  - correct_flu
+  - flu_norm
+  - get_extcoeff_A280
+  - get_kfactor
+  - get_mw
+  - get_pathlength
+  - get_properties
+  - od_norm
+- title: "Data"
+  desc: ""
+- contents:
+  - ends_with("_data")

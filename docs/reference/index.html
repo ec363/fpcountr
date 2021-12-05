@@ -88,7 +88,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/ec363/fpcountr/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -116,7 +121,7 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <h2 id="section-functions-for-performing-calibrations" class="hasAnchor"><a href="#section-functions-for-performing-calibrations" class="anchor"></a>Functions for performing calibrations</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -126,66 +131,6 @@
       
       
       <tr>
-        
-        <td>
-          <p><code><a href="aa_mass_data.html">aa_mass_data</a></code> </p>
-        </td>
-        <td><p>Amino acid masses</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calc_fpconc.html">calc_fpconc()</a></code> </p>
-        </td>
-        <td><p>Calculate FP concentration in molar units</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calc_fppercell.html">calc_fppercell()</a></code> </p>
-        </td>
-        <td><p>Calculate FP/cell values</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calibrate_flu.html">calibrate_flu()</a></code> </p>
-        </td>
-        <td><p>Convert arbitrary fluorescence units to calibrated units</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calibrate_od.html">calibrate_od()</a></code> </p>
-        </td>
-        <td><p>Convert arbitrary optical density units to calibrated units</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="cell_quench_data.html">cell_quench_data</a></code> </p>
-        </td>
-        <td><p>cell quench data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="correct_flu.html">correct_flu()</a></code> </p>
-        </td>
-        <td><p>Correct normalised fluorescence to compensate for cellular quenching effects</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="flu_norm.html">flu_norm()</a></code> </p>
-        </td>
-        <td><p>Normalise fluorescence against negative well autofluorescence</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fpbase_data.html">fpbase_data</a></code> </p>
-        </td>
-        <td><p>fluorescent protein properties from fpbase</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="generate_cfs.html">generate_cfs()</a></code> </p>
-        </td>
-        <td><p>Generate conversion factors for FP calibrations</p></td>
-      </tr><tr>
         
         <td>
           <p><code><a href="get_conc_A280.html">get_conc_A280()</a></code> </p>
@@ -203,6 +148,117 @@
           <p><code><a href="get_conc_bca.html">get_conc_bca()</a></code> </p>
         </td>
         <td><p>Get FP concentrations using BCA method</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="generate_cfs.html">generate_cfs()</a></code> </p>
+        </td>
+        <td><p>Generate conversion factors for FP calibrations</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot_absorbance_spectrum.html">plot_absorbance_spectrum()</a></code> </p>
+        </td>
+        <td><p>Plot absorbance spectrum</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="view_kfactors.html">view_kfactors()</a></code> </p>
+        </td>
+        <td><p>View k-factors</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-experimental-data-handling-functions" class="hasAnchor"><a href="#section-experimental-data-handling-functions" class="anchor"></a>Experimental data handling functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="calc_fppercell.html">calc_fppercell()</a></code> </p>
+        </td>
+        <td><p>Calculate FP/cell values</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="calc_fpconc.html">calc_fpconc()</a></code> </p>
+        </td>
+        <td><p>Calculate FP concentration in molar units</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="process_plate.html">process_plate()</a></code> </p>
+        </td>
+        <td><p>Process timecourse plate reader data (normalise, correct and calibrate)</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-parser-functions" class="hasAnchor"><a href="#section-parser-functions" class="anchor"></a>Parser functions</h2>
+          <p class="section-desc"><p>Functions that format and tidy data</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="magellan_parse.html">magellan_parse()</a></code> </p>
+        </td>
+        <td><p>Parser for Spark/Magellan data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="magellan_spectrum_parse.html">magellan_spectrum_parse()</a></code> </p>
+        </td>
+        <td><p>Parser for absorbance spectrum data</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-helper-functions" class="hasAnchor"><a href="#section-helper-functions" class="anchor"></a>Helper functions</h2>
+          <p class="section-desc"><p>Functions that are used internally by other functions</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="calibrate_flu.html">calibrate_flu()</a></code> </p>
+        </td>
+        <td><p>Convert arbitrary fluorescence units to calibrated units</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="calibrate_od.html">calibrate_od()</a></code> </p>
+        </td>
+        <td><p>Convert arbitrary optical density units to calibrated units</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="correct_flu.html">correct_flu()</a></code> </p>
+        </td>
+        <td><p>Correct normalised fluorescence to compensate for cellular quenching effects</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="flu_norm.html">flu_norm()</a></code> </p>
+        </td>
+        <td><p>Normalise fluorescence against negative well autofluorescence</p></td>
       </tr><tr>
         
         <td>
@@ -236,6 +292,43 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="od_norm.html">od_norm()</a></code> </p>
+        </td>
+        <td><p>Normalise optical density against blank wells</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="aa_mass_data.html">aa_mass_data</a></code> </p>
+        </td>
+        <td><p>Amino acid masses</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cell_quench_data.html">cell_quench_data</a></code> </p>
+        </td>
+        <td><p>cell quench data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="fpbase_data.html">fpbase_data</a></code> </p>
+        </td>
+        <td><p>fluorescent protein properties from fpbase</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="kfactors_buffers_data.html">kfactors_buffers_data</a></code> </p>
         </td>
         <td><p>k-factors of different buffers</p></td>
@@ -248,51 +341,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="magellan_parse.html">magellan_parse()</a></code> </p>
-        </td>
-        <td><p>Parser for Spark/Magellan data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="magellan_spectrum_parse.html">magellan_spectrum_parse()</a></code> </p>
-        </td>
-        <td><p>Parser for absorbance spectrum data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="od_norm.html">od_norm()</a></code> </p>
-        </td>
-        <td><p>Normalise optical density against blank wells</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="pathlength_water_data.html">pathlength_water_data</a></code> </p>
         </td>
         <td><p>pathlength vs volume data</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="plot_absorbance_spectrum.html">plot_absorbance_spectrum()</a></code> </p>
-        </td>
-        <td><p>Plot absorbance spectrum</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="process_plate.html">process_plate()</a></code> </p>
-        </td>
-        <td><p>Process timecourse plate reader data (normalise, correct and calibrate)</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="protein_seq_data.html">protein_seq_data</a></code> </p>
         </td>
         <td><p>protein sequence data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="view_kfactors.html">view_kfactors()</a></code> </p>
-        </td>
-        <td><p>View k-factors</p></td>
       </tr>
     </tbody>
     </table>
