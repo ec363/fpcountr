@@ -172,6 +172,13 @@ get_conc_ECmax <- function(protein_slug, protein_seq,
   data.to.plot$dilution <- as.factor(data.to.plot$dilution) # make dilution a factor
   newlist <- levels(data.to.plot$dilution)
   data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
+
+  # Get ECmax wavelength of your FP for plotting
+  fp_properties <- fpcountr::get_properties(slug = protein_slug, verbose = TRUE, outfolder = outfolder, filename = filename)
+  fp_properties
+  # fp_properties$ex_max # is excitation max
+  # fp_properties$ext_coeff # is EC
+
   plot1 <- ggplot2::ggplot(data.to.plot) +
     ggplot2::geom_hline(yintercept = 0, colour = "grey") + # bottom
     ggplot2::geom_point(ggplot2::aes(x = measure, y = normalised_cm1_value),
@@ -180,7 +187,7 @@ get_conc_ECmax <- function(protein_slug, protein_seq,
                          colour = "black",
                          span = 0.5/5.5 ### could leave as default, us 0.5, or add as argument in function # 0.5 used for 250-350
     ) +
-    ggplot2::geom_vline(xintercept = 280, colour = "red") +
+    ggplot2::geom_vline(xintercept = fp_properties$ex_max, colour = "red") +
 
     ggplot2::scale_x_continuous("wavelength (nm)", limits = c(250,800)) +
     ggplot2::scale_y_continuous("absorbance (cm-1)") +
@@ -244,7 +251,7 @@ get_conc_ECmax <- function(protein_slug, protein_seq,
     ggplot2::geom_point(ggplot2::aes(x = measure, y = normalised_cm1_value), colour = "lightblue") +
     # geom_line of extracted loess fitted values
     ggplot2::geom_line(ggplot2::aes(x = measure, y = fitted_cm1_value)) +
-    ggplot2::geom_vline(xintercept = 280, colour = "red") +
+    ggplot2::geom_vline(xintercept = fp_properties$ex_max, colour = "red") +
     ggplot2::scale_x_continuous("wavelength (nm)", limits = c(250,800)) +
     ggplot2::scale_y_continuous("absorbance (cm-1)") +
     ggplot2::facet_wrap(dilution ~ ., scales = "free") +
@@ -273,11 +280,11 @@ get_conc_ECmax <- function(protein_slug, protein_seq,
   protein_mw <- fpcountr::get_mw(protein = protein_seq)
   protein_mw
 
-  ## 4c. Get mgml extinction coefficient
-  fp_properties <- fpcountr::get_properties(slug = protein_slug, verbose = TRUE, outfolder = outfolder, filename = filename)
-  fp_properties
-  fp_properties$ex_max # is excitation max
-  fp_properties$ext_coeff # is EC
+  ## 4c. Get mgml extinction coefficient (get_properties fn call moved up to allow indication of ECmax in previous plots)
+  # fp_properties <- fpcountr::get_properties(slug = protein_slug, verbose = TRUE, outfolder = outfolder, filename = filename)
+  # fp_properties
+  # fp_properties$ex_max # is excitation max
+  # fp_properties$ext_coeff # is EC
 
   ## 4d. Add 'ECmax of 1mg/ml of protein' to table
   # EC of 0.1% solution = 0.1g/100ml = 0.001g/ml = 1mg/ml
@@ -436,6 +443,47 @@ get_conc_ECmax <- function(protein_slug, protein_seq,
 
   df_4
 
+  # Baseline fit check, entire spectrum:
+  data.to.plot <- df_4
+  data.to.plot$dilution <- as.factor(data.to.plot$dilution) # make dilution a factor
+  newlist <- levels(data.to.plot$dilution)
+  data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
+  # use top dilution
+  data.to.plot <- subset(data.to.plot, dilution == levels(data.to.plot$dilution)[1])
+  # fit baseline to data at chosen wavelength
+  baselinefit <- data.to.plot %>%
+    dplyr::filter(measure == wav_to_use1) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(fitted_cm1_value) %>% # so pathlength = 1cm
+    as.numeric()
+  baselinefit
+  #
+  plot1 <- ggplot2::ggplot(data.to.plot) +
+    ggplot2::geom_hline(yintercept = 0, colour = "grey") + # bottom
+    ggplot2::geom_point(ggplot2::aes(x = measure, y = normalised_cm1_value), colour = "lightblue") +
+    # geom_line of extracted loess fitted values
+    ggplot2::geom_line(ggplot2::aes(x = measure, y = fitted_cm1_value)) +
+    ggplot2::geom_vline(xintercept = fp_properties$ex_max, colour = "red") +
+    # baseline fit
+    ggplot2::geom_hline(yintercept = baselinefit, colour = "blue") +
+
+    ggplot2::scale_x_continuous("wavelength (nm)", limits = c(xrange[1],xrange[2])) +
+    ggplot2::scale_y_continuous("absorbance (cm-1)") +
+    ggplot2::facet_wrap(dilution ~ ., scales = "free") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(
+      aspect.ratio = 1,
+      axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
+      panel.grid.minor = ggplot2::element_blank(),
+      strip.background = ggplot2::element_blank(),
+      strip.text = ggplot2::element_text(hjust = 0, face = "bold")
+    )
+  plot1
+  plotname <- "plot5c_ecmax_baselinenorm_baselinecheck.pdf"
+  ggplot2::ggsave(file.path(outfolder, plotname),
+                  plot = plot1,
+                  width = 8, height = 8, units = "cm")
+
   # Subset data to get rid of negatives:
   df_4_subset <- subset(df_4, conc_max_corr1 >= 0)
   # Fit model as (Y ~ X):
@@ -539,6 +587,7 @@ get_conc_ECmax <- function(protein_slug, protein_seq,
     # Add corrected value as column
     temp_diln_values <- temp_diln_values %>%
       dplyr::mutate(wav_corr2 = wav_to_use2) %>% # record wav_to_use2
+      dplyr::mutate(abs_corr2 = abs_333) %>% # record abs of wav_to_use2 (needed for plot5d scatter check)
       dplyr::mutate(absmax_corr2 = abs_max - scatter_ratio*abs_333) # normalise
     temp_diln_values
 
@@ -553,6 +602,47 @@ get_conc_ECmax <- function(protein_slug, protein_seq,
   }
 
   df_5
+
+  # Scatter fit check, entire spectrum:
+  data.to.plot <- df_5
+  data.to.plot$dilution <- as.factor(data.to.plot$dilution) # make dilution a factor
+  newlist <- levels(data.to.plot$dilution)
+  data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
+  # use only one dilution (top dilution), as stat_function doesn't play well with faceted plots
+  data.to.plot <- subset(data.to.plot, dilution == levels(data.to.plot$dilution)[1])
+  ## fit scatter eqn to data at chosen wavelength
+  eq = function(x){1/x^4}
+  # eq(wav_to_use2) # value at scatter wavelength for 1/x^4 eqn
+  # unique(data.to.plot$abs_corr2) # abs at scatter wavelength
+  # coefficient to supply to coefficient*(1/x^4) eqn to fit scatter curve to data:
+  scatterfit_coefficient <- unique(data.to.plot$abs_corr2)/eq(wav_to_use2)
+  scatterfit_coefficient
+  #
+  plot1 <- ggplot2::ggplot(data.to.plot) +
+    ggplot2::geom_hline(yintercept = 0, colour = "grey") + # bottom
+    ggplot2::geom_point(ggplot2::aes(x = measure, y = normalised_cm1_value), colour = "lightblue") +
+    # geom_line of extracted loess fitted values
+    ggplot2::geom_line(ggplot2::aes(x = measure, y = fitted_cm1_value)) +
+    ggplot2::geom_vline(xintercept = fp_properties$ex_max, colour = "red") +
+    # scatter fit
+    ggplot2::stat_function(fun = function(x) scatterfit_coefficient/x^4, colour = "blue") +
+
+    ggplot2::scale_x_continuous("wavelength (nm)", limits = c(xrange[1],xrange[2])) +
+    ggplot2::scale_y_continuous("absorbance (cm-1)") +
+    ggplot2::facet_wrap(dilution ~ ., scales = "free") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(
+      aspect.ratio = 1,
+      axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
+      panel.grid.minor = ggplot2::element_blank(),
+      strip.background = ggplot2::element_blank(),
+      strip.text = ggplot2::element_text(hjust = 0, face = "bold")
+    )
+  plot1
+  plotname <- "plot5d_ecmax_scatternorm_scattercheck.pdf"
+  ggplot2::ggsave(file.path(outfolder, plotname),
+                  plot = plot1,
+                  width = 8, height = 8, units = "cm")
 
   # Subset data to get rid of negatives:
   df_5_subset <- subset(df_5, conc_max_corr2 >= 0)
