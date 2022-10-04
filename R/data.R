@@ -70,15 +70,16 @@
 #'
 #' A dataset containing some of the properties of all the 'basic' (single
 #' fluorescent state) fluorescent proteins in the fpbase database (downloaded
-#' 2021.10.02).
+#' 2022.10.04).
 #'
-#' @format A data frame with 574 rows and 16 variables: \describe{
+#' @format A data frame with 593 rows and 16 variables: \describe{
 #'   \item{url}{FPbase url} \item{name}{name} \item{stokes}{Stokes shift (nm)}
-#'   \item{slug}{slug - lower case name used in url} \item{ipg_id}{}
-#'   \item{agg}{oligomerisation state} \item{ex_max}{wavelength of excitation
-#'   peak (nm)} \item{em_max}{wavelength of emission peak (nm)}
-#'   \item{ext_coeff}{excitation coefficient (EC, M-1cm-1)} \item{qy}{quantum
-#'   yield} \item{pka}{pKa} \item{brightness}{brightness} \item{bleach}{rate of
+#'   \item{slug}{slug - lower case name used in url} \item{ipg_id}{Identical
+#'   Protein Group ID at Pubmed} \item{agg}{oligomerisation state}
+#'   \item{ex_max}{wavelength of excitation peak (nm)} \item{em_max}{wavelength
+#'   of emission peak (nm)} \item{ext_coeff}{excitation coefficient (EC,
+#'   M-1cm-1)} \item{qy}{quantum yield} \item{pka}{pKa}
+#'   \item{brightness}{brightness} \item{bleach}{rate of
 #'   photobleaching/photostability (s)} \item{maturation}{maturation half time
 #'   (min)} \item{lifetime}{fluorescence lifetime (ns)} \item{cofactor}{cofactor
 #'   required for fluorescence (if any)}}
