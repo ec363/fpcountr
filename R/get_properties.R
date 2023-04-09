@@ -103,7 +103,7 @@ get_properties <- function(slug, verbose = TRUE, outfolder = ".", filename = "fp
     fp_properties
 
     if(verbose){
-      message("FP properties retrieved from FPbase data stored in package (accessed 02/10/21):")
+      message("FP properties retrieved from FPbase data stored in package:")
       print(fp_properties)
     }
 
