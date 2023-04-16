@@ -1,5 +1,7 @@
 ## FPCountR: Fluorescent protein calibration for plate readers
 
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+
 FPCountR enables the calibration of microplate readers using fluorescent protein calibrants for synthetic and molecular biology applications.
 
 Background: Protein levels may be quantified by fluorescence where a fluorescent protein ('FP') is used as a reporter. Microplate readers enable the quantification of FP levels in high-throughput using multi-well (eg. 96-well or 384-well) plates, as well as the monitoring of FP expression kinetics over time. It has long been recognised that the arbitrary units produced by such instruments prevents the comparison of experimental results between different instruments or laboratories, and that instrument calibration is the solution. However, existing calibrants consist of small molecule fluorophores like fluorescein, and as such only allow conversion into _units of that fluorophore_ (expressed as 'molecules of equivalent fluorescein' or MEF/L), rather than units of _protein_ (eg. '100 proteins per cell', or '100 nM protein'). To do this, we need to use the FPs themselves as calibrants.
