@@ -234,7 +234,7 @@ process_plate <- function(data_csv, blank_well = "A1",
   for (flu_idx in seq_len(length(flu_channels))) {
 
     ## for each fluorescent protein, run fluorescent normalisation function
-    flu_norm_pr_data <- flu_norm(pr_data = flu_norm_pr_data, neg_well = neg_well, blank_well = blank_well,
+    flu_norm_pr_data <- fpcountr::flu_norm(pr_data = flu_norm_pr_data, neg_well = neg_well, blank_well = blank_well,
                                                     flu_name = flu_channels[flu_idx], af_model = af_model, data_csv = data_csv,
                                                     outfolder = outfolder)
     # adds one column per FP of (eg) normalised_[GFP] to the table
