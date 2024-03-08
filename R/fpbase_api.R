@@ -1,4 +1,3 @@
-# Import necessary packages
 #' @import ghql
 #' @import jsonlite
 
