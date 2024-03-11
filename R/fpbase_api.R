@@ -21,12 +21,72 @@ protein_id_map_cache <- NULL
 get_protein_detail <- function(name_or_slug_or_id) {
   # Get the protein ID from the mapping
   protein_id <- protein_id_map()[[name_or_slug_or_id]]
+  if (is.null(protein_id)) {
+    stop("Not recognized as a protein name, slug, or id: ", name_or_slug_or_id)
+  }
   return(get_protein_detail_by_id(protein_id))
 }
 
+#' Get detailed info for a specific dye at FPbase
+#'
+#' @param name_or_slug_or_id A string representing the case-insensitive name
+#'   of the dye to retrieve.
+#' @return A list containing details of the dye.
+#'
+#' @examples
+#' \dontrun{
+#' get_dye_detail("Alexa Fluor 488")
+#' }
+#'
+#' @export
+get_dye_detail <- function(name_or_slug) {
+  qry <- ghql::Query$new()
+  qry$query("dyeDetail", "query getDyeDetail($dyeName: String!)
+    {
+      dye(name:$dyeName) {
+        id
+        name
+        slug
+        exMax
+        emMax
+        extCoeff
+        qy
+        brightness
+        pka
+        lifetime
+        manufacturer
+        url
+        spectra {
+          subtype
+          data
+        }
+      }
+    }
+  ")
+  # Execute the GraphQL query
+  tryCatch(
+    {
+      response <- client$exec(
+        qry$queries$dyeDetail, list(dyeName = name_or_slug)
+      )
+    },
+    error = function(e) {
+      stop("Error in call to FPbase API: ", e$message)
+    }
+  )
+  # Parse the result as JSON
+  d <- jsonlite::fromJSON(response)
+  # if the data has a keys "errors", print the first error message
+  if ("errors" %in% names(d)) {
+    stop("Error in call to FPbase API: ", d$errors[[1]])
+  }
+  return(d$data$dye)
+}
+
+
 #' Get detailed info for a specific protein at FPbase
 #'
-#' @param protId A string representing the ID of the protein to retrieve.
+#' @param protein_id A string representing the ID of the protein to retrieve.
 #' @return A list containing details of the protein.
 #'
 #' @examples
@@ -41,7 +101,7 @@ get_protein_detail_by_id <- function(protein_id) {
   # your desired query below.  The query here shows the structure of the
   # data that will be returned.
   qry <- ghql::Query$new()
-  qry$query("proteinDetail", "query getGeneInfo($protId: String!)
+  qry$query("proteinDetail", "query getProteinDetail($protId: String!)
     {
       protein(id: $protId) {
         id
@@ -79,9 +139,24 @@ get_protein_detail_by_id <- function(protein_id) {
   ")
 
   # Execute the GraphQL query
-  response <- client$exec(qry$queries$proteinDetail, list(protId = protein_id))
+  tryCatch(
+    {
+      response <- client$exec(
+        qry$queries$proteinDetail, list(protId = protein_id)
+      )
+    },
+    error = function(e) {
+      stop("Error in call to FPbase API: ", e$message)
+    }
+  )
+
   # Parse the result as JSON
   d <- jsonlite::fromJSON(response)
+  # if the data has a keys "errors", print the first error message
+  if ("errors" %in% names(d)) {
+    stop("Error in call to FPbase API: ", d$errors[[1]])
+  }
+
   return(d$data$protein)
 }
 
