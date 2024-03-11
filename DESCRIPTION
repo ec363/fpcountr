@@ -28,3 +28,4 @@ Imports:
     tidyr,
     tidyselect,
     utils
+    ghql
