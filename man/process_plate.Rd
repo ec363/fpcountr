@@ -35,7 +35,7 @@ to "A1".}
 include a variable called 'time'?}
 
 \item{od_name}{the column name for the optical density data. Defaults to
-"OD".}
+"OD". If no OD measurements were taken, use \code{NULL}.}
 
 \item{flu_channels}{the column names for the fluorescence data. Defaults to
 "green1green2".}

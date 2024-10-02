@@ -28,7 +28,7 @@
 #' @param timecourse logical. Is the data timecourse/kinetic data and does it
 #'   include a variable called 'time'?
 #' @param od_name the column name for the optical density data. Defaults to
-#'   "OD".
+#'   "OD". If no OD measurements were taken, use `NULL`.
 #' @param flu_channels the column names for the fluorescence data. Defaults to
 #'   "green1green2".
 #' @param flu_channels_rename if specified, what to change the flu_channels
@@ -151,122 +151,70 @@ process_plate <- function(
   # make folder if it doesn't exist already
   ifelse(test = !dir.exists(file.path(outfolder)), yes = dir.create(file.path(outfolder)), no = FALSE)
 
-  # Normalise OD (with external od_norm function) --------------------------------------------------------------------
+  # OD processing sections --------------------------------------------------------------------
 
-  od_norm_pr_data <- fpcountr::od_norm(pr_data, blank_well, od_name, timecourse = timecourse)
-  # adds one extra column - normalised_OD. for each timepoint, normalises OD to mean of blank wells
+  if(is.null(od_name)){
 
-  # Plot OD data in plate format
+    # skip OD processing...
 
-  # plot
-  if(isFALSE(timecourse)){
+    # rename data
+    od_norm_pr_data <- pr_data # otherwise done at od_norm() step # NB. this won't have normalised_OD or normalised_OD_cm1 columns
 
-    # heatmap1 - raw OD
-    max_value <- max(od_norm_pr_data[[od_name]], na.rm = TRUE)
-    plt_od <- ggplot2::ggplot(data = od_norm_pr_data,
-                              # ggplot2::aes(x = row, y = column, fill = .data[[od_name]])) +
-                              ggplot2::aes(x = column, y = row, fill = .data[[od_name]])) +
+  } else {
 
-      ggplot2::geom_tile() +
-      ggplot2::scale_x_discrete("", position = "top", # put axis labels at top
-                                limits = factor(unique(od_norm_pr_data$column))) + # put first element at top # factor to make it discrete rather than continuous
-      ggplot2::scale_y_discrete("", limits = rev(unique(od_norm_pr_data$row))) + # put first element at top
-      viridis::scale_fill_viridis("raw OD",
-                                  discrete = FALSE, limits = c(0, max_value),
-                                  na.value = "white") +
+    # proceed with OD processing...
 
-      ggplot2::geom_text(ggplot2::aes(label = round(.data[[od_name]], 2)), na.rm = TRUE, size = 2.5) +
+    # Normalise OD (with external od_norm function) --------------------------------------------------------------------
 
-      # ggplot2::coord_fixed(ratio = 1) +
-      ggplot2::theme_bw() + # base_size = 8
-      ggplot2::theme(
-        aspect.ratio = 8/12,
-        panel.grid = ggplot2::element_blank()
-      )
-    plt_od
-    plotname <- gsub(".csv", "_OD1.pdf", basename(data_csv))
-    ggplot2::ggsave(file.path(outfolder, plotname),
-                    plot = plt_od,
-                    height = 16, width = 24, units = "cm")
+    od_norm_pr_data <- fpcountr::od_norm(pr_data, blank_well, od_name, timecourse = timecourse)
+    # adds one extra column - normalised_OD. for each timepoint, normalises OD to mean of blank wells
 
-    # normalised OD
-    max_value <- max(od_norm_pr_data$normalised_OD, na.rm = TRUE)
-    plt_od <- ggplot2::ggplot(data = od_norm_pr_data,
-                              ggplot2::aes(x = column, y = row, fill = .data$normalised_OD)) +
+    # Plot OD data in plate format
 
-      ggplot2::geom_tile() +
-      ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(od_norm_pr_data$column))) +
-      ggplot2::scale_y_discrete("", limits = rev(unique(od_norm_pr_data$row))) +
-      viridis::scale_fill_viridis("normalised OD",
-                                  discrete = FALSE, limits = c(0, max_value),
-                                  na.value = "white") +
-
-      ggplot2::geom_text(ggplot2::aes(label = round(.data$normalised_OD, 2)), na.rm = TRUE, size = 2.5) +
-
-      ggplot2::theme_bw() + # base_size = 8
-      ggplot2::theme(
-        aspect.ratio = 8/12,
-        panel.grid = ggplot2::element_blank()
-      )
-    plt_od
-
-    plotname <- gsub(".csv", "_OD2.pdf", basename(data_csv))
-    ggplot2::ggsave(file.path(outfolder, plotname),
-                    plot = plt_od,
-                    height = 16, width = 24, units = "cm")
-
-  } else if(isTRUE(timecourse)){
-
-    # plot with caption
-    plt_od <- ggplot2::ggplot(od_norm_pr_data) +
-      ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data[[od_name]]),
-                         colour = "black", size = 0.5) +
-      ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$normalised_OD),
-                         colour = "red", size = 0.5) +
-      ggplot2::scale_x_continuous("time") +
-      ggplot2::labs(caption = "black: raw, red: normalised") +
-      ggplot2::scale_colour_discrete("") +
-      ggplot2::facet_grid(row~column) +
-      ggplot2::theme_bw(base_size = 8) +
-      ggplot2::theme(
-        aspect.ratio = 1,
-        legend.position = "none",
-        axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
-        panel.grid.minor = ggplot2::element_blank()
-      )
-    plt_od
-    plotname <- gsub(".csv", "_OD.pdf", basename(data_csv))
-    ggplot2::ggsave(file.path(outfolder, plotname),
-                    plot = plt_od,
-                    height = 16, width = 24, units = "cm")
-  }
-
-
-  # Convert to OD (cm-1) --------------------------------------------------------------------
-
-  if("volume" %in% names(od_norm_pr_data)){ # only run if data contains the column 'volume'
-
-    od_norm_pr_data <- od_norm_pr_data %>%
-      dplyr::mutate(pathlength = fpcountr::get_pathlength(.data$volume)) %>% # get (estimated) pathlength from volume
-      dplyr::mutate(normalised_OD_cm1 = .data$normalised_OD/.data$pathlength) # get OD (cm-1)
-    od_norm_pr_data[1,]
-
-    # Plot in plate format
+    # plot
     if(isFALSE(timecourse)){
 
       # heatmap1 - raw OD
-      max_value <- max(od_norm_pr_data$normalised_OD_cm1, na.rm = TRUE)
+      max_value <- max(od_norm_pr_data[[od_name]], na.rm = TRUE)
       plt_od <- ggplot2::ggplot(data = od_norm_pr_data,
-                                ggplot2::aes(x = column, y = row, fill = .data$normalised_OD_cm1)) +
+                                # ggplot2::aes(x = row, y = column, fill = .data[[od_name]])) +
+                                ggplot2::aes(x = column, y = row, fill = .data[[od_name]])) +
+
+        ggplot2::geom_tile() +
+        ggplot2::scale_x_discrete("", position = "top", # put axis labels at top
+                                  limits = factor(unique(od_norm_pr_data$column))) + # put first element at top # factor to make it discrete rather than continuous
+        ggplot2::scale_y_discrete("", limits = rev(unique(od_norm_pr_data$row))) + # put first element at top
+        viridis::scale_fill_viridis("raw OD",
+                                    discrete = FALSE, limits = c(0, max_value),
+                                    na.value = "white") +
+
+        ggplot2::geom_text(ggplot2::aes(label = round(.data[[od_name]], 2)), na.rm = TRUE, size = 2.5) +
+
+        # ggplot2::coord_fixed(ratio = 1) +
+        ggplot2::theme_bw() + # base_size = 8
+        ggplot2::theme(
+          aspect.ratio = 8/12,
+          panel.grid = ggplot2::element_blank()
+        )
+      plt_od
+      plotname <- gsub(".csv", "_OD1.pdf", basename(data_csv))
+      ggplot2::ggsave(file.path(outfolder, plotname),
+                      plot = plt_od,
+                      height = 16, width = 24, units = "cm")
+
+      # normalised OD
+      max_value <- max(od_norm_pr_data$normalised_OD, na.rm = TRUE)
+      plt_od <- ggplot2::ggplot(data = od_norm_pr_data,
+                                ggplot2::aes(x = column, y = row, fill = .data$normalised_OD)) +
 
         ggplot2::geom_tile() +
         ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(od_norm_pr_data$column))) +
         ggplot2::scale_y_discrete("", limits = rev(unique(od_norm_pr_data$row))) +
-        viridis::scale_fill_viridis(paste0("normalised ", od_name, " (cm-1)"),
+        viridis::scale_fill_viridis("normalised OD",
                                     discrete = FALSE, limits = c(0, max_value),
                                     na.value = "white") +
 
-        ggplot2::geom_text(ggplot2::aes(label = round(.data$normalised_OD_cm1, 2)), na.rm = TRUE, size = 2.5) +
+        ggplot2::geom_text(ggplot2::aes(label = round(.data$normalised_OD, 2)), na.rm = TRUE, size = 2.5) +
 
         ggplot2::theme_bw() + # base_size = 8
         ggplot2::theme(
@@ -275,14 +223,21 @@ process_plate <- function(
         )
       plt_od
 
+      plotname <- gsub(".csv", "_OD2.pdf", basename(data_csv))
+      ggplot2::ggsave(file.path(outfolder, plotname),
+                      plot = plt_od,
+                      height = 16, width = 24, units = "cm")
+
     } else if(isTRUE(timecourse)){
 
+      # plot with caption
       plt_od <- ggplot2::ggplot(od_norm_pr_data) +
-        ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$normalised_OD_cm1,
-                                        colour = "normalised_cm1"), size = 0.5) +
+        ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data[[od_name]]),
+                           colour = "black", size = 0.5) +
+        ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$normalised_OD),
+                           colour = "red", size = 0.5) +
         ggplot2::scale_x_continuous("time") +
-        ggplot2::scale_y_continuous(name = paste0("normalised ", od_name, " (cm-1)")) + # "normalised OD (cm-1)"
-        ggplot2::labs(caption = "") +
+        ggplot2::labs(caption = "black: raw, red: normalised") +
         ggplot2::scale_colour_discrete("") +
         ggplot2::facet_grid(row~column) +
         ggplot2::theme_bw(base_size = 8) +
@@ -293,14 +248,73 @@ process_plate <- function(
           panel.grid.minor = ggplot2::element_blank()
         )
       plt_od
+      plotname <- gsub(".csv", "_OD.pdf", basename(data_csv))
+      ggplot2::ggsave(file.path(outfolder, plotname),
+                      plot = plt_od,
+                      height = 16, width = 24, units = "cm")
+    }
+
+    # Convert to OD (cm-1) --------------------------------------------------------------------
+
+    if("volume" %in% names(od_norm_pr_data)){ # only run if data contains the column 'volume'
+
+      od_norm_pr_data <- od_norm_pr_data %>%
+        dplyr::mutate(pathlength = fpcountr::get_pathlength(.data$volume)) %>% # get (estimated) pathlength from volume
+        dplyr::mutate(normalised_OD_cm1 = .data$normalised_OD/.data$pathlength) # get OD (cm-1)
+      od_norm_pr_data[1,]
+
+      # Plot in plate format
+      if(isFALSE(timecourse)){
+
+        # heatmap1 - raw OD
+        max_value <- max(od_norm_pr_data$normalised_OD_cm1, na.rm = TRUE)
+        plt_od <- ggplot2::ggplot(data = od_norm_pr_data,
+                                  ggplot2::aes(x = column, y = row, fill = .data$normalised_OD_cm1)) +
+
+          ggplot2::geom_tile() +
+          ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(od_norm_pr_data$column))) +
+          ggplot2::scale_y_discrete("", limits = rev(unique(od_norm_pr_data$row))) +
+          viridis::scale_fill_viridis(paste0("normalised ", od_name, " (cm-1)"),
+                                      discrete = FALSE, limits = c(0, max_value),
+                                      na.value = "white") +
+
+          ggplot2::geom_text(ggplot2::aes(label = round(.data$normalised_OD_cm1, 2)), na.rm = TRUE, size = 2.5) +
+
+          ggplot2::theme_bw() + # base_size = 8
+          ggplot2::theme(
+            aspect.ratio = 8/12,
+            panel.grid = ggplot2::element_blank()
+          )
+        plt_od
+
+      } else if(isTRUE(timecourse)){
+
+        plt_od <- ggplot2::ggplot(od_norm_pr_data) +
+          ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$normalised_OD_cm1,
+                                          colour = "normalised_cm1"), size = 0.5) +
+          ggplot2::scale_x_continuous("time") +
+          ggplot2::scale_y_continuous(name = paste0("normalised ", od_name, " (cm-1)")) + # "normalised OD (cm-1)"
+          ggplot2::labs(caption = "") +
+          ggplot2::scale_colour_discrete("") +
+          ggplot2::facet_grid(row~column) +
+          ggplot2::theme_bw(base_size = 8) +
+          ggplot2::theme(
+            aspect.ratio = 1,
+            legend.position = "none",
+            axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
+            panel.grid.minor = ggplot2::element_blank()
+          )
+        plt_od
+
+      }
+      plotname <- gsub(".csv", "_normODcm1.pdf", basename(data_csv))
+      ggplot2::ggsave(file.path(outfolder, plotname),
+                      plot = plt_od,
+                      height = 16, width = 24, units = "cm")
 
     }
-    plotname <- gsub(".csv", "_normODcm1.pdf", basename(data_csv))
-    ggplot2::ggsave(file.path(outfolder, plotname),
-                    plot = plt_od,
-                    height = 16, width = 24, units = "cm")
 
-  }
+  } # od processing sections
 
   # Normalise fluorescence data --------------------------------------------------------------------------------------------
 
@@ -516,63 +530,76 @@ process_plate <- function(
 
   if (do_calibrate) {
 
-    ### Calibrate OD to Particle Number ----------------------------------------------------
+    if(is.null(od_name)){
 
-    out_data <- fpcountr:::calibrate_od(pr_data = out_data,
-                                        od_name = od_name,
-                                        instr = instr,
-                                        conversion_factors_csv = od_coeffs_csv)
-    head(out_data)
-    # adds calibrated_OD column
+      # skip OD calibration...
 
-    # plot
-    if(isFALSE(timecourse)){
+      # rename data done at calibrate_od() step - n/a
+      # NB. data here won't have calibrated_OD column
 
-      # heatmap - calibrated OD
-      max_value <- max(out_data$calibrated_OD, na.rm = TRUE)
-      plt_od_calib <- ggplot2::ggplot(data = out_data,
-                                      ggplot2::aes(x = column, y = row, fill = .data$calibrated_OD)) +
+    } else {
 
-        ggplot2::geom_tile() +
-        ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(out_data$column))) +
-        ggplot2::scale_y_discrete("", limits = rev(unique(out_data$row))) +
-        viridis::scale_fill_viridis(paste0("calibrated ", od_name, " (particles)"),
-                                    discrete = FALSE, limits = c(0, max_value),
-                                    na.value = "white") +
+      # proceed w OD calibration...
 
-        ggplot2::geom_text(ggplot2::aes(label = scales::scientific(.data$calibrated_OD)), na.rm = TRUE, size = 2.5) +
+      ### Calibrate OD to Particle Number ----------------------------------------------------
 
-        ggplot2::theme_bw() + # base_size = 8
-        ggplot2::theme(
-          aspect.ratio = 8/12,
-          panel.grid = ggplot2::element_blank()
-        )
-      plt_od_calib
+      out_data <- fpcountr:::calibrate_od(pr_data = out_data,
+                                          od_name = od_name,
+                                          instr = instr,
+                                          conversion_factors_csv = od_coeffs_csv)
+      head(out_data)
+      # adds calibrated_OD column
 
-    } else if(isTRUE(timecourse)){
+      # plot
+      if(isFALSE(timecourse)){
 
-      plt_od_calib <- ggplot2::ggplot(out_data) +
-        ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$calibrated_OD,
-                                        colour = "calibrated"), size = 0.5) +
-        ggplot2::scale_x_continuous("time") +
-        ggplot2::scale_y_continuous(name = paste0("calibrated ", od_name, " (particles)")) + # OD700 (particles)
-        ggplot2::labs(caption = "") +
-        ggplot2::scale_colour_discrete("") +
-        ggplot2::facet_grid(row~column) +
-        ggplot2::theme_bw(base_size = 8) +
-        ggplot2::theme(
-          aspect.ratio = 1,
-          legend.position = "none",
-          axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
-          panel.grid.minor = ggplot2::element_blank()
-        )
-      plt_od_calib
+        # heatmap - calibrated OD
+        max_value <- max(out_data$calibrated_OD, na.rm = TRUE)
+        plt_od_calib <- ggplot2::ggplot(data = out_data,
+                                        ggplot2::aes(x = column, y = row, fill = .data$calibrated_OD)) +
 
-    }
-    plotname <- gsub(".csv", "_ODcalib.pdf", basename(data_csv))
-    ggplot2::ggsave(file.path(outfolder, plotname),
-                    plot = plt_od_calib,
-                    height = 16, width = 24, units = "cm")
+          ggplot2::geom_tile() +
+          ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(out_data$column))) +
+          ggplot2::scale_y_discrete("", limits = rev(unique(out_data$row))) +
+          viridis::scale_fill_viridis(paste0("calibrated ", od_name, " (particles)"),
+                                      discrete = FALSE, limits = c(0, max_value),
+                                      na.value = "white") +
+
+          ggplot2::geom_text(ggplot2::aes(label = scales::scientific(.data$calibrated_OD)), na.rm = TRUE, size = 2.5) +
+
+          ggplot2::theme_bw() + # base_size = 8
+          ggplot2::theme(
+            aspect.ratio = 8/12,
+            panel.grid = ggplot2::element_blank()
+          )
+        plt_od_calib
+
+      } else if(isTRUE(timecourse)){
+
+        plt_od_calib <- ggplot2::ggplot(out_data) +
+          ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$calibrated_OD,
+                                          colour = "calibrated"), size = 0.5) +
+          ggplot2::scale_x_continuous("time") +
+          ggplot2::scale_y_continuous(name = paste0("calibrated ", od_name, " (particles)")) + # OD700 (particles)
+          ggplot2::labs(caption = "") +
+          ggplot2::scale_colour_discrete("") +
+          ggplot2::facet_grid(row~column) +
+          ggplot2::theme_bw(base_size = 8) +
+          ggplot2::theme(
+            aspect.ratio = 1,
+            legend.position = "none",
+            axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
+            panel.grid.minor = ggplot2::element_blank()
+          )
+        plt_od_calib
+
+      }
+      plotname <- gsub(".csv", "_ODcalib.pdf", basename(data_csv))
+      ggplot2::ggsave(file.path(outfolder, plotname),
+                      plot = plt_od_calib,
+                      height = 16, width = 24, units = "cm")
+
+    } # od calibration
 
     ### Calibrate RFU to Molecule number ----------------------------------------------------
 
@@ -584,7 +611,6 @@ process_plate <- function(
       # if(length(flu_gains) >= flu_idx){
 
       out_data <- fpcountr:::calibrate_flu(pr_data = out_data,
-                                           od_name = od_name,
                                            flu_instr = instr,
                                            flu_channel = flu_channels[flu_idx],
                                            flu_gain = flu_gains[flu_idx],

@@ -9,7 +9,6 @@
 #' conversion factors are missing.
 #'
 #' @param pr_data a data.frame of parsed plate reader data
-#' @param od_name the column name for the optical density data
 #' @param flu_instr instrument name
 #' @param flu_channel fluorescent channel name
 #' @param flu_gain gain
@@ -22,7 +21,6 @@
 #'
 #' @return an updated data.frame with an additional column for calibrated fluorescence
 calibrate_flu <- function(pr_data,
-                          od_name,
 
                           flu_instr,
                           flu_channel,
@@ -36,7 +34,7 @@ calibrate_flu <- function(pr_data,
 ) {
 
   # Get conversion factors ---------------------------------------------------------------------------------------
-
+  
   conversion_factors <- utils::read.csv(conversion_factors_csv)
   conversion_factors
 

@@ -6,7 +6,6 @@
 \usage{
 calibrate_flu(
   pr_data,
-  od_name,
   flu_instr,
   flu_channel,
   flu_gain,
@@ -18,8 +17,6 @@ calibrate_flu(
 }
 \arguments{
 \item{pr_data}{a data.frame of parsed plate reader data}
-
-\item{od_name}{the column name for the optical density data}
 
 \item{flu_instr}{instrument name}
 
