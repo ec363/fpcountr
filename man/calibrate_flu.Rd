@@ -33,7 +33,7 @@ calibrate_flu(
 containing predicted conversion factors for the fluorescent channels}
 }
 \value{
-
+an updated data.frame with an additional column for calibrated fluorescence
 }
 \description{
 Used by \code{process_plate} function for fluorescence calibration. Function adds

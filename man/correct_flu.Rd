@@ -15,7 +15,7 @@ correct_flu(pr_data, od_type, flu_channel)
 \item{flu_channel}{fluorescent channel name}
 }
 \value{
-
+an updated data.frame with an additional column for corrected fluorescence
 }
 \description{
 Used by \code{process_plate} function for cell quench correction. The presence of

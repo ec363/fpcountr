@@ -19,7 +19,7 @@ conversion factors of the relevant instrument.}
 conversion factors for optical density}
 }
 \value{
-
+an updated data.frame with an additional column for calibrated OD
 }
 \description{
 Used by \code{process_plate} function for optical density calibration. Function

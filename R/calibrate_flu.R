@@ -20,7 +20,7 @@
 #' @importFrom dplyr %>%
 #' @importFrom rlang .data
 #'
-#' @return
+#' @return an updated data.frame with an additional column for calibrated fluorescence
 calibrate_flu <- function(pr_data,
                           od_name,
 
