@@ -4,7 +4,7 @@
 \alias{od_norm}
 \title{Normalise optical density against blank wells}
 \usage{
-od_norm(pr_data, blank_well, od_name)
+od_norm(pr_data, blank_well, od_name, timecourse)
 }
 \arguments{
 \item{pr_data}{a long data.frame containing your plate reader data}
@@ -12,6 +12,9 @@ od_norm(pr_data, blank_well, od_name)
 \item{blank_well}{the well coordinates of one or more media blanks}
 
 \item{od_name}{the column name for the optical density data}
+
+\item{timecourse}{logical. Is the data timecourse/kinetic data and does it
+include a variable called 'time'?}
 }
 \value{
 an updated data.frame with an additional column "normalised_OD"

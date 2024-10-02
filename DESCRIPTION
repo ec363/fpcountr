@@ -13,7 +13,7 @@ URL: https://ec363.github.io/fpcountr, https://github.com/ec363/fpcountr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
 Imports: 
     broom,
     dplyr,

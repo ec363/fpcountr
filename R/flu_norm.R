@@ -14,17 +14,18 @@
 #' For now these include "polynomial", "invers_poly", "exponential", "spline" or "loess".
 #' If set to NULL, no model is used, and fluorescence is normalised akin to OD: by subtracting the value for the blanks.
 #' @param data_csv path to the original data. Used for saving normalisation curve plots.
+#' @param timecourse logical. Is the data timecourse/kinetic data and does it
+#'   include a variable called 'time'?
 #' @param outfolder path to folder where output files should be saved. Defaults
 #'   to current working directory.
 #'
 #' @export
 #'
-#' @return
+#' @return an updated data.frame with an additional column for normalised fluorescence
 #'
 #' @importFrom dplyr %>%
 #' @importFrom rlang .data
-flu_norm <- function(pr_data, neg_well, blank_well, flu_name, af_model, data_csv,
-                     outfolder) {
+flu_norm <- function(pr_data, neg_well, blank_well, flu_name, af_model, data_csv, timecourse, outfolder) {
 
   ### function 'normalises' fluor raw values to autofluorescence model
   # af_model used here
@@ -43,13 +44,19 @@ flu_norm <- function(pr_data, neg_well, blank_well, flu_name, af_model, data_csv
 
     # remove background optical density signal -------------------------------------
 
-    pr_data <- pr_data %>%
-      dplyr::group_by(.data$time) %>%
-      dplyr::mutate(v1 = .data$v1 - mean(.data$v1[.data$well %in% blank_well]))
-    # for each timepoint, normalises GFP to mean of blank wells
-    # normalised_GFP = (copied over GFP)- mean(GFP in blank wells)
-    # head(pr_data[, "GFP"], 12) # raw GFP data
-    # head(pr_data[, "v1"], 12) # normalised GFP data
+    if(isFALSE(timecourse)){ ### working w non-timecourse data
+      pr_data <- pr_data %>%
+        dplyr::mutate(v1 = .data$v1 - mean(.data$v1[.data$well %in% blank_well]))
+    } else if(isTRUE(timecourse)){
+      pr_data <- pr_data %>%
+        dplyr::group_by(.data$time) %>%
+        dplyr::mutate(v1 = .data$v1 - mean(.data$v1[.data$well %in% blank_well])) %>%
+        dplyr::ungroup() ###
+      # for each timepoint, normalises GFP to mean of blank wells
+      # normalised_GFP = (copied over GFP)- mean(GFP in blank wells)
+      # head(pr_data[, "GFP"], 12) # raw GFP data
+      # head(pr_data[, "v1"], 12) # normalised GFP data
+    }
 
     names(pr_data)[ncol(pr_data)] <- paste0("normalised_", flu_name)
     # head(pr_data[, paste("normalised_", flu_name, sep = "")], 12) # normalised GFP data

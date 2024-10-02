@@ -11,6 +11,7 @@ flu_norm(
   flu_name,
   af_model,
   data_csv,
+  timecourse,
   outfolder
 )
 }
@@ -30,11 +31,14 @@ If set to NULL, no model is used, and fluorescence is normalised akin to OD: by 
 
 \item{data_csv}{path to the original data. Used for saving normalisation curve plots.}
 
+\item{timecourse}{logical. Is the data timecourse/kinetic data and does it
+include a variable called 'time'?}
+
 \item{outfolder}{path to folder where output files should be saved. Defaults
 to current working directory.}
 }
 \value{
-
+an updated data.frame with an additional column for normalised fluorescence
 }
 \description{
 Used by \code{process_plate} function for fluorescence normalisation. Remains

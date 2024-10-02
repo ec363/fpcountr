@@ -7,6 +7,7 @@
 process_plate(
   data_csv,
   blank_well = "A1",
+  timecourse = TRUE,
   od_name = "OD",
   flu_channels = c("green1green2"),
   flu_channels_rename = NULL,
@@ -29,6 +30,9 @@ process_plate(
 
 \item{blank_well}{the well coordinates of one or more media blanks. Defaults
 to "A1".}
+
+\item{timecourse}{logical. Is the data timecourse/kinetic data and does it
+include a variable called 'time'?}
 
 \item{od_name}{the column name for the optical density data. Defaults to
 "OD".}
@@ -112,8 +116,7 @@ where conversion factors are provided as \code{od_coeffs_csv} for OD and
 \code{fluor_coeffs_csv} for fluorescence, and each calibration is specified by the
 \code{flu_slugs} to represent the FP used, \code{flu_gains} to provide the gain used,
 and \code{flu_labels} to specify how the relevant plots should be labelled, (eg.
-\code{flu_slugs = c("mcherry", "mtagbfp2")}, \code{flu_gains = c(60,80)},
-\code{flu_labels = c("RFP, BFP")}).
+\code{flu_slugs = c("mcherry", "mtagbfp2")}, \code{flu_gains = c(60,80)}, \code{flu_labels = c("RFP, BFP")}).
 }
 \examples{
 processed_data <- process_plate(data_csv = "mcherry_parsed.csv"), blank_well = c("A11"), od_name = "OD600", flu_channels = c("red1"), flu_channels_rename = c("red1red1"), af_model = NULL, do_quench_correction = TRUE, od_type = "OD700", do_calibrate = TRUE, instr = "spark1", flu_slugs = c("mcherry"), flu_gains = c(80), flu_labels = c("mcherry"), od_coeffs_csv = "od_coeffs.csv", fluor_coeffs_csv = "flu_coeffs.csv", outfolder = file.path("data_processed"))

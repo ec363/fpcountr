@@ -19,12 +19,14 @@
 #' `fluor_coeffs_csv` for fluorescence, and each calibration is specified by the
 #' `flu_slugs` to represent the FP used, `flu_gains` to provide the gain used,
 #' and `flu_labels` to specify how the relevant plots should be labelled, (eg.
-#' `flu_slugs = c("mcherry", "mtagbfp2")`, `flu_gains = c(60,80)`,
-#' `flu_labels = c("RFP, BFP")`).
+#' `flu_slugs = c("mcherry", "mtagbfp2")`, `flu_gains = c(60,80)`, `flu_labels =
+#' c("RFP, BFP")`).
 #'
 #' @param data_csv path to a csv file containing parsed plate reader data
 #' @param blank_well the well coordinates of one or more media blanks. Defaults
 #'   to "A1".
+#' @param timecourse logical. Is the data timecourse/kinetic data and does it
+#'   include a variable called 'time'?
 #' @param od_name the column name for the optical density data. Defaults to
 #'   "OD".
 #' @param flu_channels the column names for the fluorescence data. Defaults to
@@ -76,40 +78,44 @@
 #'
 #' @examples
 #' processed_data <- process_plate(data_csv = "mcherry_parsed.csv"), blank_well = c("A11"), od_name = "OD600", flu_channels = c("red1"), flu_channels_rename = c("red1red1"), af_model = NULL, do_quench_correction = TRUE, od_type = "OD700", do_calibrate = TRUE, instr = "spark1", flu_slugs = c("mcherry"), flu_gains = c(80), flu_labels = c("mcherry"), od_coeffs_csv = "od_coeffs.csv", fluor_coeffs_csv = "flu_coeffs.csv", outfolder = file.path("data_processed"))
-process_plate <- function(data_csv, blank_well = "A1",
+process_plate <- function(
+    data_csv, blank_well = "A1",
 
-                          # od
-                          od_name = "OD",
+    # timecourse
+    timecourse = TRUE,
 
-                          # fluorescence
-                          flu_channels = c("green1green2"), # column names in data
-                          flu_channels_rename = NULL, # if not NULL, for every flu_channels specify new name
-                          # rename data columns to make sure they match conversion factor table entries
+    # od
+    od_name = "OD",
 
-                          # autofluorescence model
-                          af_model = "spline", # options: NULL, "spline", "loess"
-                          neg_well = "A2", # if af_model = NULL this can be hashed
+    # fluorescence
+    flu_channels = c("green1green2"), # column names in data
+    flu_channels_rename = NULL, # if not NULL, for every flu_channels specify new name
+    # rename data columns to make sure they match conversion factor table entries
 
-                          # cell quench correction
-                          do_quench_correction = FALSE,
-                          od_type, # "OD600" or "OD700"
+    # autofluorescence model
+    af_model = "spline", # options: NULL, "spline", "loess"
+    neg_well = "A2", # if af_model = NULL this can be hashed
 
-                          # calibrations
-                          do_calibrate = FALSE,
-                          instr, # instrument name for the calibration(s)
-                          # flu_channels above specifies channel(s) for the calibration(s)
-                          flu_slugs = c(), # FP name in FPbase's slug format for the calibration(s)
-                          # OR whatever matches the format used in the conversion factor tables
-                          flu_gains = c(), # gain for calibration(s)
-                          # each of the above need to be specified for every flu_channels being calibrated
-                          flu_labels = c(), # how to display the FP/channel combination in plots and file names
-                          # important if slug is unhelpful or multiple gains used for same FP
+    # cell quench correction
+    do_quench_correction = FALSE,
+    od_type, # "OD600" or "OD700"
 
-                          # conversion factors
-                          od_coeffs_csv, # microsphere conversion factors for od600, od700
-                          fluor_coeffs_csv, # FP conversion factors
+    # calibrations
+    do_calibrate = FALSE,
+    instr, # instrument name for the calibration(s)
+    # flu_channels above specifies channel(s) for the calibration(s)
+    flu_slugs = c(), # FP name in FPbase's slug format for the calibration(s)
+    # OR whatever matches the format used in the conversion factor tables
+    flu_gains = c(), # gain for calibration(s)
+    # each of the above need to be specified for every flu_channels being calibrated
+    flu_labels = c(), # how to display the FP/channel combination in plots and file names
+    # important if slug is unhelpful or multiple gains used for same FP
 
-                          outfolder = ".") {
+    # conversion factors
+    od_coeffs_csv, # microsphere conversion factors for od600, od700
+    fluor_coeffs_csv, # FP conversion factors
+
+    outfolder = ".") {
 
   # Get parsed data --------------------------------------------------------------------------------------------------
 
@@ -147,51 +153,94 @@ process_plate <- function(data_csv, blank_well = "A1",
 
   # Normalise OD (with external od_norm function) --------------------------------------------------------------------
 
-  od_norm_pr_data <- od_norm(pr_data, blank_well, od_name)
+  od_norm_pr_data <- fpcountr::od_norm(pr_data, blank_well, od_name, timecourse = timecourse)
   # adds one extra column - normalised_OD. for each timepoint, normalises OD to mean of blank wells
 
   # Plot OD data in plate format
 
-  # # plot with legend
-  # plt_od <- ggplot2::ggplot(od_norm_pr_data) +
-  #   ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data[[od_name]],
-  #                                   colour = "raw"), size = 0.5) +
-  #   ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$normalised_OD,
-  #                                   colour = "normalised"), size = 0.5) +
-  #   ggplot2::scale_x_continuous("time") +
-  #   ggplot2::scale_colour_discrete("") +
-  #   ggplot2::facet_grid(row~column) +
-  #   ggplot2::theme_bw(base_size = 8) +
-  #   ggplot2::theme(
-  #     aspect.ratio = 1,
-  #     # legend.position = "none",
-  #     axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
-  #     panel.grid.minor = ggplot2::element_blank()
-  #   )
-  # plt_od
+  # plot
+  if(isFALSE(timecourse)){
 
-  # plot with caption
-  plt_od <- ggplot2::ggplot(od_norm_pr_data) +
-    ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data[[od_name]]),
-                                    colour = "black", size = 0.5) +
-    ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$normalised_OD),
-                                    colour = "red", size = 0.5) +
-    ggplot2::scale_x_continuous("time") +
-    ggplot2::labs(caption = "black: raw, red: normalised") +
-    ggplot2::scale_colour_discrete("") +
-    ggplot2::facet_grid(row~column) +
-    ggplot2::theme_bw(base_size = 8) +
-    ggplot2::theme(
-      aspect.ratio = 1,
-      legend.position = "none",
-      axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
-      panel.grid.minor = ggplot2::element_blank()
-    )
-  plt_od
-  plotname <- gsub(".csv", "_OD.pdf", basename(data_csv))
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plt_od,
-                  height = 16, width = 24, units = "cm")
+    # heatmap1 - raw OD
+    max_value <- max(od_norm_pr_data[[od_name]], na.rm = TRUE)
+    plt_od <- ggplot2::ggplot(data = od_norm_pr_data,
+                              # ggplot2::aes(x = row, y = column, fill = .data[[od_name]])) +
+                              ggplot2::aes(x = column, y = row, fill = .data[[od_name]])) +
+
+      ggplot2::geom_tile() +
+      ggplot2::scale_x_discrete("", position = "top", # put axis labels at top
+                                limits = factor(unique(od_norm_pr_data$column))) + # put first element at top # factor to make it discrete rather than continuous
+      ggplot2::scale_y_discrete("", limits = rev(unique(od_norm_pr_data$row))) + # put first element at top
+      viridis::scale_fill_viridis("raw OD",
+                                  discrete = FALSE, limits = c(0, max_value),
+                                  na.value = "white") +
+
+      ggplot2::geom_text(ggplot2::aes(label = round(.data[[od_name]], 2)), na.rm = TRUE, size = 2.5) +
+
+      # ggplot2::coord_fixed(ratio = 1) +
+      ggplot2::theme_bw() + # base_size = 8
+      ggplot2::theme(
+        aspect.ratio = 8/12,
+        panel.grid = ggplot2::element_blank()
+      )
+    plt_od
+    plotname <- gsub(".csv", "_OD1.pdf", basename(data_csv))
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plt_od,
+                    height = 16, width = 24, units = "cm")
+
+    # normalised OD
+    max_value <- max(od_norm_pr_data$normalised_OD, na.rm = TRUE)
+    plt_od <- ggplot2::ggplot(data = od_norm_pr_data,
+                              ggplot2::aes(x = column, y = row, fill = .data$normalised_OD)) +
+
+      ggplot2::geom_tile() +
+      ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(od_norm_pr_data$column))) +
+      ggplot2::scale_y_discrete("", limits = rev(unique(od_norm_pr_data$row))) +
+      viridis::scale_fill_viridis("normalised OD",
+                                  discrete = FALSE, limits = c(0, max_value),
+                                  na.value = "white") +
+
+      ggplot2::geom_text(ggplot2::aes(label = round(.data$normalised_OD, 2)), na.rm = TRUE, size = 2.5) +
+
+      ggplot2::theme_bw() + # base_size = 8
+      ggplot2::theme(
+        aspect.ratio = 8/12,
+        panel.grid = ggplot2::element_blank()
+      )
+    plt_od
+
+    plotname <- gsub(".csv", "_OD2.pdf", basename(data_csv))
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plt_od,
+                    height = 16, width = 24, units = "cm")
+
+  } else if(isTRUE(timecourse)){
+
+    # plot with caption
+    plt_od <- ggplot2::ggplot(od_norm_pr_data) +
+      ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data[[od_name]]),
+                         colour = "black", size = 0.5) +
+      ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$normalised_OD),
+                         colour = "red", size = 0.5) +
+      ggplot2::scale_x_continuous("time") +
+      ggplot2::labs(caption = "black: raw, red: normalised") +
+      ggplot2::scale_colour_discrete("") +
+      ggplot2::facet_grid(row~column) +
+      ggplot2::theme_bw(base_size = 8) +
+      ggplot2::theme(
+        aspect.ratio = 1,
+        legend.position = "none",
+        axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
+        panel.grid.minor = ggplot2::element_blank()
+      )
+    plt_od
+    plotname <- gsub(".csv", "_OD.pdf", basename(data_csv))
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plt_od,
+                    height = 16, width = 24, units = "cm")
+  }
+
 
   # Convert to OD (cm-1) --------------------------------------------------------------------
 
@@ -203,22 +252,49 @@ process_plate <- function(data_csv, blank_well = "A1",
     od_norm_pr_data[1,]
 
     # Plot in plate format
-    plt_od <- ggplot2::ggplot(od_norm_pr_data) +
-      ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$normalised_OD_cm1,
-                                      colour = "normalised_cm1"), size = 0.5) +
-      ggplot2::scale_x_continuous("time") +
-      ggplot2::scale_y_continuous(name = paste0("normalised ", od_name, " (cm-1)")) + # "normalised OD (cm-1)"
-      ggplot2::labs(caption = "") +
-      ggplot2::scale_colour_discrete("") +
-      ggplot2::facet_grid(row~column) +
-      ggplot2::theme_bw(base_size = 8) +
-      ggplot2::theme(
-        aspect.ratio = 1,
-        legend.position = "none",
-        axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
-        panel.grid.minor = ggplot2::element_blank()
+    if(isFALSE(timecourse)){
+
+      # heatmap1 - raw OD
+      max_value <- max(od_norm_pr_data$normalised_OD_cm1, na.rm = TRUE)
+      plt_od <- ggplot2::ggplot(data = od_norm_pr_data,
+                                ggplot2::aes(x = column, y = row, fill = .data$normalised_OD_cm1)) +
+
+        ggplot2::geom_tile() +
+        ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(od_norm_pr_data$column))) +
+        ggplot2::scale_y_discrete("", limits = rev(unique(od_norm_pr_data$row))) +
+        viridis::scale_fill_viridis(paste0("normalised ", od_name, " (cm-1)"),
+                                    discrete = FALSE, limits = c(0, max_value),
+                                    na.value = "white") +
+
+        ggplot2::geom_text(ggplot2::aes(label = round(.data$normalised_OD_cm1, 2)), na.rm = TRUE, size = 2.5) +
+
+        ggplot2::theme_bw() + # base_size = 8
+        ggplot2::theme(
+          aspect.ratio = 8/12,
+          panel.grid = ggplot2::element_blank()
         )
-    plt_od
+      plt_od
+
+    } else if(isTRUE(timecourse)){
+
+      plt_od <- ggplot2::ggplot(od_norm_pr_data) +
+        ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$normalised_OD_cm1,
+                                        colour = "normalised_cm1"), size = 0.5) +
+        ggplot2::scale_x_continuous("time") +
+        ggplot2::scale_y_continuous(name = paste0("normalised ", od_name, " (cm-1)")) + # "normalised OD (cm-1)"
+        ggplot2::labs(caption = "") +
+        ggplot2::scale_colour_discrete("") +
+        ggplot2::facet_grid(row~column) +
+        ggplot2::theme_bw(base_size = 8) +
+        ggplot2::theme(
+          aspect.ratio = 1,
+          legend.position = "none",
+          axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
+          panel.grid.minor = ggplot2::element_blank()
+        )
+      plt_od
+
+    }
     plotname <- gsub(".csv", "_normODcm1.pdf", basename(data_csv))
     ggplot2::ggsave(file.path(outfolder, plotname),
                     plot = plt_od,
@@ -234,58 +310,102 @@ process_plate <- function(data_csv, blank_well = "A1",
   for (flu_idx in seq_len(length(flu_channels))) {
 
     ## for each fluorescent protein, run fluorescent normalisation function
+    # Force timecourse = FALSE data to be af_model = NULL (if by accident it isn't)
+    if(isFALSE(timecourse) & !is.null(af_model)){
+      message("Autofluorescence model function cannot be run without timecourse data. Setting af_model to NULL and normalising fluorescence to blank_wells...")
+      af_model <- NULL
+    }
+
     flu_norm_pr_data <- fpcountr::flu_norm(pr_data = flu_norm_pr_data, neg_well = neg_well, blank_well = blank_well,
-                                                    flu_name = flu_channels[flu_idx], af_model = af_model, data_csv = data_csv,
-                                                    outfolder = outfolder)
+                                           flu_name = flu_channels[flu_idx], af_model = af_model, data_csv = data_csv,
+                                           timecourse = timecourse, outfolder = outfolder)
     # adds one column per FP of (eg) normalised_[GFP] to the table
 
     # Plot in plate format
 
-    # # plot with legend
-    # plt_flu <- ggplot2::ggplot(flu_norm_pr_data) +
-    #   ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data[[flu_channels[flu_idx]]],
-    #                                   colour = "raw"), size = 0.5) +
-    #   ggplot2::geom_line(ggplot2::aes(x = .data$time,
-    #                                   y = .data[[paste("normalised_", flu_channels[flu_idx], sep = "")]],
-    #                                   colour = "normalised"), size = 0.5) +
-    #   ggplot2::scale_x_continuous("time") +
-    #   ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " (rfu)")) + # FP name
-    #   ggplot2::labs(caption = "") + # here
-    #   ggplot2::scale_colour_discrete("") +
-    #   ggplot2::facet_grid(row~column) +
-    #   ggplot2::theme_bw(base_size = 8) +
-    #   ggplot2::theme(
-    #     aspect.ratio = 1,
-    #     # legend.position = "none",
-    #     axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
-    #     panel.grid.minor = ggplot2::element_blank()
-    #   )
-    # plt_flu
+    if(isFALSE(timecourse)){
 
-    # plot with caption
-    plt_flu <- ggplot2::ggplot(flu_norm_pr_data) +
-      ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data[[flu_channels[flu_idx]]]),
-                                      colour = "black", size = 0.5) +
-      ggplot2::geom_line(ggplot2::aes(x = .data$time,
-                                      y = .data[[paste("normalised_", flu_channels[flu_idx], sep = "")]]),
-                                      colour = "red", size = 0.5) +
-      ggplot2::scale_x_continuous("time") +
-      ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " (rfu)")) + # FP name
-      ggplot2::labs(caption = "black: raw, red: normalised") +
-      ggplot2::scale_colour_discrete("") +
-      ggplot2::facet_grid(row~column) +
-      ggplot2::theme_bw(base_size = 8) +
-      ggplot2::theme(
-        aspect.ratio = 1,
-        legend.position = "none",
-        axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
-        panel.grid.minor = ggplot2::element_blank()
-      )
-    plt_flu
-    plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], ".pdf", sep = ""), basename(data_csv))
-    ggplot2::ggsave(file.path(outfolder, plotname),
-                    plot = plt_flu,
-                    height = 16, width = 24, units = "cm")
+      # heatmap1 - raw fluor
+      max_value <- max(flu_norm_pr_data[[flu_channels[flu_idx]]], na.rm = TRUE)
+      plt_flu <- ggplot2::ggplot(data = flu_norm_pr_data,
+                                 ggplot2::aes(x = column, y = row, fill = .data[[flu_channels[flu_idx]]])) +
+
+        ggplot2::geom_tile() +
+        ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(flu_norm_pr_data$column))) +
+        ggplot2::scale_y_discrete("", limits = rev(unique(flu_norm_pr_data$row))) +
+        viridis::scale_fill_viridis(paste0(flu_labels[flu_idx], " (rfu)"),
+                                    discrete = FALSE, limits = c(0, max_value),
+                                    na.value = "white") +
+
+        ggplot2::geom_text(ggplot2::aes(label = round(.data[[flu_channels[flu_idx]]], 2)), na.rm = TRUE, size = 2.5) +
+
+        ggplot2::theme_bw() + # base_size = 8
+        ggplot2::theme(
+          aspect.ratio = 8/12,
+          panel.grid = ggplot2::element_blank()
+        )
+      plt_flu
+      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "1.pdf", sep = ""), basename(data_csv))
+      ggplot2::ggsave(file.path(outfolder, plotname),
+                      plot = plt_flu,
+                      height = 16, width = 24, units = "cm")
+
+      # heatmap2 - normalised fluor
+      max_value <- max(flu_norm_pr_data[[paste0("normalised_", flu_channels[flu_idx])]], na.rm = TRUE)
+      plt_flu <- ggplot2::ggplot(data = flu_norm_pr_data,
+                                 ggplot2::aes(x = column, y = row, fill = .data[[paste("normalised_", flu_channels[flu_idx], sep = "")]])) +
+
+        ggplot2::geom_tile() +
+        ggplot2::scale_x_discrete("", position = "top", # put axis labels at top
+                                  limits = factor(unique(flu_norm_pr_data$column))) + # put first element at top # factor to make it discrete rather than continuous
+        ggplot2::scale_y_discrete("", limits = rev(unique(flu_norm_pr_data$row))) + # put first element at top
+        viridis::scale_fill_viridis(paste0("normalised ", flu_labels[flu_idx], " (rfu)"),
+                                    discrete = FALSE, limits = c(0, max_value),
+                                    na.value = "white") +
+
+        ggplot2::geom_text(ggplot2::aes(label = round(.data[[paste("normalised_", flu_channels[flu_idx], sep = "")]], 2)),
+                           na.rm = TRUE, size = 2.5) +
+
+        # ggplot2::coord_fixed(ratio = 1) +
+        ggplot2::theme_bw() + # base_size = 8
+        ggplot2::theme(
+          aspect.ratio = 8/12,
+          panel.grid = ggplot2::element_blank()
+        )
+      plt_flu
+      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "2.pdf", sep = ""), basename(data_csv))
+      ggplot2::ggsave(file.path(outfolder, plotname),
+                      plot = plt_flu,
+                      height = 16, width = 24, units = "cm")
+
+    } else if(isTRUE(timecourse)){
+
+      plt_flu <- ggplot2::ggplot(flu_norm_pr_data) +
+        ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data[[flu_channels[flu_idx]]]),
+                           colour = "black", size = 0.5) +
+        ggplot2::geom_line(ggplot2::aes(x = .data$time,
+                                        y = .data[[paste("normalised_", flu_channels[flu_idx], sep = "")]]),
+                           colour = "red", size = 0.5) +
+        ggplot2::scale_x_continuous("time") +
+        ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " (rfu)")) + # FP name
+        ggplot2::labs(caption = "black: raw, red: normalised") +
+        ggplot2::scale_colour_discrete("") +
+        ggplot2::facet_grid(row~column) +
+        ggplot2::theme_bw(base_size = 8) +
+        ggplot2::theme(
+          aspect.ratio = 1,
+          legend.position = "none",
+          axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
+          panel.grid.minor = ggplot2::element_blank()
+        )
+      plt_flu
+      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], ".pdf", sep = ""), basename(data_csv))
+      ggplot2::ggsave(file.path(outfolder, plotname),
+                      plot = plt_flu,
+                      height = 16, width = 24, units = "cm")
+
+    }
+
   }
 
   out_data <- flu_norm_pr_data # copy normalised data to out_data df that will be returned if do_calibrate = FALSE
@@ -304,32 +424,89 @@ process_plate <- function(data_csv, blank_well = "A1",
                                          flu_channel = flu_channels[flu_idx])
 
       # plot calibrated fluorescence data
-      plt_flu_calib <- ggplot2::ggplot(out_data) +
-        ggplot2::geom_line(ggplot2::aes(x = .data$time,
-                                        y = .data[[paste("normalised_", flu_channels[flu_idx], sep = "")]],
-                                        colour = "normalised"),
-                           colour = "black", size = 0.5) +
-        ggplot2::geom_line(ggplot2::aes(x = .data$time,
-                                        y = .data[[paste("corrected_normalised_", flu_channels[flu_idx], sep = "")]],
-                                        colour = "corrected"),
-                           colour = "red", size = 0.5) +
-        ggplot2::scale_x_continuous("time") +
-        ggplot2::scale_y_continuous(name = paste0("corrected ", flu_labels[flu_idx], " (molecules)")) + # FP name
-        ggplot2::labs(caption = "black: normalised, red: corrected") +
-        ggplot2::scale_colour_discrete("") +
-        ggplot2::facet_grid(row~column) +
-        ggplot2::theme_bw(base_size = 8) +
-        ggplot2::theme(
-          aspect.ratio = 1,
-          legend.position = "none",
-          axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
-          panel.grid.minor = ggplot2::element_blank()
-        )
-      plt_flu_calib
-      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "corrected.pdf", sep = ""), basename(data_csv))
-      ggplot2::ggsave(file.path(outfolder, plotname),
-                      plot = plt_flu_calib,
-                      height = 16, width = 24, units = "cm")
+      if(isFALSE(timecourse)){
+
+        # heatmap1 - calibrated fluorescence - normalised
+        max_value <- max(out_data[[paste0("normalised_", flu_channels[flu_idx])]], na.rm = TRUE)
+        plt_flu <- ggplot2::ggplot(data = out_data,
+                                   ggplot2::aes(x = column, y = row, fill = .data[[paste("normalised_", flu_channels[flu_idx], sep = "")]])) +
+
+          ggplot2::geom_tile() +
+          ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(out_data$column))) +
+          ggplot2::scale_y_discrete("", limits = rev(unique(out_data$row))) +
+          viridis::scale_fill_viridis(paste0("normalised ", flu_labels[flu_idx], " (molecules)"),
+                                      discrete = FALSE, limits = c(0, max_value),
+                                      na.value = "white") +
+
+          ggplot2::geom_text(ggplot2::aes(label = round(.data[[paste("normalised_", flu_channels[flu_idx], sep = "")]], 2)), na.rm = TRUE, size = 2.5) +
+
+          ggplot2::theme_bw() + # base_size = 8
+          ggplot2::theme(
+            aspect.ratio = 8/12,
+            panel.grid = ggplot2::element_blank()
+          )
+        plt_flu
+        plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_normalised.pdf", sep = ""), basename(data_csv))
+        ggplot2::ggsave(file.path(outfolder, plotname),
+                        plot = plt_flu,
+                        height = 16, width = 24, units = "cm")
+
+        # heatmap2 - corrected normalised
+        max_value <- max(out_data[[paste0("corrected_normalised_", flu_channels[flu_idx])]], na.rm = TRUE)
+        plt_flu <- ggplot2::ggplot(data = out_data,
+                                   ggplot2::aes(x = column, y = row, fill = .data[[paste("corrected_normalised_", flu_channels[flu_idx], sep = "")]])) +
+
+          ggplot2::geom_tile() +
+          ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(out_data$column))) +
+          ggplot2::scale_y_discrete("", limits = rev(unique(out_data$row))) +
+          viridis::scale_fill_viridis(paste0("corrected ", flu_labels[flu_idx], " (molecules)"),
+                                      discrete = FALSE, limits = c(0, max_value),
+                                      na.value = "white") +
+
+          ggplot2::geom_text(ggplot2::aes(label = round(.data[[paste("corrected_normalised_", flu_channels[flu_idx], sep = "")]], 2)),
+                             na.rm = TRUE, size = 2.5) +
+
+          ggplot2::theme_bw() + # base_size = 8
+          ggplot2::theme(
+            aspect.ratio = 8/12,
+            panel.grid = ggplot2::element_blank()
+          )
+        plt_flu
+        plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_corrected.pdf", sep = ""), basename(data_csv))
+        ggplot2::ggsave(file.path(outfolder, plotname),
+                        plot = plt_flu,
+                        height = 16, width = 24, units = "cm")
+
+      } else if(isTRUE(timecourse)){
+
+        plt_flu_calib <- ggplot2::ggplot(out_data) +
+          ggplot2::geom_line(ggplot2::aes(x = .data$time,
+                                          y = .data[[paste("normalised_", flu_channels[flu_idx], sep = "")]],
+                                          colour = "normalised"),
+                             colour = "black", size = 0.5) +
+          ggplot2::geom_line(ggplot2::aes(x = .data$time,
+                                          y = .data[[paste("corrected_normalised_", flu_channels[flu_idx], sep = "")]],
+                                          colour = "corrected"),
+                             colour = "red", size = 0.5) +
+          ggplot2::scale_x_continuous("time") +
+          ggplot2::scale_y_continuous(name = paste0("corrected ", flu_labels[flu_idx], " (molecules)")) + # FP name
+          ggplot2::labs(caption = "black: normalised, red: corrected") +
+          ggplot2::scale_colour_discrete("") +
+          ggplot2::facet_grid(row~column) +
+          ggplot2::theme_bw(base_size = 8) +
+          ggplot2::theme(
+            aspect.ratio = 1,
+            legend.position = "none",
+            axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
+            panel.grid.minor = ggplot2::element_blank()
+          )
+        plt_flu_calib
+        plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_corrected.pdf", sep = ""), basename(data_csv))
+        ggplot2::ggsave(file.path(outfolder, plotname),
+                        plot = plt_flu_calib,
+                        height = 16, width = 24, units = "cm")
+
+      }
 
     } # for each fluorescence channel
 
@@ -349,22 +526,49 @@ process_plate <- function(data_csv, blank_well = "A1",
     # adds calibrated_OD column
 
     # plot
-    plt_od_calib <- ggplot2::ggplot(out_data) +
-      ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$calibrated_OD,
-                                      colour = "calibrated"), size = 0.5) +
-      ggplot2::scale_x_continuous("time") +
-      ggplot2::scale_y_continuous(name = paste0("calibrated ", od_name, " (particles)")) + # OD700 (particles)
-      ggplot2::labs(caption = "") +
-      ggplot2::scale_colour_discrete("") +
-      ggplot2::facet_grid(row~column) +
-      ggplot2::theme_bw(base_size = 8) +
-      ggplot2::theme(
-        aspect.ratio = 1,
-        legend.position = "none",
-        axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
-        panel.grid.minor = ggplot2::element_blank()
-      )
-    plt_od_calib
+    if(isFALSE(timecourse)){
+
+      # heatmap - calibrated OD
+      max_value <- max(out_data$calibrated_OD, na.rm = TRUE)
+      plt_od_calib <- ggplot2::ggplot(data = out_data,
+                                      ggplot2::aes(x = column, y = row, fill = .data$calibrated_OD)) +
+
+        ggplot2::geom_tile() +
+        ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(out_data$column))) +
+        ggplot2::scale_y_discrete("", limits = rev(unique(out_data$row))) +
+        viridis::scale_fill_viridis(paste0("calibrated ", od_name, " (particles)"),
+                                    discrete = FALSE, limits = c(0, max_value),
+                                    na.value = "white") +
+
+        ggplot2::geom_text(ggplot2::aes(label = scales::scientific(.data$calibrated_OD)), na.rm = TRUE, size = 2.5) +
+
+        ggplot2::theme_bw() + # base_size = 8
+        ggplot2::theme(
+          aspect.ratio = 8/12,
+          panel.grid = ggplot2::element_blank()
+        )
+      plt_od_calib
+
+    } else if(isTRUE(timecourse)){
+
+      plt_od_calib <- ggplot2::ggplot(out_data) +
+        ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$calibrated_OD,
+                                        colour = "calibrated"), size = 0.5) +
+        ggplot2::scale_x_continuous("time") +
+        ggplot2::scale_y_continuous(name = paste0("calibrated ", od_name, " (particles)")) + # OD700 (particles)
+        ggplot2::labs(caption = "") +
+        ggplot2::scale_colour_discrete("") +
+        ggplot2::facet_grid(row~column) +
+        ggplot2::theme_bw(base_size = 8) +
+        ggplot2::theme(
+          aspect.ratio = 1,
+          legend.position = "none",
+          axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
+          panel.grid.minor = ggplot2::element_blank()
+        )
+      plt_od_calib
+
+    }
     plotname <- gsub(".csv", "_ODcalib.pdf", basename(data_csv))
     ggplot2::ggsave(file.path(outfolder, plotname),
                     plot = plt_od_calib,
@@ -392,24 +596,51 @@ process_plate <- function(data_csv, blank_well = "A1",
                                            conversion_factors_csv = fluor_coeffs_csv)
 
       # plot calibrated fluorescence data
-      plt_flu_calib <- ggplot2::ggplot(out_data) +
-        ggplot2::geom_line(ggplot2::aes(x = .data$time,
-                                        y = .data[[paste("calibrated_", flu_labels[flu_idx], sep = "")]],
-                                        colour = "calibrated"),
-                           size = 0.5) +
-        ggplot2::scale_x_continuous("time") +
-        ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " (molecules)")) + # FP name
-        ggplot2::labs(caption = "") +
-        ggplot2::scale_colour_discrete("") +
-        ggplot2::facet_grid(row~column) +
-        ggplot2::theme_bw(base_size = 8) +
-        ggplot2::theme(
-          aspect.ratio = 1,
-          legend.position = "none",
-          axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
-          panel.grid.minor = ggplot2::element_blank()
-        )
-      plt_flu_calib
+      if(isFALSE(timecourse)){
+
+        # heatmap - calibrated OD
+        max_value <- max(out_data[[paste0("calibrated_", flu_labels[flu_idx])]], na.rm = TRUE)
+        plt_flu_calib <- ggplot2::ggplot(data = out_data,
+                                         ggplot2::aes(x = column, y = row, fill = .data[[paste("calibrated_", flu_labels[flu_idx], sep = "")]])) +
+
+          ggplot2::geom_tile() +
+          ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(out_data$column))) +
+          ggplot2::scale_y_discrete("", limits = rev(unique(out_data$row))) +
+          viridis::scale_fill_viridis(paste0(flu_labels[flu_idx], " (molecules)"),
+                                      discrete = FALSE, limits = c(0, max_value),
+                                      na.value = "white") +
+
+          ggplot2::geom_text(ggplot2::aes(label = scales::scientific(.data[[paste("calibrated_", flu_labels[flu_idx], sep = "")]])), na.rm = TRUE, size = 2.5) +
+
+          ggplot2::theme_bw() + # base_size = 8
+          ggplot2::theme(
+            aspect.ratio = 8/12,
+            panel.grid = ggplot2::element_blank()
+          )
+        plt_flu_calib
+
+      } else if(isTRUE(timecourse)){
+
+        plt_flu_calib <- ggplot2::ggplot(out_data) +
+          ggplot2::geom_line(ggplot2::aes(x = .data$time,
+                                          y = .data[[paste("calibrated_", flu_labels[flu_idx], sep = "")]],
+                                          colour = "calibrated"),
+                             size = 0.5) +
+          ggplot2::scale_x_continuous("time") +
+          ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " (molecules)")) + # FP name
+          ggplot2::labs(caption = "") +
+          ggplot2::scale_colour_discrete("") +
+          ggplot2::facet_grid(row~column) +
+          ggplot2::theme_bw(base_size = 8) +
+          ggplot2::theme(
+            aspect.ratio = 1,
+            legend.position = "none",
+            axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
+            panel.grid.minor = ggplot2::element_blank()
+          )
+        plt_flu_calib
+
+      }
       plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "calib.pdf", sep = ""), basename(data_csv))
       ggplot2::ggsave(file.path(outfolder, plotname),
                       plot = plt_flu_calib,
