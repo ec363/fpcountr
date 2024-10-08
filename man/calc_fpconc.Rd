@@ -6,6 +6,7 @@
 \usage{
 calc_fpconc(
   data_csv,
+  timecourse = TRUE,
   flu_channels,
   flu_labels,
   remove_wells,
@@ -19,6 +20,9 @@ calc_fpconc(
 }
 \arguments{
 \item{data_csv}{path to a csv file containing processed plate reader data}
+
+\item{timecourse}{logical. Is the data timecourse/kinetic data and does it
+include a variable called 'time'?}
 
 \item{flu_channels}{the column names for the NORMALISED fluorescence data}
 

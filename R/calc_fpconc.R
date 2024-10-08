@@ -7,6 +7,8 @@
 #' returns df.
 #'
 #' @param data_csv path to a csv file containing processed plate reader data
+#' @param timecourse logical. Is the data timecourse/kinetic data and does it
+#'   include a variable called 'time'?
 #' @param flu_channels the column names for the NORMALISED fluorescence data
 #' @param flu_labels the column names for the CALIBRATED fluorescence data
 #' @param remove_wells list of coordinates of wells to be removed from analysis
@@ -38,6 +40,7 @@
 #' @examples
 #' conc_data_mCherry <- calc_fpconc(data_csv = "mcherry_parsed_processed.csv", flu_channels = c("red1red1"), flu_labels = c("mCherry"), remove_wells = c("A11"), get_rfu_vol = TRUE, get_mol_vol = TRUE, od_specific_total_volume = 3.6, odmeasure = "OD700", odmeasure_conversion = 0.79, outfolder = file.path("plots"))
 calc_fpconc <- function(data_csv,
+                        timecourse = TRUE,
                         flu_channels, # colnames of normalised values (rfu), eg c("red1red1", "red1red2")
                         flu_labels, # colnames of calibrated values (molecules), eg c("mCherry", "mScarlet")
                         remove_wells,
@@ -144,11 +147,18 @@ calc_fpconc <- function(data_csv,
       }
 
       # Calc
-      percell_data <- percell_data %>%
-        dplyr::group_by(.data$time) %>%
-        dplyr::mutate(v1 = (.data[[flumeasure]]) / total_cell_volume_L )
-      # for each timepoint, divides norm GFP by cell volume
-      as.data.frame(percell_data)[1,]
+      if(isFALSE(timecourse)){
+        percell_data <- percell_data %>%
+          dplyr::mutate(v1 = (.data[[flumeasure]]) / total_cell_volume_L )
+        # divides norm GFP by cell volume
+        as.data.frame(percell_data)[1,]
+      } else if(isTRUE(timecourse)){
+        percell_data <- percell_data %>%
+          dplyr::group_by(.data$time) %>%
+          dplyr::mutate(v1 = (.data[[flumeasure]]) / total_cell_volume_L )
+        # for each timepoint, divides norm GFP by cell volume
+        as.data.frame(percell_data)[1,]
+      }
 
       # Rename last column:
       names(percell_data)[ncol(percell_data)] <- paste0("normalised_", flu_labels[flu_idx], "_percellvolume")
@@ -156,26 +166,61 @@ calc_fpconc <- function(data_csv,
 
       # Plot FP - normalised ----------------------------------
 
-      plt_flu_calib <- ggplot2::ggplot(percell_data) +
-        ggplot2::geom_line(ggplot2::aes(x = .data$time,
-                                        y = .data[[paste0("normalised_", flu_labels[flu_idx], "_percellvolume")]],
-                                        colour = "normalised"), size = 0.5) +
-        ggplot2::scale_x_continuous("time") +
-        ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " concentration (rfu/cellvolume)")) +
-        ggplot2::labs(caption = "") +
-        ggplot2::scale_colour_discrete("") +
-        ggplot2::facet_grid(row~column) +
-        ggplot2::theme_bw(base_size = 8) +
-        ggplot2::theme(
-          aspect.ratio = 1,
-          legend.position = "none",
-          axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
-          panel.grid.minor = ggplot2::element_blank()
-        )
-      plt_flu_calib
+      if(isFALSE(timecourse)){
+
+        # heatmap - normalised fluor
+        max_value <- max(percell_data[[paste0("normalised_", flu_labels[flu_idx], "_percellvolume")]], na.rm = TRUE)
+        plt_flu <-
+          ggplot2::ggplot(data = percell_data,
+                          ggplot2::aes(x = column, y = row, fill = .data[[paste0("normalised_", flu_labels[flu_idx], "_percellvolume")]])) +
+
+          ggplot2::geom_tile() +
+          ggplot2::scale_x_discrete("", position = "top",
+                                    # limits = factor(unique(percell_data$column))) + # where not all rows used, only displays fraction of plate
+                                    limits = factor(seq(1,12))) + # hardcoded for 96-well plates
+
+          ggplot2::scale_y_discrete("",
+                                    # limits = rev(unique(percell_data$row))) + # where not all rows used, only displays fraction of plate
+                                    limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
+          viridis::scale_fill_viridis(paste0("normalised ", flu_labels[flu_idx], " concentration (rfu/cellvolume)"),
+                                      discrete = FALSE, limits = c(0, max_value),
+                                      alpha = 0.4,
+                                      na.value = "white") +
+
+          ggplot2::geom_text(ggplot2::aes(label = scales::scientific(.data[[paste0("normalised_", flu_labels[flu_idx], "_percellvolume")]], 2)),
+                             na.rm = TRUE, size = 2.5) +
+
+          ggplot2::theme_bw() + # base_size = 8
+          ggplot2::theme(
+            aspect.ratio = 8/12,
+            panel.grid = ggplot2::element_blank()
+          )
+        plt_flu
+
+      } else if(isTRUE(timecourse)){
+
+        plt_flu <- ggplot2::ggplot(percell_data) +
+          ggplot2::geom_line(ggplot2::aes(x = .data$time,
+                                          y = .data[[paste0("normalised_", flu_labels[flu_idx], "_percellvolume")]],
+                                          colour = "normalised"), size = 0.5) +
+          ggplot2::scale_x_continuous("time") +
+          ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " concentration (rfu/cellvolume)")) +
+          ggplot2::labs(caption = "") +
+          ggplot2::scale_colour_discrete("") +
+          ggplot2::facet_grid(row~column) +
+          ggplot2::theme_bw(base_size = 8) +
+          ggplot2::theme(
+            aspect.ratio = 1,
+            legend.position = "none",
+            axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
+            panel.grid.minor = ggplot2::element_blank()
+          )
+        plt_flu
+
+      }
       plotname <- paste0("normalised_", flu_labels[flu_idx], "_concentration.pdf")
       ggplot2::ggsave(file.path(outfolder, plotname),
-                      plot = plt_flu_calib,
+                      plot = plt_flu,
                       height = 16, width = 24, units = "cm")
 
     } # then repeat for each FP
@@ -223,11 +268,18 @@ calc_fpconc <- function(data_csv,
 
       # Calc
       # #molar: 1M = 1mol/L
-      percell_data <- percell_data %>%
-        dplyr::group_by(.data$time) %>%
-        dplyr::mutate(v1 = (.data[[moles_columnname]]) / total_cell_volume_L )
-      # for each timepoint, divides calib GFP by cell volume
-      as.data.frame(percell_data)[1,]
+      if(isFALSE(timecourse)){
+        percell_data <- percell_data %>%
+          dplyr::mutate(v1 = (.data[[moles_columnname]]) / total_cell_volume_L )
+        # divides calib GFP by cell volume
+        as.data.frame(percell_data)[1,]
+      } else if(isTRUE(timecourse)){
+        percell_data <- percell_data %>%
+          dplyr::group_by(.data$time) %>%
+          dplyr::mutate(v1 = (.data[[moles_columnname]]) / total_cell_volume_L )
+        # for each timepoint, divides calib GFP by cell volume
+        as.data.frame(percell_data)[1,]
+      }
 
       # Rename last column:
       names(percell_data)[ncol(percell_data)] <- paste0("calibrated_", flu_labels[flu_idx], "_Molar")
@@ -235,23 +287,60 @@ calc_fpconc <- function(data_csv,
 
       # Plot FP - calibrated ----------------------------------
 
-      plt_flu_calib <- ggplot2::ggplot(percell_data) +
-        ggplot2::geom_line(ggplot2::aes(x = .data$time,
-                                        y = .data[[paste0("calibrated_", flu_labels[flu_idx], "_Molar")]]*1e6,
-                                        colour = "calibrated"), size = 0.5) +
-        ggplot2::scale_x_continuous("time") +
-        ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " concentration (uM)")) +
-        ggplot2::labs(caption = "") +
-        ggplot2::scale_colour_discrete("") +
-        ggplot2::facet_grid(row~column) +
-        ggplot2::theme_bw(base_size = 8) +
-        ggplot2::theme(
-          aspect.ratio = 1,
-          legend.position = "none",
-          axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
-          panel.grid.minor = ggplot2::element_blank()
-        )
-      plt_flu_calib
+      if(isFALSE(timecourse)){
+
+        # heatmap - calibrated fluor
+        max_value <- max(percell_data[[paste0("calibrated_", flu_labels[flu_idx], "_Molar")]]*1e6, na.rm = TRUE)
+        plt_flu_calib <-
+          ggplot2::ggplot(data = percell_data,
+                          ggplot2::aes(x = column, y = row, fill = .data[[paste0("calibrated_", flu_labels[flu_idx], "_Molar")]]*1e6)) +
+
+          ggplot2::geom_tile() +
+          ggplot2::scale_x_discrete("", position = "top",
+                                    # limits = factor(unique(percell_data$column))) + # where not all rows used, only displays fraction of plate
+                                    limits = factor(seq(1,12))) + # hardcoded for 96-well plates
+
+          ggplot2::scale_y_discrete("",
+                                    # limits = rev(unique(percell_data$row))) + # where not all rows used, only displays fraction of plate
+                                    limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
+          viridis::scale_fill_viridis(paste0(flu_labels[flu_idx], " concentration (µM)"),
+                                      discrete = FALSE, limits = c(0, max_value),
+                                      alpha = 0.4,
+                                      na.value = "white") +
+
+          ggplot2::geom_text(
+            # ggplot2::aes(label = scales::scientific(.data[[paste0("calibrated_", flu_labels[flu_idx], "_Molar")]]*1e6, 2)),
+            ggplot2::aes(label = signif(.data[[paste0("calibrated_", flu_labels[flu_idx], "_Molar")]]*1e6, 3)),
+            na.rm = TRUE, size = 2.5) +
+
+          ggplot2::theme_bw() + # base_size = 8
+          ggplot2::theme(
+            aspect.ratio = 8/12,
+            panel.grid = ggplot2::element_blank()
+          )
+        plt_flu_calib
+
+      } else if(isTRUE(timecourse)){
+
+        plt_flu_calib <- ggplot2::ggplot(percell_data) +
+          ggplot2::geom_line(ggplot2::aes(x = .data$time,
+                                          y = .data[[paste0("calibrated_", flu_labels[flu_idx], "_Molar")]]*1e6,
+                                          colour = "calibrated"), size = 0.5) +
+          ggplot2::scale_x_continuous("time") +
+          ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " concentration (µM)")) +
+          ggplot2::labs(caption = "") +
+          ggplot2::scale_colour_discrete("") +
+          ggplot2::facet_grid(row~column) +
+          ggplot2::theme_bw(base_size = 8) +
+          ggplot2::theme(
+            aspect.ratio = 1,
+            legend.position = "none",
+            axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
+            panel.grid.minor = ggplot2::element_blank()
+          )
+        plt_flu_calib
+
+      }
       plotname <- paste0("calibrated_", flu_labels[flu_idx], "_concentration.pdf")
       ggplot2::ggsave(file.path(outfolder, plotname),
                       plot = plt_flu_calib,
