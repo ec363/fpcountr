@@ -186,6 +186,7 @@ process_plate <- function(
         ggplot2::scale_y_discrete("", limits = rev(unique(od_norm_pr_data$row))) + # put first element at top
         viridis::scale_fill_viridis("raw OD",
                                     discrete = FALSE, limits = c(0, max_value),
+                                    alpha = 0.4,
                                     na.value = "white") +
 
         ggplot2::geom_text(ggplot2::aes(label = round(.data[[od_name]], 2)), na.rm = TRUE, size = 2.5) +
@@ -276,6 +277,7 @@ process_plate <- function(
           ggplot2::scale_y_discrete("", limits = rev(unique(od_norm_pr_data$row))) +
           viridis::scale_fill_viridis(paste0("normalised ", od_name, " (cm-1)"),
                                       discrete = FALSE, limits = c(0, max_value),
+                                      alpha = 0.4,
                                       na.value = "white") +
 
           ggplot2::geom_text(ggplot2::aes(label = round(.data$normalised_OD_cm1, 2)), na.rm = TRUE, size = 2.5) +
@@ -349,6 +351,7 @@ process_plate <- function(
         ggplot2::scale_y_discrete("", limits = rev(unique(flu_norm_pr_data$row))) +
         viridis::scale_fill_viridis(paste0(flu_labels[flu_idx], " (rfu)"),
                                     discrete = FALSE, limits = c(0, max_value),
+                                    alpha = 0.4,
                                     na.value = "white") +
 
         ggplot2::geom_text(ggplot2::aes(label = round(.data[[flu_channels[flu_idx]]], 2)), na.rm = TRUE, size = 2.5) +
@@ -375,6 +378,7 @@ process_plate <- function(
         ggplot2::scale_y_discrete("", limits = rev(unique(flu_norm_pr_data$row))) + # put first element at top
         viridis::scale_fill_viridis(paste0("normalised ", flu_labels[flu_idx], " (rfu)"),
                                     discrete = FALSE, limits = c(0, max_value),
+                                    alpha = 0.4,
                                     na.value = "white") +
 
         ggplot2::geom_text(ggplot2::aes(label = round(.data[[paste("normalised_", flu_channels[flu_idx], sep = "")]], 2)),
@@ -450,6 +454,7 @@ process_plate <- function(
           ggplot2::scale_y_discrete("", limits = rev(unique(out_data$row))) +
           viridis::scale_fill_viridis(paste0("normalised ", flu_labels[flu_idx], " (molecules)"),
                                       discrete = FALSE, limits = c(0, max_value),
+                                      alpha = 0.4,
                                       na.value = "white") +
 
           ggplot2::geom_text(ggplot2::aes(label = round(.data[[paste("normalised_", flu_channels[flu_idx], sep = "")]], 2)), na.rm = TRUE, size = 2.5) +
@@ -475,6 +480,7 @@ process_plate <- function(
           ggplot2::scale_y_discrete("", limits = rev(unique(out_data$row))) +
           viridis::scale_fill_viridis(paste0("corrected ", flu_labels[flu_idx], " (molecules)"),
                                       discrete = FALSE, limits = c(0, max_value),
+                                      alpha = 0.4,
                                       na.value = "white") +
 
           ggplot2::geom_text(ggplot2::aes(label = round(.data[[paste("corrected_normalised_", flu_channels[flu_idx], sep = "")]], 2)),
@@ -563,6 +569,7 @@ process_plate <- function(
           ggplot2::scale_y_discrete("", limits = rev(unique(out_data$row))) +
           viridis::scale_fill_viridis(paste0("calibrated ", od_name, " (particles)"),
                                       discrete = FALSE, limits = c(0, max_value),
+                                      alpha = 0.4,
                                       na.value = "white") +
 
           ggplot2::geom_text(ggplot2::aes(label = scales::scientific(.data$calibrated_OD)), na.rm = TRUE, size = 2.5) +
@@ -634,6 +641,7 @@ process_plate <- function(
           ggplot2::scale_y_discrete("", limits = rev(unique(out_data$row))) +
           viridis::scale_fill_viridis(paste0(flu_labels[flu_idx], " (molecules)"),
                                       discrete = FALSE, limits = c(0, max_value),
+                                      alpha = 0.4,
                                       na.value = "white") +
 
           ggplot2::geom_text(ggplot2::aes(label = scales::scientific(.data[[paste("calibrated_", flu_labels[flu_idx], sep = "")]])), na.rm = TRUE, size = 2.5) +
