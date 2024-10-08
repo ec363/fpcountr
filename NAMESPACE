@@ -2,6 +2,10 @@
 
 export(calc_fpconc)
 export(calc_fppercell)
+export(find_wells)
+export(find_wells_in_column)
+export(find_wells_in_row)
+export(find_wells_in_rowcolumn)
 export(flu_norm)
 export(generate_cfs)
 export(get_conc_A280)
