@@ -352,7 +352,7 @@ calc_fpconc <- function(data_csv,
 
   # Save CSV --------------------------------------------------
 
-  filename <- gsub(".csv", "_pc.csv", basename(data_csv))
+  filename <- gsub(".csv", "_conc.csv", basename(data_csv))
   utils::write.csv(x = percell_data,
                    file = file.path(outfolder, filename),
                    row.names = FALSE)
