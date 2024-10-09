@@ -29,6 +29,8 @@
 #' @param odmeasure_conversion numeric. How to convert the measurement specified
 #'   by odmeasure to OD600? ie. OD600 = ODused / x. Use '1' for OD600 (no
 #'   conversion) and 0.79 for OD700.
+#' @param plate_type type of plate. numeric, ie. `96` for 96-well plate. Defines
+#'   the rows and columns used for plotting figures. Defaults to `96`.
 #' @param outfolder path to folder where output files should be saved. Defaults
 #'   to current working directory.
 #'
@@ -49,6 +51,7 @@ calc_fpconc <- function(data_csv,
                         od_specific_total_volume = NULL, # 3.6 ul od-1cm-1 from 2011 Volkmer.
                         odmeasure = NULL, # "OD600" or "OD700" # which OD measurement is being used in the data?
                         odmeasure_conversion = NULL, # how to convert odmeasure to OD600 # typically 1 for OD600, 0.79 for OD700
+                        plate_type = 96,
                         outfolder = "."){
 
   # Messages -------------------------------------------------
@@ -168,6 +171,10 @@ calc_fpconc <- function(data_csv,
 
       if(isFALSE(timecourse)){
 
+        # find all rows and columns of plate type
+        rows <- fpcountr:::find_rows(plate_type = plate_type)
+        columns <- fpcountr:::find_columns(plate_type = plate_type)
+
         # heatmap - normalised fluor
         max_value <- max(percell_data[[paste0("normalised_", flu_labels[flu_idx], "_percellvolume")]], na.rm = TRUE)
         plt_flu <-
@@ -177,11 +184,12 @@ calc_fpconc <- function(data_csv,
           ggplot2::geom_tile() +
           ggplot2::scale_x_discrete("", position = "top",
                                     # limits = factor(unique(percell_data$column))) + # where not all rows used, only displays fraction of plate
-                                    limits = factor(seq(1,12))) + # hardcoded for 96-well plates
-
+                                    # limits = factor(seq(1,12))) + # hardcoded for 96-well plates
+                                    limits = factor(columns)) +
           ggplot2::scale_y_discrete("",
                                     # limits = rev(unique(percell_data$row))) + # where not all rows used, only displays fraction of plate
-                                    limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
+                                    # limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
+                                    limits = rev(rows)) +
           viridis::scale_fill_viridis(paste0("normalised ", flu_labels[flu_idx], " concentration (rfu/cellvolume)"),
                                       discrete = FALSE, limits = c(0, max_value),
                                       alpha = 0.4,
@@ -199,6 +207,10 @@ calc_fpconc <- function(data_csv,
 
       } else if(isTRUE(timecourse)){
 
+        # find all rows and columns of plate type, and add them as factors
+        percell_data$row <- factor(percell_data$row, levels = fpcountr:::find_rows(plate_type = plate_type))
+        percell_data$column <- factor(percell_data$column, levels = fpcountr:::find_columns(plate_type = plate_type))
+
         plt_flu <- ggplot2::ggplot(percell_data) +
           ggplot2::geom_line(ggplot2::aes(x = .data$time,
                                           y = .data[[paste0("normalised_", flu_labels[flu_idx], "_percellvolume")]],
@@ -207,7 +219,7 @@ calc_fpconc <- function(data_csv,
           ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " concentration (rfu/cellvolume)")) +
           ggplot2::labs(caption = "") +
           ggplot2::scale_colour_discrete("") +
-          ggplot2::facet_grid(row~column) +
+          ggplot2::facet_grid(row~column, drop = FALSE) + # keep wells with missing values
           ggplot2::theme_bw(base_size = 8) +
           ggplot2::theme(
             aspect.ratio = 1,
@@ -289,6 +301,10 @@ calc_fpconc <- function(data_csv,
 
       if(isFALSE(timecourse)){
 
+        # find all rows and columns of plate type
+        rows <- fpcountr:::find_rows(plate_type = plate_type)
+        columns <- fpcountr:::find_columns(plate_type = plate_type)
+
         # heatmap - calibrated fluor
         max_value <- max(percell_data[[paste0("calibrated_", flu_labels[flu_idx], "_Molar")]]*1e6, na.rm = TRUE)
         plt_flu_calib <-
@@ -298,11 +314,12 @@ calc_fpconc <- function(data_csv,
           ggplot2::geom_tile() +
           ggplot2::scale_x_discrete("", position = "top",
                                     # limits = factor(unique(percell_data$column))) + # where not all rows used, only displays fraction of plate
-                                    limits = factor(seq(1,12))) + # hardcoded for 96-well plates
-
+                                    # limits = factor(seq(1,12))) + # hardcoded for 96-well plates
+                                    limits = factor(columns)) +
           ggplot2::scale_y_discrete("",
                                     # limits = rev(unique(percell_data$row))) + # where not all rows used, only displays fraction of plate
-                                    limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
+                                    # limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
+                                    limits = rev(rows)) +
           viridis::scale_fill_viridis(paste0(flu_labels[flu_idx], " concentration (µM)"),
                                       discrete = FALSE, limits = c(0, max_value),
                                       alpha = 0.4,
@@ -322,6 +339,10 @@ calc_fpconc <- function(data_csv,
 
       } else if(isTRUE(timecourse)){
 
+        # find all rows and columns of plate type, and add them as factors
+        percell_data$row <- factor(percell_data$row, levels = fpcountr:::find_rows(plate_type = plate_type))
+        percell_data$column <- factor(percell_data$column, levels = fpcountr:::find_columns(plate_type = plate_type))
+
         plt_flu_calib <- ggplot2::ggplot(percell_data) +
           ggplot2::geom_line(ggplot2::aes(x = .data$time,
                                           y = .data[[paste0("calibrated_", flu_labels[flu_idx], "_Molar")]]*1e6,
@@ -330,7 +351,7 @@ calc_fpconc <- function(data_csv,
           ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " concentration (µM)")) +
           ggplot2::labs(caption = "") +
           ggplot2::scale_colour_discrete("") +
-          ggplot2::facet_grid(row~column) +
+          ggplot2::facet_grid(row~column, drop = FALSE) + # keep wells with missing values
           ggplot2::theme_bw(base_size = 8) +
           ggplot2::theme(
             aspect.ratio = 1,

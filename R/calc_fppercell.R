@@ -20,6 +20,8 @@
 #' @param get_mol_cell logical. if TRUE, uses calibrated_FP and calibrated_OD to
 #'   calculate FP per cell as FP/OD in relative fluorescence units/relative OD
 #'   (molecules/cell).
+#' @param plate_type type of plate. numeric, ie. `96` for 96-well plate. Defines
+#'   the rows and columns used for plotting figures. Defaults to `96`.
 #' @param outfolder path to folder where output files should be saved. Defaults
 #'   to current working directory.
 #'
@@ -37,6 +39,7 @@ calc_fppercell <- function(data_csv,
                            remove_wells,
                            get_rfu_od = TRUE, # get_rfu_pems = FALSE, # pointless
                            get_mol_cell = FALSE, # used to be get_mefl_pems
+                           plate_type = 96,
                            outfolder = "."){
 
   # Get parsed data -------------------------------------------------
@@ -148,6 +151,10 @@ calc_fppercell <- function(data_csv,
         # plot with caption
         if(isFALSE(timecourse)){
 
+          # find all rows and columns of plate type
+          rows <- fpcountr:::find_rows(plate_type = plate_type)
+          columns <- fpcountr:::find_columns(plate_type = plate_type)
+
           # heatmap1 - raw fluor
           max_value <- max(percell_data[[flu_channels[flu_idx]]], na.rm = TRUE)
           plt_flu <- ggplot2::ggplot(data = percell_data,
@@ -156,10 +163,12 @@ calc_fppercell <- function(data_csv,
             ggplot2::geom_tile() +
             ggplot2::scale_x_discrete("", position = "top",
                                       # limits = factor(unique(percell_data$column))) + # where not all rows used, only displays fraction of plate
-                                      limits = factor(seq(1,12))) + # hardcoded for 96-well plates
+                                      # limits = factor(seq(1,12))) + # hardcoded for 96-well plates
+                                      limits = factor(columns)) +
             ggplot2::scale_y_discrete("",
                                       # limits = rev(unique(percell_data$row))) + # where not all rows used, only displays fraction of plate
-                                      limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
+                                      # limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
+                                      limits = rev(rows)) +
             viridis::scale_fill_viridis(paste0("raw ", flu_channels[flu_idx], " (rfu)"),
                                         discrete = FALSE, limits = c(0, max_value),
                                         alpha = 0.4,
@@ -186,10 +195,12 @@ calc_fppercell <- function(data_csv,
             ggplot2::geom_tile() +
             ggplot2::scale_x_discrete("", position = "top",
                                       # limits = factor(unique(percell_data$column))) + # where not all rows used, only displays fraction of plate
-                                      limits = factor(seq(1,12))) + # hardcoded for 96-well plates
+                                      # limits = factor(seq(1,12))) + # hardcoded for 96-well plates
+                                      limits = factor(columns)) +
             ggplot2::scale_y_discrete("",
                                       # limits = rev(unique(percell_data$row))) + # where not all rows used, only displays fraction of plate
-                                      limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
+                                      # limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
+                                      limits = rev(rows)) +
             viridis::scale_fill_viridis(paste0("normalised ", flu_channels[flu_idx], " (rfu)"),
                                         discrete = FALSE, limits = c(0, max_value),
                                         alpha = 0.4,
@@ -210,6 +221,10 @@ calc_fppercell <- function(data_csv,
 
         } else if(isTRUE(timecourse)){
 
+          # find all rows and columns of plate type, and add them as factors
+          percell_data$row <- factor(percell_data$row, levels = fpcountr:::find_rows(plate_type = plate_type))
+          percell_data$column <- factor(percell_data$column, levels = fpcountr:::find_columns(plate_type = plate_type))
+
           plt_flu <- ggplot2::ggplot(percell_data) +
             ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data[[flu_channels[flu_idx]]]),
                                colour = "black", size = 0.5) +
@@ -219,7 +234,7 @@ calc_fppercell <- function(data_csv,
             ggplot2::scale_y_continuous(name = paste0(flu_channels[flu_idx], " (rfu)"),
                                         labels = scales::label_scientific(digits = 2)) +
             ggplot2::labs(caption = "black: raw, red: normalised") +
-            ggplot2::facet_grid(row~column) +
+            ggplot2::facet_grid(row~column, drop = FALSE) + # keep wells with missing values
             ggplot2::theme_bw(base_size = 8) +
             ggplot2::theme(
               aspect.ratio = 1,
@@ -241,6 +256,10 @@ calc_fppercell <- function(data_csv,
       # plot
       if(isFALSE(timecourse)){
 
+        # find all rows and columns of plate type
+        rows <- fpcountr:::find_rows(plate_type = plate_type)
+        columns <- fpcountr:::find_columns(plate_type = plate_type)
+
         # heatmap - normalised fluor per OD
         max_value <- max(percell_data[[paste0("normalised", flu_channels[flu_idx], "_perOD")]], na.rm = TRUE)
         plt_flu <- ggplot2::ggplot(data = percell_data,
@@ -249,11 +268,12 @@ calc_fppercell <- function(data_csv,
           ggplot2::geom_tile() +
           ggplot2::scale_x_discrete("", position = "top",
                                     # limits = factor(unique(percell_data$column))) + # where not all rows used, only displays fraction of plate
-                                    limits = factor(seq(1,12))) + # hardcoded for 96-well plates
+                                    # limits = factor(seq(1,12))) + # hardcoded for 96-well plates
+                                    limits = factor(columns)) +
           ggplot2::scale_y_discrete("",
                                     # limits = rev(unique(percell_data$row))) + # where not all rows used, only displays fraction of plate
-                                    limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
-
+                                    # limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
+                                    limits = rev(rows)) +
           viridis::scale_fill_viridis(paste0(flu_channels[flu_idx], "/OD (rfu/od)"), # paste0("normalised ", flu_channels[flu_idx], " per OD (rfu/OD)"),
                                       discrete = FALSE, limits = c(0, max_value),
                                       alpha = 0.4,
@@ -270,6 +290,10 @@ calc_fppercell <- function(data_csv,
 
       } else if(isTRUE(timecourse)){
 
+        # find all rows and columns of plate type, and add them as factors
+        percell_data$row <- factor(percell_data$row, levels = fpcountr:::find_rows(plate_type = plate_type))
+        percell_data$column <- factor(percell_data$column, levels = fpcountr:::find_columns(plate_type = plate_type))
+
         plt_flu <- ggplot2::ggplot(percell_data) +
           ggplot2::geom_line(ggplot2::aes(x = .data$time,
                                           y = .data[[paste0("normalised", flu_channels[flu_idx], "_perOD")]]),
@@ -279,7 +303,7 @@ calc_fppercell <- function(data_csv,
                                       labels = scales::label_scientific(digits = 2)) +
           ggplot2::labs(caption = "") +
           ggplot2::scale_colour_discrete("") +
-          ggplot2::facet_grid(row~column) +
+          ggplot2::facet_grid(row~column, drop = FALSE) + # keep wells with missing values
           ggplot2::theme_bw(base_size = 8) +
           ggplot2::theme(
             aspect.ratio = 1,
@@ -423,6 +447,10 @@ calc_fppercell <- function(data_csv,
 
         if(isFALSE(timecourse)){
 
+          # find all rows and columns of plate type
+          rows <- fpcountr:::find_rows(plate_type = plate_type)
+          columns <- fpcountr:::find_columns(plate_type = plate_type)
+
           # heatmap - calibrated fluor
           max_value <- max(percell_data[[paste0("calibrated_", flu_labels[flu_idx])]], na.rm = TRUE)
           plt_flu_calib <- ggplot2::ggplot(data = percell_data,
@@ -431,10 +459,12 @@ calc_fppercell <- function(data_csv,
             ggplot2::geom_tile() +
             ggplot2::scale_x_discrete("", position = "top",
                                       # limits = factor(unique(percell_data$column))) + # where not all rows used, only displays fraction of plate
-                                      limits = factor(seq(1,12))) + # hardcoded for 96-well plates
+                                      # limits = factor(seq(1,12))) + # hardcoded for 96-well plates
+                                      limits = factor(columns)) +
             ggplot2::scale_y_discrete("",
                                       # limits = rev(unique(percell_data$row))) + # where not all rows used, only displays fraction of plate
-                                      limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
+                                      # limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
+                                      limits = rev(rows)) +
             viridis::scale_fill_viridis(paste0(flu_labels[flu_idx], " (molecules)"), # paste0("calibrated ", flu_channels[flu_idx], " (molecules)"),
                                         discrete = FALSE, limits = c(0, max_value),
                                         alpha = 0.4,
@@ -450,6 +480,11 @@ calc_fppercell <- function(data_csv,
           plt_flu_calib
 
         } else if(isTRUE(timecourse)){
+
+          # find all rows and columns of plate type, and add them as factors
+          percell_data$row <- factor(percell_data$row, levels = fpcountr:::find_rows(plate_type = plate_type))
+          percell_data$column <- factor(percell_data$column, levels = fpcountr:::find_columns(plate_type = plate_type))
+
           plt_flu_calib <- ggplot2::ggplot(percell_data) +
             ggplot2::geom_line(ggplot2::aes(x = .data$time,
                                             y = .data[[paste0("calibrated_", flu_labels[flu_idx])]],
@@ -459,7 +494,7 @@ calc_fppercell <- function(data_csv,
                                         labels = scales::label_scientific()) +
             ggplot2::labs(caption = "") +
             ggplot2::scale_colour_discrete("") +
-            ggplot2::facet_grid(row~column) +
+            ggplot2::facet_grid(row~column, drop = FALSE) + # keep wells with missing values
             ggplot2::theme_bw(base_size = 8) +
             ggplot2::theme(
               aspect.ratio = 1,
@@ -480,6 +515,10 @@ calc_fppercell <- function(data_csv,
       # plot
       if(isFALSE(timecourse)){
 
+        # find all rows and columns of plate type
+        rows <- fpcountr:::find_rows(plate_type = plate_type)
+        columns <- fpcountr:::find_columns(plate_type = plate_type)
+
         # heatmap - calibrated fluor per cell
         max_value <- max(percell_data[[paste0("calibrated", flu_labels[flu_idx], "_perCell")]], na.rm = TRUE)
         plt_flu_calib <- ggplot2::ggplot(data = percell_data,
@@ -488,11 +527,12 @@ calc_fppercell <- function(data_csv,
           ggplot2::geom_tile() +
           ggplot2::scale_x_discrete("", position = "top",
                                     # limits = factor(unique(percell_data$column))) + # where not all rows used, only displays fraction of plate
-                                    limits = factor(seq(1,12))) + # hardcoded for 96-well plates
+                                    # limits = factor(seq(1,12))) + # hardcoded for 96-well plates
+                                    limits = factor(columns)) +
           ggplot2::scale_y_discrete("",
                                     # limits = rev(unique(percell_data$row))) + # where not all rows used, only displays fraction of plate
-                                    limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
-
+                                    # limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
+                                    limits = rev(rows)) +
           viridis::scale_fill_viridis(paste0(flu_labels[flu_idx], "/cell (molecules/cell)"), # paste0("calibrated ", flu_channels[flu_idx], " per cell (molecules/cell)"),
                                       discrete = FALSE, limits = c(0, max_value),
                                       alpha = 0.4,
@@ -509,6 +549,10 @@ calc_fppercell <- function(data_csv,
 
       } else if(isTRUE(timecourse)){
 
+        # find all rows and columns of plate type, and add them as factors
+        percell_data$row <- factor(percell_data$row, levels = fpcountr:::find_rows(plate_type = plate_type))
+        percell_data$column <- factor(percell_data$column, levels = fpcountr:::find_columns(plate_type = plate_type))
+
         plt_flu_calib <- ggplot2::ggplot(percell_data) +
           ggplot2::geom_line(ggplot2::aes(x = .data$time,
                                           y = .data[[paste0("calibrated", flu_labels[flu_idx], "_perCell")]]),
@@ -518,7 +562,7 @@ calc_fppercell <- function(data_csv,
                                       labels = scales::label_scientific()) +
           ggplot2::labs(caption = "") +
           ggplot2::scale_colour_discrete("") +
-          ggplot2::facet_grid(row~column) +
+          ggplot2::facet_grid(row~column, drop = FALSE) + # keep wells with missing values
           ggplot2::theme_bw(base_size = 8) +
           ggplot2::theme(
             aspect.ratio = 1,

@@ -15,6 +15,7 @@ calc_fpconc(
   od_specific_total_volume = NULL,
   odmeasure = NULL,
   odmeasure_conversion = NULL,
+  plate_type = 96,
   outfolder = "."
 )
 }
@@ -51,6 +52,9 @@ column? eg. "OD600" or "OD700". Purpose is to record this in the table.}
 \item{odmeasure_conversion}{numeric. How to convert the measurement specified
 by odmeasure to OD600? ie. OD600 = ODused / x. Use '1' for OD600 (no
 conversion) and 0.79 for OD700.}
+
+\item{plate_type}{type of plate. numeric, ie. \code{96} for 96-well plate. Defines
+the rows and columns used for plotting figures. Defaults to \code{96}.}
 
 \item{outfolder}{path to folder where output files should be saved. Defaults
 to current working directory.}

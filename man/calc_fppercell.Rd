@@ -12,6 +12,7 @@ calc_fppercell(
   remove_wells,
   get_rfu_od = TRUE,
   get_mol_cell = FALSE,
+  plate_type = 96,
   outfolder = "."
 )
 }
@@ -35,6 +36,9 @@ calculate FP per cell as FP/OD in relative fluorescence units/relative OD
 \item{get_mol_cell}{logical. if TRUE, uses calibrated_FP and calibrated_OD to
 calculate FP per cell as FP/OD in relative fluorescence units/relative OD
 (molecules/cell).}
+
+\item{plate_type}{type of plate. numeric, ie. \code{96} for 96-well plate. Defines
+the rows and columns used for plotting figures. Defaults to \code{96}.}
 
 \item{outfolder}{path to folder where output files should be saved. Defaults
 to current working directory.}
