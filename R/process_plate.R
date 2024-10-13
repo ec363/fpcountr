@@ -198,7 +198,8 @@ process_plate <- function(
           panel.grid = ggplot2::element_blank()
         )
       plt_od
-      plotname <- gsub(".csv", "_OD1.pdf", basename(data_csv))
+      # plotname <- gsub(".csv", "_OD1.pdf", basename(data_csv))
+      plotname <- gsub(".csv", "_OD_1a_raw.pdf", basename(data_csv)) # plot numbering: no-timecourse plot1a
       ggplot2::ggsave(file.path(outfolder, plotname),
                       plot = plt_od,
                       height = 16, width = 24, units = "cm")
@@ -224,7 +225,8 @@ process_plate <- function(
         )
       plt_od
 
-      plotname <- gsub(".csv", "_OD2.pdf", basename(data_csv))
+      # plotname <- gsub(".csv", "_OD2.pdf", basename(data_csv))
+      plotname <- gsub(".csv", "_OD_1b_normalised.pdf", basename(data_csv)) # plot numbering: no-timecourse plot1b
       ggplot2::ggsave(file.path(outfolder, plotname),
                       plot = plt_od,
                       height = 16, width = 24, units = "cm")
@@ -249,7 +251,8 @@ process_plate <- function(
           panel.grid.minor = ggplot2::element_blank()
         )
       plt_od
-      plotname <- gsub(".csv", "_OD.pdf", basename(data_csv))
+      # plotname <- gsub(".csv", "_OD.pdf", basename(data_csv))
+      plotname <- gsub(".csv", "_OD_1_raw_normalised.pdf", basename(data_csv)) # plot numbering: timecourse plot1
       ggplot2::ggsave(file.path(outfolder, plotname),
                       plot = plt_od,
                       height = 16, width = 24, units = "cm")
@@ -309,7 +312,8 @@ process_plate <- function(
         plt_od
 
       }
-      plotname <- gsub(".csv", "_normODcm1.pdf", basename(data_csv))
+      # plotname <- gsub(".csv", "_normODcm1.pdf", basename(data_csv))
+      plotname <- gsub(".csv", "_OD_2_pathlength-normalised.pdf", basename(data_csv)) # plot numbering: both plot2
       ggplot2::ggsave(file.path(outfolder, plotname),
                       plot = plt_od,
                       height = 16, width = 24, units = "cm")
@@ -362,7 +366,8 @@ process_plate <- function(
           panel.grid = ggplot2::element_blank()
         )
       plt_flu
-      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "1.pdf", sep = ""), basename(data_csv))
+      # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "1.pdf", sep = ""), basename(data_csv))
+      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_1a_raw.pdf", sep = ""), basename(data_csv)) # plot numbering: no-timecourse plot3a
       ggplot2::ggsave(file.path(outfolder, plotname),
                       plot = plt_flu,
                       height = 16, width = 24, units = "cm")
@@ -391,7 +396,8 @@ process_plate <- function(
           panel.grid = ggplot2::element_blank()
         )
       plt_flu
-      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "2.pdf", sep = ""), basename(data_csv))
+      # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "2.pdf", sep = ""), basename(data_csv))
+      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_1b_normalised.pdf", sep = ""), basename(data_csv)) # plot numbering: no-timecourse plot3b
       ggplot2::ggsave(file.path(outfolder, plotname),
                       plot = plt_flu,
                       height = 16, width = 24, units = "cm")
@@ -417,7 +423,8 @@ process_plate <- function(
           panel.grid.minor = ggplot2::element_blank()
         )
       plt_flu
-      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], ".pdf", sep = ""), basename(data_csv))
+      # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], ".pdf", sep = ""), basename(data_csv))
+      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_1_raw_normalised.pdf", sep = ""), basename(data_csv)) # plot numbering: timecourse plot3
       ggplot2::ggsave(file.path(outfolder, plotname),
                       plot = plt_flu,
                       height = 16, width = 24, units = "cm")
@@ -444,33 +451,34 @@ process_plate <- function(
       # plot calibrated fluorescence data
       if(isFALSE(timecourse)){
 
-        # heatmap1 - calibrated fluorescence - normalised
-        max_value <- max(out_data[[paste0("normalised_", flu_channels[flu_idx])]], na.rm = TRUE)
-        plt_flu <- ggplot2::ggplot(data = out_data,
-                                   ggplot2::aes(x = column, y = row, fill = .data[[paste("normalised_", flu_channels[flu_idx], sep = "")]])) +
+        # # heatmap1 - normalised fluorescence --- redundant so removing plot
+        # max_value <- max(out_data[[paste0("normalised_", flu_channels[flu_idx])]], na.rm = TRUE)
+        # plt_flu <- ggplot2::ggplot(data = out_data,
+        #                            ggplot2::aes(x = column, y = row, fill = .data[[paste("normalised_", flu_channels[flu_idx], sep = "")]])) +
+        #
+        #   ggplot2::geom_tile() +
+        #   ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(out_data$column))) +
+        #   ggplot2::scale_y_discrete("", limits = rev(unique(out_data$row))) +
+        #   viridis::scale_fill_viridis(paste0("normalised ", flu_labels[flu_idx], " (molecules)"),
+        #                               discrete = FALSE, limits = c(0, max_value),
+        #                               alpha = 0.4,
+        #                               na.value = "white") +
+        #
+        #   ggplot2::geom_text(ggplot2::aes(label = round(.data[[paste("normalised_", flu_channels[flu_idx], sep = "")]], 2)), na.rm = TRUE, size = 2.5) +
+        #
+        #   ggplot2::theme_bw() + # base_size = 8
+        #   ggplot2::theme(
+        #     aspect.ratio = 8/12,
+        #     panel.grid = ggplot2::element_blank()
+        #   )
+        # plt_flu
+        # # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_normalised.pdf", sep = ""), basename(data_csv))
+        # # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_normalised.pdf", sep = ""), basename(data_csv)) # plot numbering: no-timecourse plot4a
+        # ggplot2::ggsave(file.path(outfolder, plotname),
+        #                 plot = plt_flu,
+        #                 height = 16, width = 24, units = "cm")
 
-          ggplot2::geom_tile() +
-          ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(out_data$column))) +
-          ggplot2::scale_y_discrete("", limits = rev(unique(out_data$row))) +
-          viridis::scale_fill_viridis(paste0("normalised ", flu_labels[flu_idx], " (molecules)"),
-                                      discrete = FALSE, limits = c(0, max_value),
-                                      alpha = 0.4,
-                                      na.value = "white") +
-
-          ggplot2::geom_text(ggplot2::aes(label = round(.data[[paste("normalised_", flu_channels[flu_idx], sep = "")]], 2)), na.rm = TRUE, size = 2.5) +
-
-          ggplot2::theme_bw() + # base_size = 8
-          ggplot2::theme(
-            aspect.ratio = 8/12,
-            panel.grid = ggplot2::element_blank()
-          )
-        plt_flu
-        plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_normalised.pdf", sep = ""), basename(data_csv))
-        ggplot2::ggsave(file.path(outfolder, plotname),
-                        plot = plt_flu,
-                        height = 16, width = 24, units = "cm")
-
-        # heatmap2 - corrected normalised
+        # heatmap2 - corrected
         max_value <- max(out_data[[paste0("corrected_normalised_", flu_channels[flu_idx])]], na.rm = TRUE)
         plt_flu <- ggplot2::ggplot(data = out_data,
                                    ggplot2::aes(x = column, y = row, fill = .data[[paste("corrected_normalised_", flu_channels[flu_idx], sep = "")]])) +
@@ -492,14 +500,14 @@ process_plate <- function(
             panel.grid = ggplot2::element_blank()
           )
         plt_flu
-        plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_corrected.pdf", sep = ""), basename(data_csv))
-        ggplot2::ggsave(file.path(outfolder, plotname),
-                        plot = plt_flu,
-                        height = 16, width = 24, units = "cm")
+        # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_corrected.pdf", sep = ""), basename(data_csv)) # plot numbering: no-timecourse plot4b # saved below
+        # ggplot2::ggsave(file.path(outfolder, plotname),
+        #                 plot = plt_flu,
+        #                 height = 16, width = 24, units = "cm")
 
       } else if(isTRUE(timecourse)){
 
-        plt_flu_calib <- ggplot2::ggplot(out_data) +
+        plt_flu <- ggplot2::ggplot(out_data) +
           ggplot2::geom_line(ggplot2::aes(x = .data$time,
                                           y = .data[[paste("normalised_", flu_channels[flu_idx], sep = "")]],
                                           colour = "normalised"),
@@ -520,13 +528,19 @@ process_plate <- function(
             axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5),
             panel.grid.minor = ggplot2::element_blank()
           )
-        plt_flu_calib
-        plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_corrected.pdf", sep = ""), basename(data_csv))
-        ggplot2::ggsave(file.path(outfolder, plotname),
-                        plot = plt_flu_calib,
-                        height = 16, width = 24, units = "cm")
+        plt_flu
+        # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_corrected.pdf", sep = ""), basename(data_csv)) # plot numbering: timecourse plot4 # saved below
+        # ggplot2::ggsave(file.path(outfolder, plotname),
+        #                 plot = plt_flu,
+        #                 height = 16, width = 24, units = "cm")
 
       }
+
+      # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_corrected.pdf", sep = ""), basename(data_csv))
+      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_2_quench-corrected.pdf", sep = ""), basename(data_csv)) # both plot4
+      ggplot2::ggsave(file.path(outfolder, plotname),
+                      plot = plt_flu,
+                      height = 16, width = 24, units = "cm")
 
     } # for each fluorescence channel
 
@@ -601,7 +615,8 @@ process_plate <- function(
         plt_od_calib
 
       }
-      plotname <- gsub(".csv", "_ODcalib.pdf", basename(data_csv))
+      # plotname <- gsub(".csv", "_ODcalib.pdf", basename(data_csv))
+      plotname <- gsub(".csv", "_OD_3_calibrated.pdf", basename(data_csv)) # plot numbering: both plot5
       ggplot2::ggsave(file.path(outfolder, plotname),
                       plot = plt_od_calib,
                       height = 16, width = 24, units = "cm")
@@ -675,7 +690,8 @@ process_plate <- function(
         plt_flu_calib
 
       }
-      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "calib.pdf", sep = ""), basename(data_csv))
+      # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "calib.pdf", sep = ""), basename(data_csv))
+      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_3_calibrated.pdf", sep = ""), basename(data_csv)) # plot numbering: both plot6
       ggplot2::ggsave(file.path(outfolder, plotname),
                       plot = plt_flu_calib,
                       height = 16, width = 24, units = "cm")
