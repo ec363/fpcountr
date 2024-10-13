@@ -1,7 +1,7 @@
 #' Get properties of an FP from FPbase
 #'
 #' Gets properties of an FP from FPbase, including the maximal excitation
-#' wavelength and extinction coefficient, and saves these as csv.
+#' wavelength and extinction coefficient, and optionally, saves these as csv.
 #'
 #' @param slug Name of FP, which is used to find the FP-relevant data lines in
 #'   the FPbase datasets. This argument is called `slug` because for FPbase
@@ -11,6 +11,8 @@
 #'   `/`).
 #' @param verbose logical. Should the function print messages to allow the user
 #'   to check its progress? Defaults to TRUE.
+#' @param save_file logical. Should the function save the output as a csv file?
+#'   Defaults to FALSE.
 #' @param outfolder path to folder where output files should be saved. Defaults
 #'   to current working directory.
 #' @param filename How to name the output csv file. Requires ".csv" at the end.
@@ -22,7 +24,7 @@
 #' @importFrom rlang .data :=
 #'
 #' @examples get_properties("mcherry")
-get_properties <- function(slug, verbose = TRUE, outfolder = ".", filename = "fp_properties.csv"){
+get_properties <- function(slug, verbose = TRUE, save_file = FALSE, outfolder = ".", filename = "fp_properties.csv"){
 
   # Location for saved outputs ---------------------------------------------------------------------------------------------------
 
@@ -122,7 +124,9 @@ get_properties <- function(slug, verbose = TRUE, outfolder = ".", filename = "fp
 
   # Save and return ------------------------------
 
-  write.csv(fp_properties, file.path(outfolder, filename), row.names = FALSE)
+  if(isTRUE(save_file)){
+    write.csv(fp_properties, file.path(outfolder, filename), row.names = FALSE)
+  }
 
   return(fp_properties)
 }
