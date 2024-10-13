@@ -1,5 +1,10 @@
 ## FPCountR: Fluorescent protein calibration for plate readers <img src="man/figures/logo.png" align="right" width=140 height=140 alt="" />
 
+[![DOI](http://img.shields.io/badge/Nature_Communications-10.1038/s41467--022--34232--6-f6f8fa.svg)](https://www.nature.com/articles/s41467-022-34232-6)
+[![DOI](http://img.shields.io/badge/Zenodo-10.5281/zenodo.5760028-f6f8fa.svg)](https://doi.org/10.5281/zenodo.5760028)
+[![protocols.io](http://img.shields.io/badge/protocols.io-Calibration_Protocol-f6f8fa.svg)](https://www.protocols.io/view/fpcount-protocol-in-lysate-purification-free-proto-dm6gpw43plzp/v2)
+[![Vignette](http://img.shields.io/badge/fpcountr_package-Getting_Started_Vignette-f6f8fa.svg)](https://ec363.github.io/fpcountr/articles/fpcountr.html)
+<!--- colours: nat comms: ffffff, zenodo: 0d82c3, protocols.io ffffff, github: f6f8fa -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 FPCountR enables the calibration of microplate readers using fluorescent protein calibrants for synthetic and molecular biology applications.
