@@ -234,9 +234,9 @@ process_plate <- function(
       # plot with caption
       plt_od <- ggplot2::ggplot(od_norm_pr_data) +
         ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data[[od_name]]),
-                           colour = "black", size = 0.5) +
+                           colour = "black", linewidth = 0.5) +
         ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$normalised_OD),
-                           colour = "red", size = 0.5) +
+                           colour = "red", linewidth = 0.5) +
         ggplot2::scale_x_continuous("time") +
         ggplot2::labs(caption = "black: raw, red: normalised") +
         ggplot2::scale_colour_discrete("") +
@@ -293,7 +293,7 @@ process_plate <- function(
 
         plt_od <- ggplot2::ggplot(od_norm_pr_data) +
           ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$normalised_OD_cm1,
-                                          colour = "normalised_cm1"), size = 0.5) +
+                                          colour = "normalised_cm1"), linewidth = 0.5) +
           ggplot2::scale_x_continuous("time") +
           ggplot2::scale_y_continuous(name = paste0("normalised ", od_name, " (cm-1)")) + # "normalised OD (cm-1)"
           ggplot2::labs(caption = "") +
@@ -400,10 +400,10 @@ process_plate <- function(
 
       plt_flu <- ggplot2::ggplot(flu_norm_pr_data) +
         ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data[[flu_channels[flu_idx]]]),
-                           colour = "black", size = 0.5) +
+                           colour = "black", linewidth = 0.5) +
         ggplot2::geom_line(ggplot2::aes(x = .data$time,
                                         y = .data[[paste("normalised_", flu_channels[flu_idx], sep = "")]]),
-                           colour = "red", size = 0.5) +
+                           colour = "red", linewidth = 0.5) +
         ggplot2::scale_x_continuous("time") +
         ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " (rfu)")) + # FP name
         ggplot2::labs(caption = "black: raw, red: normalised") +
@@ -503,11 +503,11 @@ process_plate <- function(
           ggplot2::geom_line(ggplot2::aes(x = .data$time,
                                           y = .data[[paste("normalised_", flu_channels[flu_idx], sep = "")]],
                                           colour = "normalised"),
-                             colour = "black", size = 0.5) +
+                             colour = "black", linewidth = 0.5) +
           ggplot2::geom_line(ggplot2::aes(x = .data$time,
                                           y = .data[[paste("corrected_normalised_", flu_channels[flu_idx], sep = "")]],
                                           colour = "corrected"),
-                             colour = "red", size = 0.5) +
+                             colour = "red", linewidth = 0.5) +
           ggplot2::scale_x_continuous("time") +
           ggplot2::scale_y_continuous(name = paste0("corrected ", flu_labels[flu_idx], " (molecules)")) + # FP name
           ggplot2::labs(caption = "black: normalised, red: corrected") +
@@ -585,7 +585,7 @@ process_plate <- function(
 
         plt_od_calib <- ggplot2::ggplot(out_data) +
           ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data$calibrated_OD,
-                                          colour = "calibrated"), size = 0.5) +
+                                          colour = "calibrated"), linewidth = 0.5) +
           ggplot2::scale_x_continuous("time") +
           ggplot2::scale_y_continuous(name = paste0("calibrated ", od_name, " (particles)")) + # OD700 (particles)
           ggplot2::labs(caption = "") +
@@ -659,7 +659,7 @@ process_plate <- function(
           ggplot2::geom_line(ggplot2::aes(x = .data$time,
                                           y = .data[[paste("calibrated_", flu_labels[flu_idx], sep = "")]],
                                           colour = "calibrated"),
-                             size = 0.5) +
+                             linewidth = 0.5) +
           ggplot2::scale_x_continuous("time") +
           ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " (molecules)")) + # FP name
           ggplot2::labs(caption = "") +

@@ -130,10 +130,10 @@ calc_fppercell <- function(data_csv,
         # plt_flu_calib <- ggplot2::ggplot(percell_data) +
         #   ggplot2::geom_line(ggplot2::aes(x = .data$time,
         #                                   y = .data[[flu_channels[flu_idx]]],
-        #                                   colour = "raw"), size = 0.5) +
+        #                                   colour = "raw"), linewidth = 0.5) +
         #   ggplot2::geom_line(ggplot2::aes(x = .data$time,
         #                                   y = .data[[paste0("normalised_", flu_channels[flu_idx])]],
-        #                                   colour = "normalised"), size = 0.5) +
+        #                                   colour = "normalised"), linewidth = 0.5) +
         #   ggplot2::scale_x_continuous("time") +
         #   ggplot2::scale_y_continuous(name = paste0(flu_channels[flu_idx], " (rfu)"),
         #                               labels = scales::label_scientific()) +
@@ -227,9 +227,9 @@ calc_fppercell <- function(data_csv,
 
           plt_flu <- ggplot2::ggplot(percell_data) +
             ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data[[flu_channels[flu_idx]]]),
-                               colour = "black", size = 0.5) +
+                               colour = "black", linewidth = 0.5) +
             ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data[[paste0("normalised_", flu_channels[flu_idx])]]),
-                               colour = "red", size = 0.5) +
+                               colour = "red", linewidth = 0.5) +
             ggplot2::scale_x_continuous("time") +
             ggplot2::scale_y_continuous(name = paste0(flu_channels[flu_idx], " (rfu)"),
                                         labels = scales::label_scientific(digits = 2)) +
@@ -297,7 +297,7 @@ calc_fppercell <- function(data_csv,
         plt_flu <- ggplot2::ggplot(percell_data) +
           ggplot2::geom_line(ggplot2::aes(x = .data$time,
                                           y = .data[[paste0("normalised", flu_channels[flu_idx], "_perOD")]]),
-                             size = 0.5) +
+                             linewidth = 0.5) +
           ggplot2::scale_x_continuous("time") +
           ggplot2::scale_y_continuous(name = paste0(flu_channels[flu_idx], "/OD (rfu/od)"),
                                       labels = scales::label_scientific(digits = 2)) +
@@ -370,7 +370,7 @@ calc_fppercell <- function(data_csv,
   #     plt_flu <- ggplot2::ggplot(percell_data) +
   #       ggplot2::geom_line(ggplot2::aes(x = .data$time,
   #                                       y = .data[[paste0("normalised", flu_channels[flu_idx], "_perCell")]]),
-  #                          size = 0.5) +
+  #                          linewidth = 0.5) +
   #       ggplot2::scale_x_continuous("time") +
   #       ggplot2::scale_y_continuous(name = paste0(flu_channels[flu_idx], "/cell (rfu/pems)"),
   #                                   labels = scales::label_scientific()) +
@@ -488,7 +488,7 @@ calc_fppercell <- function(data_csv,
           plt_flu_calib <- ggplot2::ggplot(percell_data) +
             ggplot2::geom_line(ggplot2::aes(x = .data$time,
                                             y = .data[[paste0("calibrated_", flu_labels[flu_idx])]],
-                                            colour = "calibrated"), size = 0.5) +
+                                            colour = "calibrated"), linewidth = 0.5) +
             ggplot2::scale_x_continuous("time") +
             ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " (molecules)"),
                                         labels = scales::label_scientific()) +
@@ -556,7 +556,7 @@ calc_fppercell <- function(data_csv,
         plt_flu_calib <- ggplot2::ggplot(percell_data) +
           ggplot2::geom_line(ggplot2::aes(x = .data$time,
                                           y = .data[[paste0("calibrated", flu_labels[flu_idx], "_perCell")]]),
-                             size = 0.5) +
+                             linewidth = 0.5) +
           ggplot2::scale_x_continuous("time") +
           ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], "/cell (molecules/cell)"),
                                       labels = scales::label_scientific()) +

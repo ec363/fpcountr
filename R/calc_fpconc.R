@@ -214,7 +214,7 @@ calc_fpconc <- function(data_csv,
         plt_flu <- ggplot2::ggplot(percell_data) +
           ggplot2::geom_line(ggplot2::aes(x = .data$time,
                                           y = .data[[paste0("normalised_", flu_labels[flu_idx], "_percellvolume")]],
-                                          colour = "normalised"), size = 0.5) +
+                                          colour = "normalised"), linewidth = 0.5) +
           ggplot2::scale_x_continuous("time") +
           ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " concentration (rfu/cellvolume)")) +
           ggplot2::labs(caption = "") +
@@ -346,7 +346,7 @@ calc_fpconc <- function(data_csv,
         plt_flu_calib <- ggplot2::ggplot(percell_data) +
           ggplot2::geom_line(ggplot2::aes(x = .data$time,
                                           y = .data[[paste0("calibrated_", flu_labels[flu_idx], "_Molar")]]*1e6,
-                                          colour = "calibrated"), size = 0.5) +
+                                          colour = "calibrated"), linewidth = 0.5) +
           ggplot2::scale_x_continuous("time") +
           ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " concentration (µM)")) +
           ggplot2::labs(caption = "") +
