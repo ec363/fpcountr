@@ -458,7 +458,7 @@ process_plate <- function(
           ggplot2::geom_tile() +
           ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(out_data$column))) +
           ggplot2::scale_y_discrete("", limits = rev(unique(out_data$row))) +
-          viridis::scale_fill_viridis(paste0("corrected ", flu_labels[flu_idx], " (molecules)"),
+          viridis::scale_fill_viridis(paste0("corrected ", flu_labels[flu_idx], " (rfu)"),
                                       discrete = FALSE, limits = c(0, max_value),
                                       alpha = 0.4,
                                       na.value = "white") +
@@ -485,7 +485,7 @@ process_plate <- function(
                                           colour = "corrected"),
                              colour = "red", linewidth = 0.5) +
           ggplot2::scale_x_continuous("time") +
-          ggplot2::scale_y_continuous(name = paste0("corrected ", flu_labels[flu_idx], " (molecules)")) + # FP name
+          ggplot2::scale_y_continuous(name = paste0("corrected ", flu_labels[flu_idx], " (rfu)")) + # FP name
           ggplot2::labs(caption = "black: normalised, red: corrected") +
           ggplot2::scale_colour_discrete("") +
           ggplot2::facet_grid(row~column) +
