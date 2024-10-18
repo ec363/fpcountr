@@ -214,6 +214,7 @@ process_plate <- function(
         ggplot2::scale_y_discrete("", limits = rev(unique(od_norm_pr_data$row))) +
         viridis::scale_fill_viridis("normalised OD",
                                     discrete = FALSE, limits = c(0, max_value),
+                                    alpha = 0.4,
                                     na.value = "white") +
 
         ggplot2::geom_text(ggplot2::aes(label = round(.data$normalised_OD, 2)), na.rm = TRUE, size = 2.5) +
