@@ -97,7 +97,7 @@ find_columns <- function(plate_type = 96){
 
 }
 
-#' List of all wells in a specific row of a 96-well plate
+#' List of all wells in a specific row of a given plate type
 #'
 #' @param rows character string, or list of character strings, representing row(s) such as "A" or "H"
 #' @param plate_type type of plate. numeric, ie. `96` for 96-well plate.
@@ -125,7 +125,7 @@ find_wells_in_row <- function(rows,
   return(row_wells)
 }
 
-#' List of all wells in a specific column of a 96-well plate
+#' List of all wells in a specific column of a given plate type
 #'
 #' @param columns number or list of numbers, representing column(s) such as `1` or `12`. character strings also accepted.
 #' @param plate_type type of plate. numeric, ie. `96` for 96-well plate.
@@ -162,7 +162,7 @@ find_wells_in_column <- function(columns,
   return(column_wells)
 }
 
-#' List of all wells in specific rows and columns of a 96-well plate
+#' List of all wells in specific rows and columns of a given plate type
 #'
 #' @param rows character string, or list of character strings, representing row(s) such as "A" or "H"
 #' @param columns number or list of numbers, representing column(s) such as `1` or `12`. character strings also accepted.

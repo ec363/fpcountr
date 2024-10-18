@@ -2,7 +2,7 @@
 % Please edit documentation in R/plate_format_functions.R
 \name{find_wells_in_column}
 \alias{find_wells_in_column}
-\title{List of all wells in a specific column of a 96-well plate}
+\title{List of all wells in a specific column of a given plate type}
 \usage{
 find_wells_in_column(columns, plate_type = 96)
 }
@@ -15,7 +15,7 @@ find_wells_in_column(columns, plate_type = 96)
 a list containing the names of all the wells in the specified column(s) of a specified plate
 }
 \description{
-List of all wells in a specific column of a 96-well plate
+List of all wells in a specific column of a given plate type
 }
 \examples{
  find_wells_in_column("1")
