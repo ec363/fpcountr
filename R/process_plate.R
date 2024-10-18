@@ -328,7 +328,13 @@ process_plate <- function(
   ## for each fluorescence channel...
   for (flu_idx in seq_len(length(flu_channels))) {
 
-    ## for each fluorescent protein, run fluorescent normalisation function
+    ## for each fluorescent protein, run fluorescent normalisation function..
+
+    # Force od_name = NULL data to be af_model = NULL (if by accident it isn't)
+    if(is.null(od_name) & !is.null(af_model)){
+      message("Autofluorescence model function cannot be run without OD data. Setting af_model to NULL and normalising fluorescence to blank_wells...")
+      af_model <- NULL
+    }
     # Force timecourse = FALSE data to be af_model = NULL (if by accident it isn't)
     if(isFALSE(timecourse) & !is.null(af_model)){
       message("Autofluorescence model function cannot be run without timecourse data. Setting af_model to NULL and normalising fluorescence to blank_wells...")
@@ -435,6 +441,12 @@ process_plate <- function(
   out_data <- flu_norm_pr_data # copy normalised data to out_data df that will be returned if do_calibrate = FALSE
 
   # Correct for cell quenching ----------------------------------------------------------------------
+
+  # Force od_name = NULL data to be do_quench_correction = FALSE (if by accident it isn't)
+  if(is.null(od_name) & isTRUE(do_quench_correction)){
+    message("Quench correction cannot be run without OD data. Setting do_quench_correction to FALSE and skipping this step...")
+    do_quench_correction <- FALSE
+  }
 
   if (do_quench_correction) {
 
