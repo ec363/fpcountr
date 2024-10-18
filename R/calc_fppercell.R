@@ -174,7 +174,8 @@ calc_fppercell <- function(data_csv,
                                         alpha = 0.4,
                                         na.value = "white") +
 
-            ggplot2::geom_text(ggplot2::aes(label = scales::scientific(.data[[flu_channels[flu_idx]]])), na.rm = TRUE, size = 2.5) + # scientific, to 3sf
+            # ggplot2::geom_text(ggplot2::aes(label = scales::scientific(.data[[flu_channels[flu_idx]]])), na.rm = TRUE, size = 2.5) + # scientific, to 3sf
+            ggplot2::geom_text(ggplot2::aes(label = round(.data[[flu_channels[flu_idx]]], 2)), na.rm = TRUE, size = 2.5) + # round to 2dp
 
             ggplot2::theme_bw() + # base_size = 8
             ggplot2::theme(
@@ -206,7 +207,8 @@ calc_fppercell <- function(data_csv,
                                         alpha = 0.4,
                                         na.value = "white") +
 
-            ggplot2::geom_text(ggplot2::aes(label = scales::scientific(.data[[paste0("normalised_", flu_channels[flu_idx])]], 2)), na.rm = TRUE, size = 2.5) +
+            # ggplot2::geom_text(ggplot2::aes(label = scales::scientific(.data[[paste0("normalised_", flu_channels[flu_idx])]], 2)), na.rm = TRUE, size = 2.5) +
+            ggplot2::geom_text(ggplot2::aes(label = round(.data[[paste0("normalised_", flu_channels[flu_idx])]], 2)), na.rm = TRUE, size = 2.5) +
 
             ggplot2::theme_bw() + # base_size = 8
             ggplot2::theme(
@@ -231,8 +233,8 @@ calc_fppercell <- function(data_csv,
             ggplot2::geom_line(ggplot2::aes(x = .data$time, y = .data[[paste0("normalised_", flu_channels[flu_idx])]]),
                                colour = "red", linewidth = 0.5) +
             ggplot2::scale_x_continuous("time") +
-            ggplot2::scale_y_continuous(name = paste0(flu_channels[flu_idx], " (rfu)"),
-                                        labels = scales::label_scientific(digits = 2)) +
+            ggplot2::scale_y_continuous(name = paste0(flu_channels[flu_idx], " (rfu)"), # labels = scales::label_scientific(digits = 2)
+                                        ) +
             ggplot2::labs(caption = "black: raw, red: normalised") +
             ggplot2::facet_grid(row~column, drop = FALSE) + # keep wells with missing values
             ggplot2::theme_bw(base_size = 8) +
@@ -279,7 +281,8 @@ calc_fppercell <- function(data_csv,
                                       alpha = 0.4,
                                       na.value = "white") +
 
-          ggplot2::geom_text(ggplot2::aes(label = scales::scientific(.data[[paste0("normalised", flu_channels[flu_idx], "_perOD")]], 2)), na.rm = TRUE, size = 2.5) +
+          # ggplot2::geom_text(ggplot2::aes(label = scales::scientific(.data[[paste0("normalised", flu_channels[flu_idx], "_perOD")]], 2)), na.rm = TRUE, size = 2.5) +
+          ggplot2::geom_text(ggplot2::aes(label = round(.data[[paste0("normalised", flu_channels[flu_idx], "_perOD")]], 2)), na.rm = TRUE, size = 2.5) +
 
           ggplot2::theme_bw() + # base_size = 8
           ggplot2::theme(
@@ -299,8 +302,8 @@ calc_fppercell <- function(data_csv,
                                           y = .data[[paste0("normalised", flu_channels[flu_idx], "_perOD")]]),
                              linewidth = 0.5) +
           ggplot2::scale_x_continuous("time") +
-          ggplot2::scale_y_continuous(name = paste0(flu_channels[flu_idx], "/OD (rfu/od)"),
-                                      labels = scales::label_scientific(digits = 2)) +
+          ggplot2::scale_y_continuous(name = paste0(flu_channels[flu_idx], "/OD (rfu/od)"), # labels = scales::label_scientific(digits = 2)
+                                      ) +
           ggplot2::labs(caption = "") +
           ggplot2::scale_colour_discrete("") +
           ggplot2::facet_grid(row~column, drop = FALSE) + # keep wells with missing values
