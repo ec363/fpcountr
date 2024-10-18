@@ -179,6 +179,22 @@ get_conc_ECmax <- function(protein_slug, protein_seq,
   # fp_properties$ex_max # is excitation max
   # fp_properties$ext_coeff # is EC
 
+  # If fp properties are missing, stop here
+  if(nrow(fp_properties) == 0){
+    message("Error: The FP properties table for ", protein_slug, " is empty.")
+    print(fp_properties)
+    message("Stopping..")
+    return()
+  }
+  # If key fp properties are missing, throw an error here (stop later)
+  if(is.na(fp_properties$ex_max) | is.na(fp_properties$ext_coeff)){
+    message("Error: The FP properties table for ", protein_slug, " does not have all the properties required for calculating protein concentration via the ECmax method.\nBoth excitation maximum (ex_max) and extinction coefficient (ext_coeff) are required.")
+    print(fp_properties)
+    # if fp_properties$ext_coeff = NA: section 4 will lead to EC_max_mgml = NA, and section 5 will fail.
+    # if fp_properties$ex_max = NA: section 3 plots ok with as.numeric(), then will fail at section 5.
+    # stop both after section 3.
+  }
+
   plot1 <- ggplot2::ggplot(data.to.plot) +
     ggplot2::geom_hline(yintercept = 0, colour = "grey") + # bottom
     ggplot2::geom_point(ggplot2::aes(x = measure, y = normalised_cm1_value),
@@ -187,7 +203,7 @@ get_conc_ECmax <- function(protein_slug, protein_seq,
                          colour = "black",
                          span = 0.5/5.5 ### could leave as default, us 0.5, or add as argument in function # 0.5 used for 250-350
     ) +
-    ggplot2::geom_vline(xintercept = fp_properties$ex_max, colour = "red") +
+    ggplot2::geom_vline(xintercept = as.numeric(fp_properties$ex_max), colour = "red") + # as.numeric to handle missing (NA) values without error
 
     ggplot2::scale_x_continuous("wavelength (nm)", limits = c(250,800)) +
     ggplot2::scale_y_continuous("absorbance (cm-1)") +
@@ -251,7 +267,7 @@ get_conc_ECmax <- function(protein_slug, protein_seq,
     ggplot2::geom_point(ggplot2::aes(x = measure, y = normalised_cm1_value), colour = "lightblue") +
     # geom_line of extracted loess fitted values
     ggplot2::geom_line(ggplot2::aes(x = measure, y = fitted_cm1_value)) +
-    ggplot2::geom_vline(xintercept = fp_properties$ex_max, colour = "red") +
+    ggplot2::geom_vline(xintercept = as.numeric(fp_properties$ex_max), colour = "red") + # as.numeric to handle missing (NA) values without error
     ggplot2::scale_x_continuous("wavelength (nm)", limits = c(250,800)) +
     ggplot2::scale_y_continuous("absorbance (cm-1)") +
     ggplot2::facet_wrap(dilution ~ ., scales = "free") +
@@ -270,6 +286,12 @@ get_conc_ECmax <- function(protein_slug, protein_seq,
                   width = 18, height = 18, units = "cm")
 
   ##
+
+  # If key properties are missing, stop here
+  if(is.na(fp_properties$ex_max) | is.na(fp_properties$ext_coeff)){
+    message("Stopping..")
+    return()
+  }
 
   # 4. Get extinction coefficient ------------------------------------------------------------
 
