@@ -77,7 +77,7 @@
 #' @importFrom rlang .data
 #'
 #' @examples
-#' processed_data <- process_plate(data_csv = "mcherry_parsed.csv"), blank_well = c("A11"), od_name = "OD600", flu_channels = c("red1"), flu_channels_rename = c("red1red1"), af_model = NULL, do_quench_correction = TRUE, od_type = "OD700", do_calibrate = TRUE, instr = "spark1", flu_slugs = c("mcherry"), flu_gains = c(80), flu_labels = c("mcherry"), od_coeffs_csv = "od_coeffs.csv", fluor_coeffs_csv = "flu_coeffs.csv", outfolder = file.path("data_processed"))
+#' processed_data <- process_plate(data_csv = "mcherry_parsed.csv", blank_well = c("A11"), od_name = "OD600", flu_channels = c("red1"), flu_channels_rename = c("red1red1"), af_model = NULL, do_quench_correction = TRUE, od_type = "OD700", do_calibrate = TRUE, instr = "spark1", flu_slugs = c("mcherry"), flu_gains = c(80), flu_labels = c("mcherry"), od_coeffs_csv = "od_coeffs.csv", fluor_coeffs_csv = "flu_coeffs.csv", outfolder = file.path("data_processed"))
 process_plate <- function(
     data_csv, blank_well = "A1",
 

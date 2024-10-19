@@ -31,7 +31,7 @@
 #' @importFrom dplyr %>%
 #'
 #' @examples
-#' pc_data_mCherry <- calc_fppercell(data_csv = "mcherry_parsed_processed.csv")), flu_channels = c("red1red1"), flu_labels = c("mCherry"), remove_wells = c("A11"), get_rfu_od = TRUE, get_mol_cell = TRUE, outfolder = file.path("plots"))
+#' pc_data_mCherry <- calc_fppercell(data_csv = "mcherry_parsed_processed.csv", flu_channels = c("red1red1"), flu_labels = c("mCherry"), remove_wells = c("A11"), get_rfu_od = TRUE, get_mol_cell = TRUE, outfolder = file.path("plots"))
 calc_fppercell <- function(data_csv,
                            timecourse = TRUE,
                            flu_channels, # colnames of normalised values (rfu), eg c("red1red1", "red1red2")
