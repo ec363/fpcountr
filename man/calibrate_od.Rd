@@ -29,3 +29,4 @@ conversion factor from table that may include multiple instruments, and
 includes error checks that report to the user if conversion factors are
 missing.
 }
+\keyword{internal}

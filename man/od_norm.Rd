@@ -23,3 +23,4 @@ an updated data.frame with an additional column "normalised_OD"
 Used by \code{process_plate} function for OD normalisation. Remains virtually
 unchanged from \code{flopr::od_norm}.
 }
+\keyword{internal}

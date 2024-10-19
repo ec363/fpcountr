@@ -46,3 +46,4 @@ virtually unchanged from \code{flopr::flu_norm}, except that \code{af_model} can
 to \code{NULL} to normalise to blank wells instead, and files are saved to a
 specified \code{outfolder}.
 }
+\keyword{internal}

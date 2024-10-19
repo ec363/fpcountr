@@ -16,6 +16,8 @@
 #' @importFrom rlang .data
 #'
 #' @return an updated data.frame with an additional column for corrected fluorescence
+#'
+#' @keywords internal
 correct_flu <- function(pr_data,
                         od_type, # OD600 or OD700
                         flu_channel

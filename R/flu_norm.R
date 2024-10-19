@@ -19,12 +19,12 @@
 #' @param outfolder path to folder where output files should be saved. Defaults
 #'   to current working directory.
 #'
-#' @export
-#'
 #' @return an updated data.frame with an additional column for normalised fluorescence
 #'
 #' @importFrom dplyr %>%
 #' @importFrom rlang .data
+#'
+#' @keywords internal
 flu_norm <- function(pr_data, neg_well, blank_well, flu_name, af_model, data_csv, timecourse, outfolder) {
 
   ### function 'normalises' fluor raw values to autofluorescence model

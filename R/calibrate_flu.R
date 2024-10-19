@@ -20,6 +20,8 @@
 #' @importFrom rlang .data
 #'
 #' @return an updated data.frame with an additional column for calibrated fluorescence
+#'
+#' @keywords internal
 calibrate_flu <- function(pr_data,
 
                           flu_instr,
@@ -34,7 +36,7 @@ calibrate_flu <- function(pr_data,
 ) {
 
   # Get conversion factors ---------------------------------------------------------------------------------------
-  
+
   conversion_factors <- utils::read.csv(conversion_factors_csv)
   conversion_factors
 

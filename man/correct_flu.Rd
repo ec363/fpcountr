@@ -25,3 +25,4 @@ concentration in vitro. This function compensates for this effect using
 empirical data that relates the fold decrease in fluorescence expected, given
 a certain cell density.
 }
+\keyword{internal}
