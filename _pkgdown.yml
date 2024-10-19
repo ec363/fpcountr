@@ -1,5 +1,8 @@
 url: https://ec363.github.io/fpcountr/
 
+template:
+  bootstrap: 5
+
 reference:
 - title: "Functions for performing calibrations"
   desc: ""
