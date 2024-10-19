@@ -6,19 +6,28 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FPCountR: Fluorescent protein calibration for plate readers • fpcountr</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="FPCountR: Fluorescent protein calibration for plate readers">
 <meta property="og:description" content="Calibrate microplate readers using fluorescent protein calibrants to allow quantification in molecular units. Functions in this package allow for the quantification of fluorescent proteins using any of three different quantification methods, as well as the comparison of protein concentrations with fluorescence intensity readings to obtain conversion factors. These can then be used to convert fluorescence readings from microbiological growth and gene expression assays from arbitrary units into molecules per cell.">
+<meta property="og:image" content="https://ec363.github.io/fpcountr/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,29 +40,26 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">fpcountr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="articles/fpcountr.html">Get started</a>
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/ec363/fpcountr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/ec363/fpcountr/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -70,71 +76,104 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="fpcountr-fluorescent-protein-calibration-for-plate-readers" class="section level2">
-<h2 class="hasAnchor">
-<a href="#fpcountr-fluorescent-protein-calibration-for-plate-readers" class="anchor"></a>FPCountR: Fluorescent protein calibration for plate readers</h2>
-<p>The R package <strong>FPCountR</strong> enables the calibration of microplate readers using fluorescent protein calibrants. This enables users to monitor cellular fluorescent protein expression in absolute units.</p>
-<p>Background: Protein expression may be quantified by fluorescence where a fluorescent protein (‘FP’) is used as a reporter gene. Microplate readers allow us to quantify fluorescence in high-throughput using 96-well plates, as well as to monitor the kinetics of expression over time. It has long been noted that arbitrary units produced by such instruments prevents us from comparing experimental results between instruments, and that calibration of these instruments using standards can allow us to do so. However, existing calibrants do not allow us to express FP levels in terms of molecular or molar units, such as ‘100 molecules per cell’, or ‘100 nM’. To do this, we need to use the FPs themselves as calibrants.</p>
-<p>This method aims to describe a simple and accurate way to do just this. Our wet lab protocols are available on protocols.io and our analysis package on GitHub. The paper accompanying these will be available in due course.</p>
+<div class="section level2">
+<h2 id="fpcountr-fluorescent-protein-calibration-for-plate-readers-">FPCountR: Fluorescent protein calibration for plate readers <img src="reference/figures/logo.png" align="right" width="140" height="140" alt=""><a class="anchor" aria-label="anchor" href="#fpcountr-fluorescent-protein-calibration-for-plate-readers-"></a>
+</h2>
+<p><a href="https://www.nature.com/articles/s41467-022-34232-6" class="external-link"><img src="http://img.shields.io/badge/Nature_Communications-10.1038/s41467--022--34232--6-f6f8fa.svg" alt="DOI"></a> <a href="https://doi.org/10.5281/zenodo.5760028" class="external-link"><img src="http://img.shields.io/badge/Zenodo-10.5281/zenodo.5760028-f6f8fa.svg" alt="DOI"></a> <a href="https://www.protocols.io/view/fpcount-protocol-in-lysate-purification-free-proto-dm6gpw43plzp/v2" class="external-link"><img src="http://img.shields.io/badge/protocols.io-Calibration_Protocol-f6f8fa.svg" alt="protocols.io"></a> <a href="https://ec363.github.io/fpcountr/articles/fpcountr.html"><img src="http://img.shields.io/badge/fpcountr_package-Getting_Started_Vignette-f6f8fa.svg" alt="Vignette"></a> <!--- colours: nat comms: ffffff, zenodo: 0d82c3, protocols.io ffffff, github: f6f8fa --> <a href="https://www.repostatus.org/#active" class="external-link"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."></a></p>
+<p>FPCountR enables the calibration of microplate readers using fluorescent protein calibrants for synthetic and molecular biology applications.</p>
+<p>Background: Protein levels may be quantified by fluorescence where a fluorescent protein (‘FP’) is used as a reporter. Microplate readers enable the quantification of FP levels in high-throughput using multi-well (eg. 96-well or 384-well) plates, as well as the monitoring of FP expression kinetics over time. It has long been recognised that the arbitrary units produced by such instruments prevents the comparison of experimental results between different instruments or laboratories, and that instrument calibration is the solution. However, existing calibrants consist of small molecule fluorophores like fluorescein, and as such only allow conversion into <em>units of that fluorophore</em> (expressed as ‘molecules of equivalent fluorescein’ or MEF/L), rather than units of <em>protein</em> (eg. ‘100 proteins per cell’, or ‘100 nM protein’). To do this, we need to use the FPs themselves as calibrants.</p>
+<p>FPCountR aims to describe a simple and accurate way to generate fluorescent protein calibrants and enable the extraction of absolute protein units from plate reader experiments. The method is described in detail in our paper, ‘Absolute protein quantification using fluorescence measurements with FPCountR’, which is available open access at <a href="https://www.nature.com/articles/s41467-022-34232-6" class="external-link">Nature Communications</a>. The most up-to-date version of the experimental protocol can be found in Supplementary Note 5 of the paper or on <a href="https://www.protocols.io/view/fpcount-protocol-in-lysate-purification-free-proto-dm6gpw43plzp/v2" class="external-link">protocols.io</a>. The corresponding analytical software package is available on <a href="https://github.com/ec363/fpcountr" class="external-link">GitHub</a>. A complete mathematical description of the analytical workflow carried out by the software can also be found in Supplementary Note 6 of the paper.</p>
 </div>
-<div id="overview-of-the-package" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview-of-the-package" class="anchor"></a>Overview of the package</h2>
-<p>In order to calibrate a plate reader, users will need to prepare a dilution series containing calibrants consisting of the FP that requires quantification. This FP dilution series is then used to calculate a conversion factor in ‘relative fluorescence units’/molecules (RFU/molecules) by quantifying (1) the concentration of FP in each dilution, and (2) the fluorescence activity of each dilution. These assays are then processed by the functions illustrated below: the first, to extract protein concentrations from assay (1), and the second to use the concentration and fluorescence assay data to calculate the conversion factor. Finally, experimental data, such as a typical <em>E. coli</em> assay in which synthetic gene circuits are monitored during cell growth over time, can be processed to convert units of (for example) mCherry from RFU or RFU/OD, into units of ‘molecules’ or ‘molecules per cell’ (or molar concentration).</p>
+<div class="section level2">
+<h2 id="overview-of-the-package">Overview of the package<a class="anchor" aria-label="anchor" href="#overview-of-the-package"></a>
+</h2>
+<p>In order to calibrate a plate reader, users need to prepare a dilution series of calibrants consisting of the FP that requires quantification. This FP dilution series is then used to calculate a conversion factor in ‘relative fluorescence units’/molecules (RFU/molecules) by quantifying (1) the concentration of FP in each dilution, and (2) the fluorescence activity of each dilution. These assays are then processed by the functions illustrated below: the first, to extract protein concentrations from assay (1), and the second to use the concentration and fluorescence assay data to calculate the conversion factor. Finally, experimental data, such as a typical <em>E. coli</em> assay in which synthetic gene circuits are monitored during cell growth over time, can be processed to convert units of (for example) mCherry from RFU or RFU/OD, into units of ‘molecules’ or ‘molecules per cell’ (or molar concentration).</p>
 <p align="center">
 <img src="reference/figures/gh_overview.png" width="720"></p>
-<p>In practice, the reality is a bit more complicated, since there are multiple types of assay this package can handle for the protein assay (1) that have their own functions (<code>get_conc_bca</code> for the BCA assay, <code>get_conc_a280</code> for the A280 assay and <code>get_conc_ECmax</code> for the ECmax), and processed data (3) can be further processed by <code>calc_invivo_fppercell</code> for units of molecules/cell, or <code>calc_invivo_fpconc</code> for units of molar concentration. For an in-depth diagram of functions, see Supplementary Fig. 13 of the paper, or browse the description of each function after installation with <code>?FUNCTION_NAME</code>.</p>
-<p>In addition, raw data exported from most plate readers are not immediately in the correct format for downstream data processing. Therefore, each raw data set requires ‘parsing’. The <code>parse</code> designations in the figure above refer to these functions. This package comes pre-installed with parser functions for the Tecan Spark plate reader using Magellan software.</p>
-<p>The R functions <code>generate_cfs</code> and <code>process_plate</code> are based on functions from the <a href="https://github.com/ucl-cssb/flopr">FlopR package</a>, which was developed for the calibration of plate readers using <strong>microsphere and fluorescein calibrants</strong>. The framework that splits up the data ‘tidying’ and the data processing into two separate functions was also inspired by this package. For a description of the use of FlopR for the calibration of microplates using microspheres or fluorescein, see the package webpage. For a full explanation of how parser functions work, see <a href="https://github.com/ucl-cssb/flopr#plate-reader-calibration">here</a>.</p>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>The package is written in R and can be installed straight from GitHub:</p>
+<div class="section level2">
+<h2 id="further-details-about-package-functions">Further details about package functions<a class="anchor" aria-label="anchor" href="#further-details-about-package-functions"></a>
+</h2>
+<p>The above is a simplified overview. This package can handle multiple types of protein assay data (1) that have their own functions (<code>get_conc_bca</code> for the BCA assay, <code>get_conc_a280</code> for the A280 assay and <code>get_conc_ECmax</code> for the ECmax), though the ECmax assay is strongly recommended. Further, processed data produced with <code><a href="reference/process_plate.html">process_plate()</a></code> (3) should be further processed by either <code>calc_fppercell</code> (to obtain protein levels in molecules per cell), or <code>calc_fpconc</code> (to obtain protein levels in molar concentration). For an in-depth diagram of package functions, see Supplementary Fig. 15 of the paper. A complete <a href="https://ec363.github.io/fpcountr/reference/index.html">function reference</a> can be found on the package website and the description of each function can be found after installation with <code>?function_name</code>.</p>
+</div>
+<div class="section level2">
+<h2 id="parser-functions">Parser functions<a class="anchor" aria-label="anchor" href="#parser-functions"></a>
+</h2>
+<p>Users should note that raw data exported from most plate readers are unlikely to be in the correct format for downstream data processing. Therefore, each raw data set requires ‘parsing’: this includes data extraction, data cleaning, data tidying, joining the data with relevant metadata and saving in CSV format. The <code>parse</code> designations in the figure above refer to these functions. This package includes parser functions for data formats exported from a Tecan Spark plate reader running Magellan software.</p>
+</div>
+<div class="section level2">
+<h2 id="related-packages">Related packages<a class="anchor" aria-label="anchor" href="#related-packages"></a>
+</h2>
+<p>The <code>generate_cfs</code> and <code>process_plate</code> functions are based on functions from the <a href="https://github.com/ucl-cssb/flopr" class="external-link">FlopR package</a>, which was developed for the calibration of plate readers using <strong>microsphere and fluorescein calibrants</strong>. The framework that splits up the data parsing and the data processing into separate functions was also inspired by this package. For a description of FlopR, see the package webpage. For a full explanation of how parser functions work, see the one written for FlopR users <a href="https://github.com/ucl-cssb/flopr#plate-reader-calibration" class="external-link">here</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>The package can be installed straight from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"ec363/fpcountr"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ec363/fpcountr"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="examples" class="section level2">
-<h2 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h2>
-<p>For a guide to getting started, see the <a href="https://ec363.github.io/fpcountr/articles/fpcountr.html">vignette on the FPCountR package website</a>.</p>
+<div class="section level2">
+<h2 id="how-to-use-fpcountr-a-fully-worked-example">How to use FPCountR: a fully worked example<a class="anchor" aria-label="anchor" href="#how-to-use-fpcountr-a-fully-worked-example"></a>
+</h2>
+<p>For a guide to getting started, including a fully worked example from installation through calibration and experiment analysis, see the <a href="https://ec363.github.io/fpcountr/articles/fpcountr.html">vignette on the FPCountR package website</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="citing-fpcountr">Citing FPCountR<a class="anchor" aria-label="anchor" href="#citing-fpcountr"></a>
+</h2>
+<p>If you use this package and find it helpful, we’d be grateful if you could cite both the paper and package in your manuscript.</p>
+<p>Csibra E and Stan GB. 2022. Absolute protein quantification using fluorescence measurements with FPCountR. <em>Nat Commun</em> 13, 6600. doi: 10.1038/s41467-022-34232-6</p>
+<p>Csibra E. 2021. FPCountR: Fluorescent protein calibration for plate readers. R package. doi: 10.5281/zenodo.5760028 GitHub page: <a href="https://github.com/ec363/fpcountr" class="external-link uri">https://github.com/ec363/fpcountr</a></p>
 </div>
 
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/ec363/fpcountr/">https://​github.com/​ec363/​fpcountr/​</a>
-</li>
+<li><a href="https://github.com/ec363/fpcountr/" class="external-link">Browse source code</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
 <li><small>GPL (&gt;= 3)</small></li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>Eszter Csibra <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-4759-5921" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html#citation">Citing fpcountr</a></li>
 </ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Eszter Csibra <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-4759-5921" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+</ul>
+</div>
+
+
 
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Eszter Csibra.</p>
+  <p></p>
+<p>Developed by Eszter Csibra.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>
@@ -142,6 +181,8 @@
 
   
 
+
+  
 
   </body>
 </html>
