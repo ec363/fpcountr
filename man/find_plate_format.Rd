@@ -12,3 +12,4 @@ find_plate_format(plate_type)
 \description{
 Internal function.
 }
+\keyword{internal}

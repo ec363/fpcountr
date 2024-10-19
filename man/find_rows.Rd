@@ -12,3 +12,4 @@ find_rows(plate_type = 96)
 \description{
 Internal function.
 }
+\keyword{internal}

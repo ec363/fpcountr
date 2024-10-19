@@ -39,6 +39,7 @@ find_wells <- function(plate_type = 96){
 #'
 #' @param plate_type type of plate. numeric, ie. `96` for 96-well plate.
 #'
+#' @keywords internal
 find_plate_format <- function(plate_type) {
 
   ## Print warning if plate type is unusual
@@ -67,6 +68,7 @@ find_plate_format <- function(plate_type) {
 #'
 #' @param plate_type type of plate. numeric, ie. `96` for 96-well plate.
 #'
+#' @keywords internal
 find_rows <- function(plate_type = 96){
 
   # find number of rows
@@ -85,6 +87,7 @@ find_rows <- function(plate_type = 96){
 #'
 #' @param plate_type type of plate. numeric, ie. `96` for 96-well plate.
 #'
+#' @keywords internal
 find_columns <- function(plate_type = 96){
 
   # find number of rows
