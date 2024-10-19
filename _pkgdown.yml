@@ -21,18 +21,20 @@ reference:
 - contents:
   - ends_with("_parse")
 - title: "Helper functions"
-  desc: "Functions that are used internally by other functions"
+  desc: "Miscellaneous useful functions"
 - contents:
-  - calibrate_flu
-  - calibrate_od
-  - correct_flu
-  - flu_norm
   - get_extcoeff_A280
   - get_kfactor
   - get_mw
   - get_pathlength
   - get_properties
-  - od_norm
+- title: "Plate format functions"
+  desc: "Functions to generate row, column and well names from a given plate type"
+- contents:
+  - find_wells
+  - find_wells_in_row
+  - find_wells_in_column
+  - find_wells_in_rowcolumn
 - title: "Data"
   desc: ""
 - contents:
