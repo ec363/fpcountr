@@ -614,9 +614,7 @@ process_plate <- function(
                                            flu_gain = flu_gains[flu_idx],
                                            flu_slug = flu_slugs[flu_idx],
                                            flu_label = flu_labels[flu_idx],
-
                                            do_quench_correction = do_quench_correction,
-
                                            conversion_factors_csv = fluor_coeffs_csv)
 
       # plot calibrated fluorescence data
