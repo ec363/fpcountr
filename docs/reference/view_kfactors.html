@@ -60,7 +60,55 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">view_kfactors</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">view_kfactors</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Data from https://static.thermoscientific.com/images/D20827~.pdf :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            buffer concentration units         description kfactor fold_change</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           water          0.00  none               Water   0.173   1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    Na_phosphate          0.10     M  Na_phosphate_100mM   0.170   0.9826590</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3            NaOH          0.02     M           NaOH_20mM   0.169   0.9768786</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  sulphuric_acid          0.02     M sulphuric_acid_20mM   0.169   0.9768786</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       TE_buffer          0.01     M      TE_buffer_10mM   0.169   0.9768786</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6            NaCl          0.90    pc           NaCl_0.9%   0.168   0.9710983</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7             TBS          0.05     M            TBS_50mM   0.166   0.9595376</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    Na_phosphate          0.08     M   Na_phosphate_80mM   0.166   0.9595376</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9        Tris-HCl          1.00     M         Tris-HCl_1M   0.157   0.9075145</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10          Tween          0.10    pc          Tween_0.1%   0.155   0.8959538</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 sulphuric_acid          2.00     M   sulphuric_acid_2M   0.154   0.8901734</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12           DMSO          1.00    pc             DMSO_1%   0.169   0.9768786</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13           DMSO          5.00    pc             DMSO_5%   0.159   0.9190751</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14           DMSO         10.00    pc            DMSO_10%   0.148   0.8554913</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15           EtOH          5.00    pc             EtOH_5%   0.159   0.9190751</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16           EtOH         20.00    pc            EtOH_20%   0.129   0.7456647</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17           EtOH         40.00    pc            EtOH_40%   0.092   0.5317919</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18           MeOH          5.00    pc             MeOH_5%   0.161   0.9306358</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19           MeOH         20.00    pc            MeOH_20%   0.133   0.7687861</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20           MeOH         40.00    pc            MeOH_40%   0.100   0.5780347</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   temperature kfactor fold_change</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1          25   0.172       1.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2          28   0.174       1.012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3          31   0.177       1.029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4          34   0.179       1.041</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5          37   0.183       1.064</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6          41   0.188       1.093</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7          45   0.191       1.110</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The k-factor of water (A975-A900 at 1cm) at ~25oC is 0.172.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Increasing the temperature has a small effect: 30oC = 3% increase to 0.176.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The volume of water is minimally effected by temperature, so path lengths calculated at 25oC should apply to other temperatures.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Most aqueous buffers with low salt will be ~ 0.170 and can therefore be approximated to the k-factor of pure water.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> eg.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 153mM (0.9%) NaCl = 0.168, TE = 0.169, 50mM TBS = 0.166</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1M Tris-HCl = 0.157, 2M H2SO4 = 0.154</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Other solvents, like DMSO, EtOH and MeOH have a bigger effect.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> eg.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 10% DMSO = 0.148</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 20% EtOH = 0.092, 20% MeOH = 0.100</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 100% EtOH and MeOH have negative k-factors, and k-factors with these solvents are no longer reliable methods for calculating path lengths.</span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

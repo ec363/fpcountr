@@ -3,7 +3,7 @@ pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   fpcountr: fpcountr.html
-last_built: 2024-10-31T22:48Z
+last_built: 2024-10-31T22:51Z
 urls:
   reference: https://ec363.github.io/fpcountr/reference
   article: https://ec363.github.io/fpcountr/articles

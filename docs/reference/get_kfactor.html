@@ -97,7 +97,38 @@ concentrations in M not mM). This value is ignored if buffer = "water".</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_kfactor</span><span class="op">(</span>buffer_used <span class="op">=</span> <span class="st">"TBS"</span>, concentration_used <span class="op">=</span> <span class="fl">0.005</span>, temperature_used <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_kfactor</span><span class="op">(</span>buffer_used <span class="op">=</span> <span class="st">"TBS"</span>, concentration_used <span class="op">=</span> <span class="fl">0.005</span>, temperature_used <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating k-factor for TBS at concentration 0.005 at temperature 30 oC.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reference k-factor 0.172.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> K-factors available for given buffer: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   buffer concentration units description kfactor fold_change</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    TBS          0.05     M    TBS_50mM   0.166   0.9595376</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Values used for model (kfactor ~ concentration): </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   buffer concentration units description kfactor fold_change</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  water          0.00  none       Water   0.173   1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    TBS          0.05     M    TBS_50mM   0.166   0.9595376</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Change in k-factor required for given buffer: 0.996.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Values used for model (fold_change ~ temperature): </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   temperature kfactor fold_change</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1          25   0.172       1.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2          28   0.174       1.012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3          31   0.177       1.029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4          34   0.179       1.041</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5          37   0.183       1.064</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6          41   0.188       1.093</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7          45   0.191       1.110</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Change in k-factor required for given temperature: 1.024.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Overall k-factor: 0.175.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1754875</span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
