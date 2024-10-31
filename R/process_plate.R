@@ -456,9 +456,9 @@ process_plate <- function(
     ## for each fluorescence channel...
     for (flu_idx in seq_len(length(flu_channels))) {
 
-      out_data <- fpcountr:::correct_flu(pr_data = out_data,
-                                         od_type = od_type,
-                                         flu_channel = flu_channels[flu_idx])
+      out_data <- fpcountr::correct_flu(pr_data = out_data,
+                                        od_type = od_type,
+                                        flu_channel = flu_channels[flu_idx])
 
       # plot calibrated fluorescence data
       if(isFALSE(timecourse)){
@@ -539,10 +539,10 @@ process_plate <- function(
 
       ### Calibrate OD to Particle Number ----------------------------------------------------
 
-      out_data <- fpcountr:::calibrate_od(pr_data = out_data,
-                                          od_name = od_name,
-                                          instr = instr,
-                                          conversion_factors_csv = od_coeffs_csv)
+      out_data <- fpcountr::calibrate_od(pr_data = out_data,
+                                         od_name = od_name,
+                                         instr = instr,
+                                         conversion_factors_csv = od_coeffs_csv)
       head(out_data)
       # adds calibrated_OD column
 
@@ -608,14 +608,14 @@ process_plate <- function(
       # removing this bc here, all fluorescence channels ought to be calibratable!
       # if(length(flu_gains) >= flu_idx){
 
-      out_data <- fpcountr:::calibrate_flu(pr_data = out_data,
-                                           flu_instr = instr,
-                                           flu_channel = flu_channels[flu_idx],
-                                           flu_gain = flu_gains[flu_idx],
-                                           flu_slug = flu_slugs[flu_idx],
-                                           flu_label = flu_labels[flu_idx],
-                                           do_quench_correction = do_quench_correction,
-                                           conversion_factors_csv = fluor_coeffs_csv)
+      out_data <- fpcountr::calibrate_flu(pr_data = out_data,
+                                          flu_instr = instr,
+                                          flu_channel = flu_channels[flu_idx],
+                                          flu_gain = flu_gains[flu_idx],
+                                          flu_slug = flu_slugs[flu_idx],
+                                          flu_label = flu_labels[flu_idx],
+                                          do_quench_correction = do_quench_correction,
+                                          conversion_factors_csv = fluor_coeffs_csv)
 
       # plot calibrated fluorescence data
       if(isFALSE(timecourse)){

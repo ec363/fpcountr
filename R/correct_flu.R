@@ -18,6 +18,7 @@
 #' @return an updated data.frame with an additional column for corrected fluorescence
 #'
 #' @keywords internal
+#' @export
 correct_flu <- function(pr_data,
                         od_type, # OD600 or OD700
                         flu_channel

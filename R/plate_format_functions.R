@@ -69,6 +69,7 @@ find_plate_format <- function(plate_type) {
 #' @param plate_type type of plate. numeric, ie. `96` for 96-well plate.
 #'
 #' @keywords internal
+#' @export
 find_rows <- function(plate_type = 96){
 
   # find number of rows
@@ -88,6 +89,7 @@ find_rows <- function(plate_type = 96){
 #' @param plate_type type of plate. numeric, ie. `96` for 96-well plate.
 #'
 #' @keywords internal
+#' @export
 find_columns <- function(plate_type = 96){
 
   # find number of rows

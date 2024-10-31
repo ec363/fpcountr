@@ -22,6 +22,7 @@
 #' @return an updated data.frame with an additional column for calibrated fluorescence
 #'
 #' @keywords internal
+#' @export
 calibrate_flu <- function(pr_data,
 
                           flu_instr,

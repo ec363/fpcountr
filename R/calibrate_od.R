@@ -21,6 +21,7 @@
 #' @return an updated data.frame with an additional column for calibrated OD
 #'
 #' @keywords internal
+#' @export
 calibrate_od <- function(pr_data, od_name, instr, conversion_factors_csv) {
 
   conversion_factors <- utils::read.csv(conversion_factors_csv) # copy in conversion factors

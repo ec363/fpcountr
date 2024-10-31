@@ -25,6 +25,7 @@
 #' @importFrom rlang .data
 #'
 #' @keywords internal
+#' @export
 flu_norm <- function(pr_data, neg_well, blank_well, flu_name, af_model, data_csv, timecourse, outfolder) {
 
   ### function 'normalises' fluor raw values to autofluorescence model

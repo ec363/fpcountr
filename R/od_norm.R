@@ -15,6 +15,7 @@
 #' @importFrom rlang .data
 #'
 #' @keywords internal
+#' @export
 od_norm <- function(pr_data, blank_well, od_name, timecourse) {
 
   pr_data$normalised_OD <- pr_data[, od_name] # copies OD into normalised OD column
