@@ -329,7 +329,7 @@ calc_fpconc <- function(data_csv,
                                     # limits = rev(unique(percell_data$row))) + # where not all rows used, only displays fraction of plate
                                     # limits = rev(c("A", "B", "C", "D", "E", "F", "G", "H"))) + # hardcoded for 96-well plates
                                     limits = rev(rows)) +
-          viridis::scale_fill_viridis(paste0(flu_labels[flu_idx], " concentration (µM)"),
+          viridis::scale_fill_viridis(paste0(flu_labels[flu_idx], " concentration (uM)"),
                                       discrete = FALSE, limits = c(0, max_value),
                                       alpha = 0.4,
                                       na.value = "white") +
@@ -357,7 +357,7 @@ calc_fpconc <- function(data_csv,
                                           y = .data[[paste0("calibrated_", flu_labels[flu_idx], "_Molar")]]*1e6,
                                           colour = "calibrated"), linewidth = 0.5) +
           ggplot2::scale_x_continuous("time") +
-          ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " concentration (µM)")) +
+          ggplot2::scale_y_continuous(name = paste0(flu_labels[flu_idx], " concentration (uM)")) +
           ggplot2::labs(caption = "") +
           ggplot2::scale_colour_discrete("") +
           ggplot2::facet_grid(row~column, drop = FALSE) + # keep wells with missing values

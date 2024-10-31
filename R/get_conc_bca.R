@@ -279,7 +279,7 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
     ggplot2::xlab("dilution") +
     ggplot2::ylab("Normalised A562") +
     ggplot2::labs(title = "A562 baselines, normalised to blanks",
-                  caption = "shading represents blank mean±2sd") +
+                  caption = "shading represents blank mean +/- 2sd") +
     ggplot2::theme_bw() +
     ggplot2::theme(
       aspect.ratio = 1,
