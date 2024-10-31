@@ -10,9 +10,6 @@ A data frame with 10 rows and 6 variables: \describe{
 (A975-A900 at 1cm pathlength)} \item{fold_change}{fold change in kfactor
 from 25oC} }
 }
-\source{
-\url{https://static.thermoscientific.com/images/D20827~.pdf}
-}
 \usage{
 kfactors_temperature_data
 }
@@ -24,6 +21,6 @@ for Photometric DNA Quantification Assay' (Lampinen, Raitio, Perälä, Oranen
 and Harinen, 2012, ANMR_MUGO_0412). The dataset was extracted using
 WebPlotDigitizer (https://automeris.io/WebPlotDigitizer/), and a column was
 added to calculate fold change in k-factors for temperatures compared to
-25oC.
+25oC. Source: \verb{https://static.thermoscientific.com/images/D20827~.pdf}
 }
 \keyword{datasets}

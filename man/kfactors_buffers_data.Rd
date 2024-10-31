@@ -13,9 +13,6 @@ containing buffer-concentration-units information all in one}
 \item{kfactor}{kfactor value (A975-A900 at 1cm pathlength)}
 \item{fold_change}{fold change in kfactor from water} }
 }
-\source{
-\url{https://static.thermoscientific.com/images/D20827~.pdf}
-}
 \usage{
 kfactors_buffers_data
 }
@@ -28,6 +25,6 @@ Raitio, Perälä, Oranen and Harinen, 2012, ANMR_MUGO_0412). The dataset was
 extracted using WebPlotDigitizer (https://automeris.io/WebPlotDigitizer/),
 tidied to allow easier handling for programmatic purposes, and a column was
 added to calculate fold change in k-factors for all buffers compared to
-water.
+water. Source: \verb{https://static.thermoscientific.com/images/D20827~.pdf}
 }
 \keyword{datasets}
