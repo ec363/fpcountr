@@ -73,12 +73,12 @@ magellan_parse <- function(data_csv, layout_csv, timeseries = FALSE,
                            metadata_above = 0,
                            metadata_below = 0,
                            custom = FALSE, startcol = 2, endcol = 97, insert_wells_above = 0, insert_wells_below = 0
-                           ) {
+) {
 
   # Get data ----------------------------------------------------------
 
   data <- utils::read.csv(data_csv, sep = ",", blank.lines.skip = TRUE,
-                            header = FALSE, stringsAsFactors = FALSE)
+                          header = FALSE, stringsAsFactors = FALSE)
 
   plate_layout <- utils::read.csv(layout_csv)
 
@@ -188,26 +188,27 @@ magellan_parse <- function(data_csv, layout_csv, timeseries = FALSE,
     }
 
     # rearrange data ----------------------------------------------------------
-    well_idx <- which(names(all_data) == "well")
-    gathered_data <- tidyr::gather(all_data, key = "time", value = p,
-                                   -c(1:all_of(well_idx), ncol(all_data)))
-    gathered_data$time <- as.numeric(gathered_data$time)
-    gathered_data$p <- as.numeric(gathered_data$p)
-    spread_data <- tidyr::spread(gathered_data, key = .data$measure,
-                                 value = .data$p)
 
-    spread_data$row <- substr(x = spread_data$well, start = 1, stop = 1)
-    spread_data$column <- as.numeric(substr(x = spread_data$well, start = 2,
-                                            stop = nchar(spread_data$well)))
-    spread_data <- dplyr::arrange_at(spread_data, dplyr::vars(.data$time,
-                                                              .data$row,
-                                                              .data$column))
+    well_idx <- which(names(all_data) == "well")
+
+    # move time points from column names to 'time' column, and values to 'value' column
+    long_data <- all_data %>%
+      tidyr::pivot_longer(-c(1:tidyselect::all_of(well_idx), ncol(all_data)), # all columns from well to end of data
+                          names_to = "time", values_to = "value") %>%
+      dplyr::mutate(time = as.numeric(.data$time)) %>%
+      dplyr::mutate(value = as.numeric(.data$value))
+    # create separate column for each of the measures/readings
+    wide_data <- long_data %>%
+      tidyr::pivot_wider(names_from = .data$measure, values_from = .data$value) %>%
+      dplyr::mutate(row = substr(x = .data$well, start = 1, stop = 1)) %>% # extract first element of well. this is row.
+      dplyr::mutate(column = as.numeric(substr(x = .data$well, start = 2, stop = nchar(.data$well)))) %>% # extract column number.
+      dplyr::arrange(dplyr::across(c(.data$time, .data$row, .data$column))) # sort rows by time > row > column
 
     # write parsed data to csv ------------------------------------------------
     out_name <- gsub(".csv", "_parsed.csv", data_csv)
-    utils::write.csv(x = spread_data, file = out_name, row.names = FALSE)
+    utils::write.csv(x = wide_data, file = out_name, row.names = FALSE)
 
-    return(spread_data)
+    return(wide_data)
   }
 
   # TimeSeries FALSE ----------------------------------------------------------
@@ -265,21 +266,19 @@ magellan_parse <- function(data_csv, layout_csv, timeseries = FALSE,
     }
 
     # rearrange data ----------------------------------------------------------
-    spread_data <- tidyr::pivot_wider(all_data, names_from = .data$measure,
-                                      values_from = .data$value)
-    spread_data
-    spread_data$row <- substr(x = spread_data$well, start = 1, stop = 1)
-    spread_data$column <- as.numeric(substr(x = spread_data$well, start = 2,
-                                            stop = nchar(spread_data$well)))
-    spread_data <- dplyr::arrange_at(spread_data, dplyr::vars(.data$row,
-                                                              .data$column))
-    spread_data
+
+    # create separate column for each of the measures/readings
+    wide_data <- all_data %>%
+      tidyr::pivot_wider(names_from = .data$measure, values_from = .data$value) %>%
+      dplyr::mutate(row = substr(x = .data$well, start = 1, stop = 1)) %>% # extract first element of well. this is row.
+      dplyr::mutate(column = as.numeric(substr(x = .data$well, start = 2, stop = nchar(.data$well)))) %>% # extract column number.
+      dplyr::arrange(dplyr::across(c(.data$row, .data$column))) # sort rows by row > column
 
     # write parsed data to csv ------------------------------------------------
     out_name <- gsub(".csv", "_parsed.csv", data_csv)
-    utils::write.csv(x = spread_data, file = out_name, row.names = FALSE)
+    utils::write.csv(x = wide_data, file = out_name, row.names = FALSE)
 
-    return(spread_data)
+    return(wide_data)
   }
 
 }
