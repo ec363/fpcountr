@@ -117,7 +117,7 @@ get_properties <- function(slug, verbose = TRUE, save_file = FALSE, outfolder = 
   # Save and return ------------------------------
 
   if(isTRUE(save_file)){
-    write.csv(fp_properties, file.path(outfolder, filename), row.names = FALSE)
+    utils::write.csv(fp_properties, file.path(outfolder, filename), row.names = FALSE)
   }
 
   return(fp_properties)

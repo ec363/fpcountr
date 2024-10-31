@@ -349,7 +349,7 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
 
   df_2 <- spectrum_data_model %>%
     dplyr::mutate(EC_A280_mgml = ectable$E_0.1pc)
-  head(df_2)
+  utils::head(df_2)
 
   ##
 

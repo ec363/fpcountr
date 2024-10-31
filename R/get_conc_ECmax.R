@@ -321,7 +321,7 @@ get_conc_ECmax <- function(protein_slug, protein_seq,
 
   df_2 <- spectrum_data_model %>%
     dplyr::mutate(EC_max_mgml = fp_properties$ext_coeff / protein_mw)
-  head(df_2)
+  utils::head(df_2)
 
   ##
 

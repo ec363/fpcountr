@@ -555,7 +555,7 @@ process_plate <- function(
                                          od_name = od_name,
                                          instr = instr,
                                          conversion_factors_csv = od_coeffs_csv)
-      head(out_data)
+      utils::head(out_data)
       # adds calibrated_OD column
 
       # plot

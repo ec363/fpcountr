@@ -812,14 +812,14 @@ generate_cfs <- function(calibration_csv,
 
                             # new columns:
                             min_normflu = temp_trimmed_values$min_normflu[2],
-                            min_mols = dplyr::first(na.omit(temp_trimmed_values$min_mols)), # first non NA
+                            min_mols = dplyr::first(stats::na.omit(temp_trimmed_values$min_mols)), # first non NA
                             max_normflu = temp_trimmed_values$max_normflu[2],
-                            max_mols = dplyr::first(na.omit(temp_trimmed_values$max_mols)), # first non NA
+                            max_mols = dplyr::first(stats::na.omit(temp_trimmed_values$max_mols)), # first non NA
 
                             # This doesn't work if BSA rows in fluor assays.
-                            cf = dplyr::first(na.omit(temp_trimmed_values$cf)), # first value that isn't NA
-                            beta = dplyr::first(na.omit(temp_trimmed_values$beta)), # first value that isn't NA
-                            residuals = dplyr::first(na.omit(temp_trimmed_values$residuals)) # first value that isn't NA
+                            cf = dplyr::first(stats::na.omit(temp_trimmed_values$cf)), # first value that isn't NA
+                            beta = dplyr::first(stats::na.omit(temp_trimmed_values$beta)), # first value that isn't NA
+                            residuals = dplyr::first(stats::na.omit(temp_trimmed_values$residuals)) # first value that isn't NA
       )
       fit_values2 <- rbind(fit_values2, new_fit)
 
