@@ -12,10 +12,10 @@ calibrate_od(pr_data, od_name, instr, conversion_factors_csv)
 \item{od_name}{the column name for the optical density data}
 
 \item{instr}{character string to represent instrument. If do_calibrate =
-TRUE, used for filtering od_coeffs_csv and fluor_coeffs_csv files for
+TRUE, used for filtering \code{od_coeffs_csv} and \code{fluor_coeffs_csv} files for
 conversion factors of the relevant instrument.}
 
-\item{conversion_factors_csv}{path of the csv file containing
+\item{conversion_factors_csv}{path of the CSV file containing
 conversion factors for optical density}
 }
 \value{

@@ -104,12 +104,12 @@ from the highest concentration/dilution specified and exported.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>microbca_data_csv</dt>
-<dd><p>path of the csv file of your microBCA data.
+<dd><p>path of the CSV file of your microBCA data.
 required.</p></dd>
 
 
 <dt>a562_baseline_csv</dt>
-<dd><p>path of the csv file of your A562 baseline data.
+<dd><p>path of the CSV file of your A562 baseline data.
 Optional. If data is missing, use NULL. If NULL is specified, the value of
 0 is assigned as baseline for all wells. Default is NULL.</p></dd>
 
@@ -119,7 +119,7 @@ Optional. If data is missing, use NULL. If NULL is specified, the value of
 with this function. Function subsets the data by the value specified here.
 This works by taking all the rows with specified string in the calibrant
 column and discarding all other rows (which means that the blanks relevant
-to the specified calibrant need to be specified as calibrant = calibr,
+to the specified calibrant need to be specified as calibrant = <code>calibr</code>,
 protein = "none", otherwise they will be removed).</p></dd>
 
 
@@ -136,9 +136,9 @@ Required for MW calculation.</p></dd>
 <dt>option</dt>
 <dd><p>string specifying how to choose the predicted concentration to
 use. Default is "highest", in which the mean predicted conc of the highest
-dilution (ie. neat) is used, and is multiplied by the dilution to determine
+dilution (i.e. neat) is used, and is multiplied by the dilution to determine
 the concentration of the other dilutions. The alternative, "fit", fits a
-y=mx linear model and uses that for the concentration determination.</p></dd>
+<code>y=mx</code> linear model and uses that for the concentration determination.</p></dd>
 
 
 <dt>outfolder</dt>
@@ -149,7 +149,13 @@ Defaults to the current working directory.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="va">bca_concs</span> <span class="op">&lt;-</span> <span class="fu">get_conc_bca</span><span class="op">(</span>microbca_data_csv <span class="op">=</span> <span class="st">"bca_data_parsed.csv"</span>, a562_baseline_csv <span class="op">=</span> <span class="st">"a562_data_parsed.csv"</span>, calibr <span class="op">=</span> <span class="st">"mCherry"</span>, buffer <span class="op">=</span> <span class="st">"T5N15_pi"</span>, protein_seq <span class="op">=</span> <span class="va">protein_seq</span>, option <span class="op">=</span> <span class="st">"highest"</span>, outfolder <span class="op">=</span> <span class="st">"protquant_microbca/mCherry_T5N15pi"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">bca_concs</span> <span class="op">&lt;-</span> <span class="fu">get_conc_bca</span><span class="op">(</span></span>
+<span>    microbca_data_csv <span class="op">=</span> <span class="st">"bca_data_parsed.csv"</span>, a562_baseline_csv <span class="op">=</span> <span class="st">"a562_data_parsed.csv"</span>,</span>
+<span>    calibr <span class="op">=</span> <span class="st">"mCherry"</span>, buffer <span class="op">=</span> <span class="st">"T5N15_pi"</span>, protein_seq <span class="op">=</span> <span class="va">protein_seq</span>, option <span class="op">=</span> <span class="st">"highest"</span>,</span>
+<span>    outfolder <span class="op">=</span> <span class="st">"protquant_microbca/mCherry_T5N15pi"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

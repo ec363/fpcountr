@@ -3,8 +3,8 @@
 A200-1000 absorbance spectrum. Based on get_conc_A280, but uses &quot;ECmax&quot;,
 the FPbase-stated extinction coefficient for the FPbase-stated maximal
 excitation wavelength (which usually corresponds to its maximal absorbance
-wavelength). ... Function expects an input such as the csv file exported from
-plot_absorbance_spectrum called '_processed.csv', which contains values
+wavelength). ... Function expects an input such as the CSV file exported from
+plot_absorbance_spectrum called _processed.csv, which contains values
 corrected for path length and normalised to blanks as a column called
 normalised_cm1_value, but retains replicate data containing positional
 (well) information required for exporting predicted concentrations at the end
@@ -16,15 +16,15 @@ concentration of protein in each well, using three correction methods.
 Instead of using the normalised data directly, the values used are based on a
 LOESS fit through the absorption spectra to minimise fluctuations due to
 noise. ... Finally, linear models are fitted to each concentration prediction
-method, and a csv file is built containing predicted concentrations according
+method, and a CSV file is built containing predicted concentrations according
 to the user's chosen correction method. Plots showing each of the analytical
 steps are saved concurrently. Troubleshooting: for 'incompatible lengths'
 errors, adjust xrange to avoid noisy wavelengths."><title>Get FP concentrations using ECmax method — get_conc_ECmax • fpcountr</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Get FP concentrations using ECmax method — get_conc_ECmax"><meta property="og:description" content="Get protein's concentration from a dilution series measured with an
 A200-1000 absorbance spectrum. Based on get_conc_A280, but uses &quot;ECmax&quot;,
 the FPbase-stated extinction coefficient for the FPbase-stated maximal
 excitation wavelength (which usually corresponds to its maximal absorbance
-wavelength). ... Function expects an input such as the csv file exported from
-plot_absorbance_spectrum called '_processed.csv', which contains values
+wavelength). ... Function expects an input such as the CSV file exported from
+plot_absorbance_spectrum called _processed.csv, which contains values
 corrected for path length and normalised to blanks as a column called
 normalised_cm1_value, but retains replicate data containing positional
 (well) information required for exporting predicted concentrations at the end
@@ -36,7 +36,7 @@ concentration of protein in each well, using three correction methods.
 Instead of using the normalised data directly, the values used are based on a
 LOESS fit through the absorption spectra to minimise fluctuations due to
 noise. ... Finally, linear models are fitted to each concentration prediction
-method, and a csv file is built containing predicted concentrations according
+method, and a CSV file is built containing predicted concentrations according
 to the user's chosen correction method. Plots showing each of the analytical
 steps are saved concurrently. Troubleshooting: for 'incompatible lengths'
 errors, adjust xrange to avoid noisy wavelengths."><meta property="og:image" content="https://ec363.github.io/fpcountr/logo.png"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -93,23 +93,23 @@ errors, adjust xrange to avoid noisy wavelengths."><meta property="og:image" con
 <em>A200-1000 absorbance spectrum</em>. Based on <code>get_conc_A280</code>, but uses "ECmax",
 the FPbase-stated extinction coefficient for the FPbase-stated maximal
 excitation wavelength (which usually corresponds to its maximal absorbance
-wavelength). ... Function expects an input such as the csv file exported from
-<code>plot_absorbance_spectrum</code> called '_processed.csv', which contains values
+wavelength). ... Function expects an input such as the CSV file exported from
+<code>plot_absorbance_spectrum</code> called <code>_processed.csv</code>, which contains values
 corrected for path length and normalised to blanks as a column called
 <code>normalised_cm1_value</code>, but retains replicate data containing positional
 (well) information required for exporting predicted concentrations at the end
 of this function. ... Function uses <code>fpcountR::get_properties</code> to get FPbase
 EC in M-1cm-1 and wavelength, and converts it to an ECmax mass extinction
-coefficient in (mgml)-1cm-1 using the MW (worked out from <code>protein_seq</code> and
-<code>fpcountR::get_mw</code>). Then the function uses the EC_max_mgml to work out the
+coefficient in <code>(mgml)-1cm-1</code> using the MW (worked out from <code>protein_seq</code> and
+<code>fpcountR::get_mw</code>). Then the function uses the <code>EC_max_mgml</code> to work out the
 concentration of protein in each well, using three correction methods.
 Instead of using the normalised data directly, the values used are based on a
 LOESS fit through the absorption spectra to minimise fluctuations due to
 noise. ... Finally, linear models are fitted to each concentration prediction
-method, and a csv file is built containing predicted concentrations according
+method, and a CSV file is built containing predicted concentrations according
 to the user's chosen correction method. Plots showing each of the analytical
 steps are saved concurrently. Troubleshooting: for 'incompatible lengths'
-errors, adjust xrange to avoid noisy wavelengths.</p>
+errors, adjust <code>xrange</code> to avoid noisy wavelengths.</p>
     </div>
 
     <div class="section level2">
@@ -141,7 +141,7 @@ Required for MW calculation.</p></dd>
 
 
 <dt>processed_spectrum_csv</dt>
-<dd><p>Path to csv file of a processed absorbance
+<dd><p>Path to CSV file of a processed absorbance
 spectrum. Processing should be done with <code>plot_absorbance_spectrum3</code>, which
 corrects for path lengths and normalises to blank wells.</p></dd>
 
@@ -155,7 +155,7 @@ NULL.</p></dd>
 <dd><p>list of two numerical values corresponding to the wavelength
 range to keep when fitting the loess model across the absorbance spectrum.
 By default these values are 250nm and 800nm but where the data at the UV
-range is noisy, adjusting the xrange can prevent errors in the fitting.</p></dd>
+range is noisy, adjusting the <code>xrange</code> can prevent errors in the fitting.</p></dd>
 
 
 <dt>corr_method</dt>
@@ -184,13 +184,20 @@ to current working directory.</p></dd>
 
 
 <dt>filename</dt>
-<dd><p>filename of csv file from fpbase</p></dd>
+<dd><p>filename of CSV file from fpbase</p></dd>
 
 </dl></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="va">ecmax_concs</span> <span class="op">&lt;-</span> <span class="fu">get_conc_ECmax</span><span class="op">(</span>protein_slug <span class="op">=</span> <span class="st">"mcherry"</span>, protein_seq <span class="op">=</span> <span class="va">protein_seq</span>, processed_spectrum_csv <span class="op">=</span> <span class="st">"abs_parsed_processed.csv"</span>, corr_method <span class="op">=</span> <span class="st">"scatter"</span>, wav_to_use1 <span class="op">=</span> <span class="fl">700</span>, wav_to_use2 <span class="op">=</span> <span class="fl">315</span>, outfolder <span class="op">=</span> <span class="st">"protquant_ecmax/mCherry_T5N15pi"</span>, filename <span class="op">=</span> <span class="st">"mCherry_properties.csv"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">ecmax_concs</span> <span class="op">&lt;-</span> <span class="fu">get_conc_ECmax</span><span class="op">(</span></span>
+<span>    protein_slug <span class="op">=</span> <span class="st">"mcherry"</span>, protein_seq <span class="op">=</span> <span class="va">protein_seq</span>,</span>
+<span>    processed_spectrum_csv <span class="op">=</span> <span class="st">"abs_parsed_processed.csv"</span>,</span>
+<span>    corr_method <span class="op">=</span> <span class="st">"scatter"</span>, wav_to_use1 <span class="op">=</span> <span class="fl">700</span>, wav_to_use2 <span class="op">=</span> <span class="fl">315</span>,</span>
+<span>    outfolder <span class="op">=</span> <span class="st">"protquant_ecmax/mCherry_T5N15pi"</span>, filename <span class="op">=</span> <span class="st">"mCherry_properties.csv"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

@@ -14,16 +14,16 @@
 #' exported. Where option is set to `highest`, FP concentrations are taken only
 #' from the highest concentration/dilution specified and exported.
 #'
-#' @param microbca_data_csv path of the csv file of your microBCA data.
+#' @param microbca_data_csv path of the CSV file of your microBCA data.
 #'   required.
-#' @param a562_baseline_csv path of the csv file of your A562 baseline data.
+#' @param a562_baseline_csv path of the CSV file of your A562 baseline data.
 #'   Optional. If data is missing, use NULL. If NULL is specified, the value of
 #'   0 is assigned as baseline for all wells. Default is NULL.
 #' @param calibr string specifying the value of the 'calibrant' column to assess
 #'   with this function. Function subsets the data by the value specified here.
 #'   This works by taking all the rows with specified string in the calibrant
 #'   column and discarding all other rows (which means that the blanks relevant
-#'   to the specified calibrant need to be specified as calibrant = calibr,
+#'   to the specified calibrant need to be specified as calibrant = `calibr`,
 #'   protein = "none", otherwise they will be removed).
 #' @param buffer string specifying the value of the 'media' column to assess
 #'   with this function. Function subsets the data by the value specified here.
@@ -31,9 +31,9 @@
 #'   Required for MW calculation.
 #' @param option string specifying how to choose the predicted concentration to
 #'   use. Default is "highest", in which the mean predicted conc of the highest
-#'   dilution (ie. neat) is used, and is multiplied by the dilution to determine
+#'   dilution (i.e. neat) is used, and is multiplied by the dilution to determine
 #'   the concentration of the other dilutions. The alternative, "fit", fits a
-#'   y=mx linear model and uses that for the concentration determination.
+#'   `y=mx` linear model and uses that for the concentration determination.
 #' @param outfolder path to the folder where output files should be saved.
 #'   Defaults to the current working directory.
 #'
@@ -42,8 +42,13 @@
 #' @importFrom rlang .data :=
 #'
 #' @examples
-#' bca_concs <- get_conc_bca(microbca_data_csv = "bca_data_parsed.csv", a562_baseline_csv = "a562_data_parsed.csv", calibr = "mCherry", buffer = "T5N15_pi", protein_seq = protein_seq, option = "highest", outfolder = "protquant_microbca/mCherry_T5N15pi")
-
+#' \dontrun{
+#'   bca_concs <- get_conc_bca(
+#'     microbca_data_csv = "bca_data_parsed.csv", a562_baseline_csv = "a562_data_parsed.csv",
+#'     calibr = "mCherry", buffer = "T5N15_pi", protein_seq = protein_seq, option = "highest",
+#'     outfolder = "protquant_microbca/mCherry_T5N15pi"
+#'   )
+#' }
 get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
                          calibr, buffer, protein_seq,
                          option = "highest", # "highest" or "fit"

@@ -7,7 +7,7 @@
 find_wells(plate_type = 96)
 }
 \arguments{
-\item{plate_type}{type of plate. numeric, ie. \code{96} for 96-well plate.}
+\item{plate_type}{type of plate. numeric, i.e. \code{96} for 96-well plate.}
 }
 \value{
 a list containing the names of all the wells of a specified plate

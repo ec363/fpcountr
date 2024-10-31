@@ -1,7 +1,7 @@
 #' Get properties of an FP from FPbase
 #'
 #' Gets properties of an FP from FPbase, including the maximal excitation
-#' wavelength and extinction coefficient, and optionally, saves these as csv.
+#' wavelength and extinction coefficient, and optionally, saves these as CSV.
 #'
 #' @param slug Name of FP, which is used to find the FP-relevant data lines in
 #'   the FPbase datasets. This argument is called `slug` because for FPbase
@@ -11,12 +11,12 @@
 #'   `/`).
 #' @param verbose logical. Should the function print messages to allow the user
 #'   to check its progress? Defaults to TRUE.
-#' @param save_file logical. Should the function save the output as a csv file?
+#' @param save_file logical. Should the function save the output as a CSV file?
 #'   Defaults to FALSE.
 #' @param outfolder path to folder where output files should be saved. Defaults
 #'   to current working directory.
-#' @param filename How to name the output csv file. Requires ".csv" at the end.
-#'   Defaults to "fp_properties.csv".
+#' @param filename How to name the output CSV file. Requires `.csv` at the end.
+#'   Defaults to `fp_properties.csv`.
 #'
 #' @export
 #'

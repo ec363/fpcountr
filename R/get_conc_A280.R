@@ -2,19 +2,19 @@
 #'
 #' Get protein's concentration from a *dilution series* measured with an
 #' *A200-1000 absorbance spectrum*. ... Function expects an input such as the
-#' csv file exported from `plot_absorbance_spectrum` called '_processed.csv',
+#' CSV file exported from `plot_absorbance_spectrum` called `_processed.csv`,
 #' which contains values corrected for path length and normalised to blanks as a
 #' column called `normalised_cm1_value`, but retains replicate data containing
 #' positional (well) information required for exporting predicted concentrations
 #' at the end of this function. ... Function uses
 #' `fpcountR::get_extcoeff_A280` to get EC in M-1cm-1 and wavelength,
-#' and converts it to an EC mass extinction coefficient in (mgml)-1cm-1 using
+#' and converts it to an EC mass extinction coefficient in `(mgml)-1cm-1` using
 #' the MW (worked out from `protein_seq` and `fpcountR::get_mw`). Then
-#' the function uses the EC_A280_mgml to work out the concentration of protein
+#' the function uses the `EC_A280_mgml` to work out the concentration of protein
 #' in each well, using three correction methods. Instead of using the normalised
 #' data directly, the values used are based on a LOESS fit through the
 #' absorption spectra to minimise fluctuations due to noise. ... Finally, linear
-#' models are fitted to each concentration prediction method, and a csv file is
+#' models are fitted to each concentration prediction method, and a CSV file is
 #' built containing predicted concentrations according to the user's chosen
 #' correction method. Plots showing each of the analytical steps are saved
 #' concurrently.
@@ -24,7 +24,7 @@
 #' @param protein_seq character string of protein sequence using 1-letter code.
 #'   Required for MW calculation.
 #' @param buffer character string of buffer. Optional. Defaults to "".
-#' @param processed_spectrum_csv Path to csv file of a processed absorbance
+#' @param processed_spectrum_csv Path to CSV file of a processed absorbance
 #'   spectrum. Processing should be done with `plot_absorbance_spectrum3`, which
 #'   corrects for path lengths and normalises to blank wells.
 #' @param wells_to_remove list of wells to remove before analysis. Defaults to
@@ -55,8 +55,14 @@
 #' @importFrom rlang .data
 #'
 #' @examples
-#' a280_concs <- get_conc_A280(protein_slug = "mcherry", protein_seq = protein_seq, buffer = "T5N15_pi", processed_spectrum_csv = "abs_parsed_processed.csv", corr_method = "scatter", wav_to_use1 = 340, wav_to_use2 = 315, outfolder = "protquant_a280/mCherry_T5N15pi")
-
+#' \dontrun{
+#'   a280_concs <- get_conc_A280(
+#'     protein_slug = "mcherry", protein_seq = protein_seq, buffer = "T5N15_pi",
+#'     processed_spectrum_csv = "abs_parsed_processed.csv",
+#'     corr_method = "scatter", wav_to_use1 = 340, wav_to_use2 = 315,
+#'     outfolder = "protquant_a280/mCherry_T5N15pi"
+#'   )
+#' }
 get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
                           processed_spectrum_csv, wells_to_remove = NULL,
                           disulphides = FALSE, showWarnings = TRUE, showMessages = FALSE,

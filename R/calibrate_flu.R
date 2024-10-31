@@ -13,7 +13,7 @@
 #' @param flu_channel fluorescent channel name
 #' @param flu_gain gain
 #' @param flu_slug name of fluorescent protein in FPbase slug format
-#' @param conversion_factors_csv path of the csv file
+#' @param conversion_factors_csv path of the CSV file
 #'   containing predicted conversion factors for the fluorescent channels
 #'
 #' @importFrom dplyr %>%

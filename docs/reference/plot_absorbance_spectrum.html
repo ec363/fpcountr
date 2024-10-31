@@ -80,7 +80,7 @@ spectra and returns processed data.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>spectrum_csv</dt>
-<dd><p>path of a .csv file of your spectrum data</p></dd>
+<dd><p>path of a CSV file of your spectrum data</p></dd>
 
 
 <dt>subset_rows</dt>
@@ -103,7 +103,7 @@ necessary to include 12 in this list.</p></dd>
 <dt>xrange</dt>
 <dd><p>numerical lower and upper bounds of wavelengths, between which
 the is subset for plotting. This can be useful for clear plates, which have
-high background &lt;300nm, so can set the xrange as c(300,800) or similar.</p></dd>
+high background &lt;300nm, so can set the <code>xrange</code> as c(300,800) or similar.</p></dd>
 
 
 <dt>pl_method</dt>
@@ -147,7 +147,16 @@ to current working directory.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="va">spectrum</span> <span class="op">&lt;-</span> <span class="fu">plot_absorbance_spectrum</span><span class="op">(</span>spectrum_csv <span class="op">=</span> <span class="st">"spectrum_parsed.csv"</span>, subset_rows <span class="op">=</span> <span class="cn">TRUE</span>, rows_to_keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>,<span class="st">"D"</span><span class="op">)</span>, columns_to_keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span>, pl_method <span class="op">=</span> <span class="st">"calc_blanks"</span>, buffer_used <span class="op">=</span> <span class="st">"TBS"</span>, concentration_used <span class="op">=</span> <span class="fl">0.005</span>, temperature_used <span class="op">=</span> <span class="fl">30</span>, xrange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">250</span>,<span class="fl">1000</span><span class="op">)</span>, outfolder <span class="op">=</span> <span class="st">"spectrum"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">spectrum</span> <span class="op">&lt;-</span> <span class="fu">plot_absorbance_spectrum</span><span class="op">(</span></span>
+<span>    spectrum_csv <span class="op">=</span> <span class="st">"spectrum_parsed.csv"</span>,</span>
+<span>    subset_rows <span class="op">=</span> <span class="cn">TRUE</span>, rows_to_keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>,<span class="st">"D"</span><span class="op">)</span>, columns_to_keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span>,</span>
+<span>    pl_method <span class="op">=</span> <span class="st">"calc_blanks"</span>,</span>
+<span>    buffer_used <span class="op">=</span> <span class="st">"TBS"</span>, concentration_used <span class="op">=</span> <span class="fl">0.005</span>, temperature_used <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>    xrange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">250</span>,<span class="fl">1000</span><span class="op">)</span>,</span>
+<span>    outfolder <span class="op">=</span> <span class="st">"spectrum"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

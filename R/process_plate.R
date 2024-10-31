@@ -3,7 +3,7 @@
 #' Normalise and calibrate plate reader measurements to obtain molecular units
 #' from the raw data. Originally based on `flopr::process_plate` but with many
 #' changes. Takes as input timecourse plate reader data containing optical
-#' density measurements and fluorescence measurements as csv file. First, the
+#' density measurements and fluorescence measurements as CSV file. First, the
 #' function normalises optical density readings and fluorescence readings to an
 #' autofluorescence model based on the specified negative wells (see 2020
 #' Fedorec et al ACS SynBio for details). The identity of the blank wells need
@@ -18,11 +18,11 @@
 #' where conversion factors are provided as `od_coeffs_csv` for OD and
 #' `fluor_coeffs_csv` for fluorescence, and each calibration is specified by the
 #' `flu_slugs` to represent the FP used, `flu_gains` to provide the gain used,
-#' and `flu_labels` to specify how the relevant plots should be labelled, (eg.
+#' and `flu_labels` to specify how the relevant plots should be labelled, (e.g.
 #' `flu_slugs = c("mcherry", "mtagbfp2")`, `flu_gains = c(60,80)`, `flu_labels =
 #' c("RFP, BFP")`).
 #'
-#' @param data_csv path to a csv file containing parsed plate reader data
+#' @param data_csv path to a CSV file containing parsed plate reader data
 #' @param blank_well the well coordinates of one or more media blanks. Defaults
 #'   to "A1".
 #' @param timecourse logical. Is the data timecourse/kinetic data and does it
@@ -39,7 +39,7 @@
 #'   replacement (first element in flu_channels_rename replaces first in
 #'   flu_channels, etc). Defaults to NULL.
 #' @param af_model model used to fit negative control autofluorescence. For now
-#'   these include "polynomial", "invers_poly", "exponential", "spline" and
+#'   these include "polynomial", "inverse_poly", "exponential", "spline" and
 #'   "loess". If set to NULL, no model is used, and fluorescence is normalised
 #'   akin to OD: by subtracting the value for the blanks. Defaults to "spline".
 #' @param neg_well the well coordinates of a non-fluorescent control. Defaults
@@ -51,22 +51,22 @@
 #' @param do_calibrate logical. Should function convert OD and fluorescence data
 #'   to calibrated units? Defaults to FALSE.
 #' @param instr character string to represent instrument. If do_calibrate =
-#'   TRUE, used for filtering od_coeffs_csv and fluor_coeffs_csv files for
+#'   TRUE, used for filtering `od_coeffs_csv` and `fluor_coeffs_csv` files for
 #'   conversion factors of the relevant instrument.
 #' @param flu_slugs character array representing fluorescent proteins (format =
-#'   FPbase slug). If do_calibrate = TRUE, used for filtering fluor_coeffs_csv
+#'   FPbase slug). If do_calibrate = TRUE, used for filtering `fluor_coeffs_csv`
 #'   for conversion factors of the relevant FP.
 #' @param flu_gains numeric array representing gains of each fluorescent
-#'   channel. If do_calibrate = TRUE, used for filtering fluor_coeffs_csv for
+#'   channel. If do_calibrate = TRUE, used for filtering `fluor_coeffs_csv` for
 #'   conversion factors of the relevant gain.
 #' @param flu_labels If do_calibrate = TRUE, the column names to be given to
 #'   each calibration. May be identical to flu_slug or flu_channel, but
-#'   recommended is to make it obvious which FP is being calibrated, eg
-#'   "mCherry", as channel names may be nonspecifically named eg "red1red1".
+#'   recommended is to make it obvious which FP is being calibrated, e.g.
+#'   "mCherry", as channel names may be non-specifically named e.g. "red1red1".
 #'   Needs to be same length as flu_slugs and flu_gains.
-#' @param od_coeffs_csv if do_calibrate = TRUE, path of the csv file containing
+#' @param od_coeffs_csv if do_calibrate = TRUE, path of the CSV file containing
 #'   conversion factors for optical density
-#' @param fluor_coeffs_csv if do_calibrate = TRUE, path of the csv file
+#' @param fluor_coeffs_csv if do_calibrate = TRUE, path of the CSV file
 #'   containing predicted conversion factors for the fluorescent channels
 #' @param outfolder path to folder where output files should be saved. Defaults
 #'   to current working directory.
@@ -77,7 +77,19 @@
 #' @importFrom rlang .data
 #'
 #' @examples
-#' processed_data <- process_plate(data_csv = "mcherry_parsed.csv", blank_well = c("A11"), od_name = "OD600", flu_channels = c("red1"), flu_channels_rename = c("red1red1"), af_model = NULL, do_quench_correction = TRUE, od_type = "OD700", do_calibrate = TRUE, instr = "spark1", flu_slugs = c("mcherry"), flu_gains = c(80), flu_labels = c("mcherry"), od_coeffs_csv = "od_coeffs.csv", fluor_coeffs_csv = "flu_coeffs.csv", outfolder = file.path("data_processed"))
+#' \dontrun{
+#'   processed_data <- process_plate(
+#'     data_csv = "mcherry_parsed.csv",
+#'     blank_well = c("A11"),
+#'     od_name = "OD600", flu_channels = c("red1"), flu_channels_rename = c("red1red1"),
+#'     af_model = NULL,
+#'     do_quench_correction = TRUE, od_type = "OD700",
+#'     do_calibrate = TRUE, instr = "spark1",
+#'     flu_slugs = c("mcherry"), flu_gains = c(80), flu_labels = c("mcherry"),
+#'     od_coeffs_csv = "od_coeffs.csv", fluor_coeffs_csv = "flu_coeffs.csv",
+#'     outfolder = file.path("data_processed")
+#'   )
+#' }
 process_plate <- function(
     data_csv, blank_well = "A1",
 

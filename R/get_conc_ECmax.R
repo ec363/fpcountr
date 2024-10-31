@@ -4,29 +4,29 @@
 #' *A200-1000 absorbance spectrum*. Based on `get_conc_A280`, but uses "ECmax",
 #' the FPbase-stated extinction coefficient for the FPbase-stated maximal
 #' excitation wavelength (which usually corresponds to its maximal absorbance
-#' wavelength). ... Function expects an input such as the csv file exported from
-#' `plot_absorbance_spectrum` called '_processed.csv', which contains values
+#' wavelength). ... Function expects an input such as the CSV file exported from
+#' `plot_absorbance_spectrum` called `_processed.csv`, which contains values
 #' corrected for path length and normalised to blanks as a column called
 #' `normalised_cm1_value`, but retains replicate data containing positional
 #' (well) information required for exporting predicted concentrations at the end
 #' of this function. ... Function uses `fpcountR::get_properties` to get FPbase
 #' EC in M-1cm-1 and wavelength, and converts it to an ECmax mass extinction
-#' coefficient in (mgml)-1cm-1 using the MW (worked out from `protein_seq` and
-#' `fpcountR::get_mw`). Then the function uses the EC_max_mgml to work out the
+#' coefficient in `(mgml)-1cm-1` using the MW (worked out from `protein_seq` and
+#' `fpcountR::get_mw`). Then the function uses the `EC_max_mgml` to work out the
 #' concentration of protein in each well, using three correction methods.
 #' Instead of using the normalised data directly, the values used are based on a
 #' LOESS fit through the absorption spectra to minimise fluctuations due to
 #' noise. ... Finally, linear models are fitted to each concentration prediction
-#' method, and a csv file is built containing predicted concentrations according
+#' method, and a CSV file is built containing predicted concentrations according
 #' to the user's chosen correction method. Plots showing each of the analytical
 #' steps are saved concurrently. Troubleshooting: for 'incompatible lengths'
-#' errors, adjust xrange to avoid noisy wavelengths.
+#' errors, adjust `xrange` to avoid noisy wavelengths.
 #'
 #' @param protein_slug character string of protein name in 'slug' form to match
 #'   slug of FPbase entry.
 #' @param protein_seq character string of protein sequence using 1-letter code.
 #'   Required for MW calculation.
-#' @param processed_spectrum_csv Path to csv file of a processed absorbance
+#' @param processed_spectrum_csv Path to CSV file of a processed absorbance
 #'   spectrum. Processing should be done with `plot_absorbance_spectrum3`, which
 #'   corrects for path lengths and normalises to blank wells.
 #' @param wells_to_remove list of wells to remove before analysis. Defaults to
@@ -34,7 +34,7 @@
 #' @param xrange list of two numerical values corresponding to the wavelength
 #'   range to keep when fitting the loess model across the absorbance spectrum.
 #'   By default these values are 250nm and 800nm but where the data at the UV
-#'   range is noisy, adjusting the xrange can prevent errors in the fitting.
+#'   range is noisy, adjusting the `xrange` can prevent errors in the fitting.
 #' @param corr_method string corresponding to type of correction method to use
 #'   for the data to remove contribution of light scatter. Options are `none`,
 #'   `baseline` and `scatter`. Method `none` applies no correction. Method
@@ -48,7 +48,7 @@
 #'   correction. Defaults to 333nm.
 #' @param outfolder path to folder where output files should be saved. Defaults
 #'   to current working directory.
-#' @param filename filename of csv file from fpbase
+#' @param filename filename of CSV file from fpbase
 #'
 #' @export
 #'
@@ -56,8 +56,14 @@
 #' @importFrom rlang .data
 #'
 #' @examples
-#' ecmax_concs <- get_conc_ECmax(protein_slug = "mcherry", protein_seq = protein_seq, processed_spectrum_csv = "abs_parsed_processed.csv", corr_method = "scatter", wav_to_use1 = 700, wav_to_use2 = 315, outfolder = "protquant_ecmax/mCherry_T5N15pi", filename = "mCherry_properties.csv")
-
+#' \dontrun{
+#'   ecmax_concs <- get_conc_ECmax(
+#'     protein_slug = "mcherry", protein_seq = protein_seq,
+#'     processed_spectrum_csv = "abs_parsed_processed.csv",
+#'     corr_method = "scatter", wav_to_use1 = 700, wav_to_use2 = 315,
+#'     outfolder = "protquant_ecmax/mCherry_T5N15pi", filename = "mCherry_properties.csv"
+#'   )
+#' }
 get_conc_ECmax <- function(protein_slug, protein_seq,
                            processed_spectrum_csv, wells_to_remove = NULL,
                            xrange = c(250,800),

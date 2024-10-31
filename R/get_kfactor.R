@@ -5,10 +5,10 @@
 #' k-factor is defined as the A975-A900 for a 1cm pathlength. The calculations
 #' are made under the assumption that the fold changes for buffers from water,
 #' and for temperatures from 25oC may be combined to get an approximate estimate
-#' of the kfactor for a given condition.
+#' of the k-factor for a given condition.
 #'
 #' @param buffer_used string corresponding to buffer. Must match a buffer entry
-#'   in dataset kfactors_buffers_data. Default is "water".
+#'   in dataset `kfactors_buffers_data`. Default is "water".
 #' @param concentration_used numeric value of concentration of buffer used.
 #'   Default is 0 (pure water), so it needs changing if buffer isn't water. Take
 #'   care to ensure the units are correct (buffers specified in M require

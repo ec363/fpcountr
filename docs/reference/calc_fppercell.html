@@ -4,7 +4,7 @@ and uses normalised/calibrated values to calculate per-cell values. Adds
 column(s) for FP/cell as either: (a) normalisedFP/normalisedOD (rfu/od), (b)
 calibratedFP/calibratedOD (molecules/cell). Plots results and returns df.
 Note that technically, units of molecules are 'molecules of equivalent FP'
-and cells are 'particles of equivalent microspheres'."><title>Calculate FP/cell values — calc_fppercell • fpcountr</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Calculate FP/cell values — calc_fppercell"><meta property="og:description" content="Takes as input timecourse plate reader data processed with process_plate
+and cells are 'particles of equivalent microspheres'."><title>Calculate FP per cell values — calc_fppercell • fpcountr</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Calculate FP per cell values — calc_fppercell"><meta property="og:description" content="Takes as input timecourse plate reader data processed with process_plate
 and uses normalised/calibrated values to calculate per-cell values. Adds
 column(s) for FP/cell as either: (a) normalisedFP/normalisedOD (rfu/od), (b)
 calibratedFP/calibratedOD (molecules/cell). Plots results and returns df.
@@ -53,7 +53,7 @@ and cells are 'particles of equivalent microspheres'."><meta property="og:image"
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Calculate FP/cell values</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Calculate FP per cell values</h1>
       <small class="dont-index">Source: <a href="https://github.com/ec363/fpcountr/blob/HEAD/R/calc_fppercell.R" class="external-link"><code>R/calc_fppercell.R</code></a></small>
       <div class="d-none name"><code>calc_fppercell.Rd</code></div>
     </div>
@@ -61,8 +61,8 @@ and cells are 'particles of equivalent microspheres'."><meta property="og:image"
     <div class="ref-description section level2">
     <p>Takes as input timecourse plate reader data processed with <code>process_plate</code>
 and uses normalised/calibrated values to calculate per-cell values. Adds
-column(s) for FP/cell as either: (a) normalisedFP/normalisedOD (rfu/od), (b)
-calibratedFP/calibratedOD (molecules/cell). Plots results and returns df.
+column(s) for FP/cell as either: (a) <code>normalisedFP/normalisedOD</code> (rfu/od), (b)
+<code>calibratedFP/calibratedOD</code> (molecules/cell). Plots results and returns df.
 Note that technically, units of molecules are 'molecules of equivalent FP'
 and cells are 'particles of equivalent microspheres'.</p>
     </div>
@@ -85,7 +85,7 @@ and cells are 'particles of equivalent microspheres'.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data_csv</dt>
-<dd><p>path to a csv file containing processed plate reader data</p></dd>
+<dd><p>path to a CSV file containing processed plate reader data</p></dd>
 
 
 <dt>timecourse</dt>
@@ -103,24 +103,24 @@ include a variable called 'time'?</p></dd>
 
 <dt>remove_wells</dt>
 <dd><p>list of coordinates of wells to be removed from analysis
-(eg. empty wells)</p></dd>
+(e.g. empty wells)</p></dd>
 
 
 <dt>get_rfu_od</dt>
-<dd><p>logical. if TRUE, uses normalised_FP and normalised_OD to
+<dd><p>logical. if TRUE, uses <code>normalised_FP</code> and <code>normalised_OD</code> to
 calculate FP per cell as FP/OD in relative fluorescence units/relative OD
 (rfu/od).</p></dd>
 
 
 <dt>get_mol_cell</dt>
-<dd><p>logical. if TRUE, uses calibrated_FP and calibrated_OD to
+<dd><p>logical. if TRUE, uses <code>calibrated_FP</code> and <code>calibrated_OD</code> to
 calculate FP per cell as FP/OD in relative fluorescence units/relative OD
 (molecules/cell).</p></dd>
 
 
 <dt>plate_type</dt>
-<dd><p>type of plate. numeric, ie. <code>96</code> for 96-well plate. Defines
-the rows and columns used for plotting figures. Defaults to <code>96</code>.</p></dd>
+<dd><p>type of plate. numeric, i.e. '96' for 96-well plate. Defines
+the rows and columns used for plotting figures. Defaults to '96'.</p></dd>
 
 
 <dt>outfolder</dt>
@@ -137,7 +137,15 @@ to current working directory.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="va">pc_data_mCherry</span> <span class="op">&lt;-</span> <span class="fu">calc_fppercell</span><span class="op">(</span>data_csv <span class="op">=</span> <span class="st">"mcherry_parsed_processed.csv"</span>, flu_channels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red1red1"</span><span class="op">)</span>, flu_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mCherry"</span><span class="op">)</span>, remove_wells <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A11"</span><span class="op">)</span>, get_rfu_od <span class="op">=</span> <span class="cn">TRUE</span>, get_mol_cell <span class="op">=</span> <span class="cn">TRUE</span>, outfolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">"plots"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">pc_data_mCherry</span> <span class="op">&lt;-</span> <span class="fu">calc_fppercell</span><span class="op">(</span></span>
+<span>    data_csv <span class="op">=</span> <span class="st">"mcherry_parsed_processed.csv"</span>,</span>
+<span>    flu_channels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red1red1"</span><span class="op">)</span>, flu_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mCherry"</span><span class="op">)</span>,</span>
+<span>    remove_wells <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A11"</span><span class="op">)</span>,</span>
+<span>    get_rfu_od <span class="op">=</span> <span class="cn">TRUE</span>, get_mol_cell <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    outfolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">"plots"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

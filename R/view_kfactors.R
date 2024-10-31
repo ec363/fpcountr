@@ -1,8 +1,10 @@
 #' View k-factors
 #'
-#' Displays the data tables used for k-factor calculations in get_kfactors along with notes.
+#' Displays the data tables used for k-factor calculations in `get_kfactors()`, along with notes.
 #'
 #' @export
+#' @examples
+#' view_kfactors()
 view_kfactors <- function(){
   message("\nData from https://static.thermoscientific.com/images/D20827~.pdf :")
 

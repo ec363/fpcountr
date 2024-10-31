@@ -6,8 +6,8 @@
 \title{k-factors of water at different temperatures}
 \format{
 A data frame with 10 rows and 6 variables: \describe{
-\item{temperature}{temperature in oC} \item{kfactor}{kfactor value
-(A975-A900 at 1cm pathlength)} \item{fold_change}{fold change in kfactor
+\item{temperature}{temperature in oC} \item{kfactor}{k-factor value
+(A975-A900 at 1cm pathlength)} \item{fold_change}{fold change in k-factor
 from 25oC} }
 }
 \usage{
@@ -19,7 +19,7 @@ of water at different temperatures, obtained from figure 6 of a Thermo
 Scientific application note on 'Microplate Based Pathlength Correction Method
 for Photometric DNA Quantification Assay' (Lampinen, Raitio, Perälä, Oranen
 and Harinen, 2012, ANMR_MUGO_0412). The dataset was extracted using
-WebPlotDigitizer (https://automeris.io/WebPlotDigitizer/), and a column was
+WebPlotDigitizer (\verb{https://automeris.io/WebPlotDigitizer/}), and a column was
 added to calculate fold change in k-factors for temperatures compared to
 25oC. Source: \verb{https://static.thermoscientific.com/images/D20827~.pdf}
 }

@@ -9,7 +9,7 @@ find_wells_in_row(rows, plate_type = 96)
 \arguments{
 \item{rows}{character string, or list of character strings, representing row(s) such as "A" or "H"}
 
-\item{plate_type}{type of plate. numeric, ie. \code{96} for 96-well plate.}
+\item{plate_type}{type of plate. numeric, i.e. \code{96} for 96-well plate.}
 }
 \value{
 a list containing the names of all the wells in the specified row(s) of a specified plate

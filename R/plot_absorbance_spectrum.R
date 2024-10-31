@@ -5,7 +5,7 @@
 #' length of 1cm by a user-defined method, and normalises to the blanks. Plots
 #' spectra and returns processed data.
 #'
-#' @param spectrum_csv path of a .csv file of your spectrum data
+#' @param spectrum_csv path of a CSV file of your spectrum data
 #' @param subset_rows logical. should script take a subset of the rows (or whole
 #'   table)? Defaults to FALSE.
 #' @param rows_to_keep character array. If `subset_rows` is TRUE, script will
@@ -16,7 +16,7 @@
 #'   necessary to include 12 in this list.
 #' @param xrange numerical lower and upper bounds of wavelengths, between which
 #'   the is subset for plotting. This can be useful for clear plates, which have
-#'   high background <300nm, so can set the xrange as c(300,800) or similar.
+#'   high background <300nm, so can set the `xrange` as c(300,800) or similar.
 #' @param pl_method string denoting which method of path length normalisation to
 #'   use. Options are `calc_each`, `calc_blanks` and `volume`. All three are
 #'   always calculated (and compared in one of the output plots), but only the
@@ -47,8 +47,16 @@
 #' @importFrom rlang .data :=
 #'
 #' @examples
-#' spectrum <- plot_absorbance_spectrum(spectrum_csv = "spectrum_parsed.csv", subset_rows = TRUE, rows_to_keep = c("C","D"), columns_to_keep = c(1:12), pl_method = "calc_blanks", buffer_used = "TBS", concentration_used = 0.005, temperature_used = 30, xrange = c(250,1000), outfolder = "spectrum")
-
+#' \dontrun{
+#'   spectrum <- plot_absorbance_spectrum(
+#'     spectrum_csv = "spectrum_parsed.csv",
+#'     subset_rows = TRUE, rows_to_keep = c("C","D"), columns_to_keep = c(1:12),
+#'     pl_method = "calc_blanks",
+#'     buffer_used = "TBS", concentration_used = 0.005, temperature_used = 30,
+#'     xrange = c(250,1000),
+#'     outfolder = "spectrum"
+#'   )
+#' }
 plot_absorbance_spectrum <- function(spectrum_csv,
 
                                      subset_rows = FALSE, rows_to_keep = c("C","D"), columns_to_keep = c(1,12),

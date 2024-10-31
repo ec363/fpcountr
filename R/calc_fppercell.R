@@ -1,27 +1,27 @@
-#' Calculate FP/cell values
+#' Calculate FP per cell values
 #'
 #' Takes as input timecourse plate reader data processed with `process_plate`
 #' and uses normalised/calibrated values to calculate per-cell values. Adds
-#' column(s) for FP/cell as either: (a) normalisedFP/normalisedOD (rfu/od), (b)
-#' calibratedFP/calibratedOD (molecules/cell). Plots results and returns df.
+#' column(s) for FP/cell as either: (a) `normalisedFP/normalisedOD` (rfu/od), (b)
+#' `calibratedFP/calibratedOD` (molecules/cell). Plots results and returns df.
 #' Note that technically, units of molecules are 'molecules of equivalent FP'
 #' and cells are 'particles of equivalent microspheres'.
 #'
-#' @param data_csv path to a csv file containing processed plate reader data
+#' @param data_csv path to a CSV file containing processed plate reader data
 #' @param timecourse logical. Is the data timecourse/kinetic data and does it
 #'   include a variable called 'time'?
 #' @param flu_channels the column names for the NORMALISED fluorescence data
 #' @param flu_labels the column names for the CALIBRATED fluorescence data
 #' @param remove_wells list of coordinates of wells to be removed from analysis
-#'   (eg. empty wells)
-#' @param get_rfu_od logical. if TRUE, uses normalised_FP and normalised_OD to
+#'   (e.g. empty wells)
+#' @param get_rfu_od logical. if TRUE, uses `normalised_FP` and `normalised_OD` to
 #'   calculate FP per cell as FP/OD in relative fluorescence units/relative OD
 #'   (rfu/od).
-#' @param get_mol_cell logical. if TRUE, uses calibrated_FP and calibrated_OD to
+#' @param get_mol_cell logical. if TRUE, uses `calibrated_FP` and `calibrated_OD` to
 #'   calculate FP per cell as FP/OD in relative fluorescence units/relative OD
 #'   (molecules/cell).
-#' @param plate_type type of plate. numeric, ie. `96` for 96-well plate. Defines
-#'   the rows and columns used for plotting figures. Defaults to `96`.
+#' @param plate_type type of plate. numeric, i.e. '96' for 96-well plate. Defines
+#'   the rows and columns used for plotting figures. Defaults to '96'.
 #' @param outfolder path to folder where output files should be saved. Defaults
 #'   to current working directory.
 #'
@@ -31,7 +31,15 @@
 #' @importFrom dplyr %>%
 #'
 #' @examples
-#' pc_data_mCherry <- calc_fppercell(data_csv = "mcherry_parsed_processed.csv", flu_channels = c("red1red1"), flu_labels = c("mCherry"), remove_wells = c("A11"), get_rfu_od = TRUE, get_mol_cell = TRUE, outfolder = file.path("plots"))
+#' \dontrun{
+#'   pc_data_mCherry <- calc_fppercell(
+#'     data_csv = "mcherry_parsed_processed.csv",
+#'     flu_channels = c("red1red1"), flu_labels = c("mCherry"),
+#'     remove_wells = c("A11"),
+#'     get_rfu_od = TRUE, get_mol_cell = TRUE,
+#'     outfolder = file.path("plots")
+#'   )
+#' }
 calc_fppercell <- function(data_csv,
                            timecourse = TRUE,
                            flu_channels, # colnames of normalised values (rfu), eg c("red1red1", "red1red2")

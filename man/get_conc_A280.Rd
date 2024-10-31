@@ -28,7 +28,7 @@ Required for MW calculation.}
 
 \item{buffer}{character string of buffer. Optional. Defaults to "".}
 
-\item{processed_spectrum_csv}{Path to csv file of a processed absorbance
+\item{processed_spectrum_csv}{Path to CSV file of a processed absorbance
 spectrum. Processing should be done with \code{plot_absorbance_spectrum3}, which
 corrects for path lengths and normalises to blank wells.}
 
@@ -64,23 +64,30 @@ to current working directory.}
 \description{
 Get protein's concentration from a \emph{dilution series} measured with an
 \emph{A200-1000 absorbance spectrum}. ... Function expects an input such as the
-csv file exported from \code{plot_absorbance_spectrum} called '_processed.csv',
+CSV file exported from \code{plot_absorbance_spectrum} called \verb{_processed.csv},
 which contains values corrected for path length and normalised to blanks as a
 column called \code{normalised_cm1_value}, but retains replicate data containing
 positional (well) information required for exporting predicted concentrations
 at the end of this function. ... Function uses
 \code{fpcountR::get_extcoeff_A280} to get EC in M-1cm-1 and wavelength,
-and converts it to an EC mass extinction coefficient in (mgml)-1cm-1 using
+and converts it to an EC mass extinction coefficient in \verb{(mgml)-1cm-1} using
 the MW (worked out from \code{protein_seq} and \code{fpcountR::get_mw}). Then
-the function uses the EC_A280_mgml to work out the concentration of protein
+the function uses the \code{EC_A280_mgml} to work out the concentration of protein
 in each well, using three correction methods. Instead of using the normalised
 data directly, the values used are based on a LOESS fit through the
 absorption spectra to minimise fluctuations due to noise. ... Finally, linear
-models are fitted to each concentration prediction method, and a csv file is
+models are fitted to each concentration prediction method, and a CSV file is
 built containing predicted concentrations according to the user's chosen
 correction method. Plots showing each of the analytical steps are saved
 concurrently.
 }
 \examples{
-a280_concs <- get_conc_A280(protein_slug = "mcherry", protein_seq = protein_seq, buffer = "T5N15_pi", processed_spectrum_csv = "abs_parsed_processed.csv", corr_method = "scatter", wav_to_use1 = 340, wav_to_use2 = 315, outfolder = "protquant_a280/mCherry_T5N15pi")
+\dontrun{
+  a280_concs <- get_conc_A280(
+    protein_slug = "mcherry", protein_seq = protein_seq, buffer = "T5N15_pi",
+    processed_spectrum_csv = "abs_parsed_processed.csv",
+    corr_method = "scatter", wav_to_use1 = 340, wav_to_use2 = 315,
+    outfolder = "protquant_a280/mCherry_T5N15pi"
+  )
+}
 }

@@ -6,7 +6,7 @@
 \title{pathlength vs volume data}
 \format{
 A data frame with 10 rows and 6 variables: \describe{
-\item{volume}{volume in ul} \item{pathlength}{pathlength in cm}
+\item{volume}{volume in µl} \item{pathlength}{pathlength in cm}
 \item{expt}{experiment number denoting experimental repeat} }
 }
 \usage{
@@ -15,9 +15,9 @@ pathlength_water_data
 \description{
 A dataset containing experimentally derived pathlengths for microplate wells
 containing water at different volumes. Pathlengths were derived by using the
-equation pathlength (cm) = kfactor_well / kfactor_1cm. Kfactor_well is
+equation \code{pathlength (cm) = kfactor_well / kfactor_1cm}. \code{Kfactor_well} is
 defined as A975-A900 value for each well (there were 4 replicates per volume
-per experiment). Kfactor_1cm values were derived using get_kfactors function
+per experiment). \code{Kfactor_1cm} values were derived using \code{get_kfactors} function
 for water at 26oC.
 }
 \keyword{datasets}

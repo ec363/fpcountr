@@ -9,9 +9,9 @@
 #' normalised
 #' @param neg_well the well coordinates of a non-fluorescent control
 #' @param blank_well the well coordinates of a media blank
-#' @param flu_name the column name of the fluorescence chanel to normalise
+#' @param flu_name the column name of the fluorescence channel to normalise
 #' @param af_model model used to fit negative control autofluorescence.
-#' For now these include "polynomial", "invers_poly", "exponential", "spline" or "loess".
+#' For now these include "polynomial", "inverse_poly", "exponential", "spline" or "loess".
 #' If set to NULL, no model is used, and fluorescence is normalised akin to OD: by subtracting the value for the blanks.
 #' @param data_csv path to the original data. Used for saving normalisation curve plots.
 #' @param timecourse logical. Is the data timecourse/kinetic data and does it

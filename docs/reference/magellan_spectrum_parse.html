@@ -65,11 +65,11 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data_csv</dt>
-<dd><p>path to csv file from Tecan Spark plate reader</p></dd>
+<dd><p>path to CSV file from Tecan Spark plate reader</p></dd>
 
 
 <dt>layout_csv</dt>
-<dd><p>path to csv file containing plate layout information</p></dd>
+<dd><p>path to CSV file containing plate layout information</p></dd>
 
 
 <dt>wellstart</dt>
@@ -89,7 +89,13 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu">magellan_spectrum_parse</span><span class="op">(</span>data_csv <span class="op">=</span> <span class="st">"data/20210104_data.csv"</span>, layout_csv <span class="op">=</span> <span class="st">"data/20210104_data_layout.csv"</span>, wellstart <span class="op">=</span> <span class="st">"A1"</span>, wellend <span class="op">=</span> <span class="st">"H12"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu">magellan_spectrum_parse</span><span class="op">(</span></span>
+<span>    data_csv <span class="op">=</span> <span class="st">"data/20210104_data.csv"</span>,</span>
+<span>    layout_csv <span class="op">=</span> <span class="st">"data/20210104_data_layout.csv"</span>,</span>
+<span>    wellstart <span class="op">=</span> <span class="st">"A1"</span>, wellend <span class="op">=</span> <span class="st">"H12"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

@@ -23,18 +23,18 @@ the part after \verb{https://www.fpbase.org/protein/} (without the trailing
 \item{verbose}{logical. Should the function print messages to allow the user
 to check its progress? Defaults to TRUE.}
 
-\item{save_file}{logical. Should the function save the output as a csv file?
+\item{save_file}{logical. Should the function save the output as a CSV file?
 Defaults to FALSE.}
 
 \item{outfolder}{path to folder where output files should be saved. Defaults
 to current working directory.}
 
-\item{filename}{How to name the output csv file. Requires ".csv" at the end.
-Defaults to "fp_properties.csv".}
+\item{filename}{How to name the output CSV file. Requires \code{.csv} at the end.
+Defaults to \code{fp_properties.csv}.}
 }
 \description{
 Gets properties of an FP from FPbase, including the maximal excitation
-wavelength and extinction coefficient, and optionally, saves these as csv.
+wavelength and extinction coefficient, and optionally, saves these as CSV.
 }
 \examples{
 get_properties("mcherry")

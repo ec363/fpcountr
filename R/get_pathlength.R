@@ -4,14 +4,15 @@
 #' linear model using internal data of pathlengths vs volume. ... To work out
 #' the pathlength in a microplate assay, there are two options. Option1. Measure
 #' the pathlength each time you do an assay by taking A975-A900 for each well as
-#' the kfactor(well), and calculating pathlength = kfactor(well)/kfactor(1cm
-#' pathlength). The 1cm kfactors can be derived using get_kfactor function.
-#' Option2 (here). Use a standardised dataset of pathlength vs volume by
-#' measuring the A975-A900 of defined volumes of buffer, and calculating the
-#' pathlengths of each. This is saved as the pathlength_water_data dataset, and
-#' is used in this function to create a linear model of pathlength vs volume. Experimental data
-#' suggests that aqueous buffers give very similar pathlength values for a given
-#' volume, so here we use data from water to approximate all aqueous buffers.
+#' the `kfactor(well)`, and calculating `pathlength` = `kfactor(well)` /
+#' `kfactor(1cm pathlength)`. The 1cm k-factors can be derived using
+#' `get_kfactor` function. Option2 (here). Use a standardised dataset of
+#' pathlength vs volume by measuring the A975-A900 of defined volumes of buffer,
+#' and calculating the pathlengths of each. This is saved as the
+#' pathlength_water_data dataset, and is used in this function to create a
+#' linear model of pathlength vs volume. Experimental data suggests that aqueous
+#' buffers give very similar pathlength values for a given volume, so here we
+#' use data from water to approximate all aqueous buffers.
 #'
 #' @param test_volume numeric value of volume whose pathlength is required, in microlitres (ul)
 #' @param plot logical. Should the function plot the model and prediction?

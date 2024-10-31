@@ -10,9 +10,9 @@
 #' @param pr_data a dataframe of parsed plate reader data
 #' @param od_name the column name for the optical density data
 #' @param instr character string to represent instrument. If do_calibrate =
-#'   TRUE, used for filtering od_coeffs_csv and fluor_coeffs_csv files for
+#'   TRUE, used for filtering `od_coeffs_csv` and `fluor_coeffs_csv` files for
 #'   conversion factors of the relevant instrument.
-#' @param conversion_factors_csv path of the csv file containing
+#' @param conversion_factors_csv path of the CSV file containing
 #'   conversion factors for optical density
 #'
 #' @importFrom dplyr %>%

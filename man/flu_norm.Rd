@@ -23,10 +23,10 @@ normalised}
 
 \item{blank_well}{the well coordinates of a media blank}
 
-\item{flu_name}{the column name of the fluorescence chanel to normalise}
+\item{flu_name}{the column name of the fluorescence channel to normalise}
 
 \item{af_model}{model used to fit negative control autofluorescence.
-For now these include "polynomial", "invers_poly", "exponential", "spline" or "loess".
+For now these include "polynomial", "inverse_poly", "exponential", "spline" or "loess".
 If set to NULL, no model is used, and fluorescence is normalised akin to OD: by subtracting the value for the blanks.}
 
 \item{data_csv}{path to the original data. Used for saving normalisation curve plots.}

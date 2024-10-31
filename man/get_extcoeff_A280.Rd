@@ -33,7 +33,7 @@ get_extcoeff_A280(
 specified the function gives extinction coefficients for 1\% (10mg/ml) and
 0.1\% (1mg/ml) solutions too.}
 
-\item{save}{logical. Should function save csv file of output?}
+\item{save}{logical. Should function save CSV file of output?}
 
 \item{outfolder}{path to folder where output files should be saved. Defaults
 to current working directory.}
@@ -43,5 +43,5 @@ The purpose of this function is to work out the theoretical molar extinction
 coefficient of a protein at 280nm (EC280, M-1cm-1) using only the protein's
 primary sequence, using the ProtParam method (Pace values). A full
 explanation of the method can be found at
-https://web.expasy.org/protparam/protparam-doc.html
+\verb{https://web.expasy.org/protparam/protparam-doc.html}.
 }

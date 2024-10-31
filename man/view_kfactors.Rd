@@ -7,5 +7,8 @@
 view_kfactors()
 }
 \description{
-Displays the data tables used for k-factor calculations in get_kfactors along with notes.
+Displays the data tables used for k-factor calculations in \code{get_kfactors()}, along with notes.
+}
+\examples{
+view_kfactors()
 }

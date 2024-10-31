@@ -21,9 +21,9 @@ magellan_parse(
 )
 }
 \arguments{
-\item{data_csv}{path to csv file from Tecan Spark plate reader}
+\item{data_csv}{path to CSV file from Tecan Spark plate reader}
 
-\item{layout_csv}{path to csv file containing plate layout information}
+\item{layout_csv}{path to CSV file containing plate layout information}
 
 \item{timeseries}{logical. Is the data a timeseries? Defaults to FALSE.}
 
@@ -38,7 +38,7 @@ kinetic loop. Default is 10.}
 with reading the relevant channels, followed by incubation for the interval
 time, meaning the first timepoint was at 0 min. Setting "incubate_first"
 mode tells the script the opposite was true, making the first timepoint
-equal to the length of the set interval, eg 10 min.}
+equal to the length of the set interval, e.g. 10 min.}
 
 \item{metadata_above}{numeric value corresponding to the number of types of
 metadata requested during creation of the Excel export file in Magellan,
@@ -53,24 +53,24 @@ Replicate info, etc.}
 \item{custom}{Boolean flag indicating whether script should deviate from the
 default of collecting data from columns 2:97. If TRUE, script looks at
 arguments \code{insert_wells_above}, \code{insert_wells_below}, \code{startcol}, \code{endcol}.
-The total number of columns needs to add up to 96 if the layout_csv file
+The total number of columns needs to add up to 96 if the \code{layout_csv} file
 includes rows A1-H12 and they must be in the same order as the layout file
 because this script joins positionally, not by recorded well value (wells
 aren't exported by default).}
 
-\item{startcol}{numeric value corresponding to first column of data_csv
+\item{startcol}{numeric value corresponding to first column of \code{data_csv}
 corresponding to data}
 
-\item{endcol}{numeric value corresponding to last column of data_csv
+\item{endcol}{numeric value corresponding to last column of \code{data_csv}
 corresponding to data}
 
 \item{insert_wells_above}{numeric value corresponding to number of empty
-entries to insert before data in custom mode. This can be useful if a
-subplate was read instead of an entire plate, meaning the number of rows
-created by startcol:endcol does not add up to 96. For example, if the data
-starts at B1, but the plate layout starts at A1, you can set this to 12 to
-add 12 empty rows above the data which allows correct joining of data and
-layout tables.}
+entries to insert before data in custom mode. This can be useful if only a
+portion of the plate was read, meaning the number of rows created by
+\code{startcol}:\code{endcol} does not add up to 96. For example, if the data starts
+at B1, but the plate layout starts at A1, you can set this to 12 to add 12
+empty rows above the data which allows correct joining of data and layout
+tables.}
 
 \item{insert_wells_below}{numeric value corresponding to number of empty
 entries to insert after data in custom mode.}
@@ -85,6 +85,17 @@ spectra, such as absorbance scans). Handles standard or kinetic/timecourse
 data.
 }
 \examples{
-parsed_calib_plate <- magellan_parse(data_csv = "calibrations/20210104_calibration_data.csv", layout_csv = "calibrations/20210104_calibration_plate_layout.csv", timeseries = FALSE)
-parsed_data <- magellan_parse(data_csv = "data/20210104_data.csv", layout_csv = "data/20210104_data_layout.csv", timeseries = TRUE, timestart = "0s", interval = 30, mode = "read_first")
+\dontrun{
+  parsed_calib_plate <- magellan_parse(
+    data_csv = "calibrations/20210104_calibration_data.csv",
+    layout_csv = "calibrations/20210104_calibration_plate_layout.csv",
+    timeseries = FALSE
+  )
+
+  parsed_data <- magellan_parse(
+    data_csv = "data/20210104_data.csv",
+    layout_csv = "data/20210104_data_layout.csv",
+    timeseries = TRUE, timestart = "0s", interval = 30, mode = "read_first"
+  )
+}
 }

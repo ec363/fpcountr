@@ -4,7 +4,7 @@
 #' coefficient of a protein at 280nm (EC280, M-1cm-1) using only the protein's
 #' primary sequence, using the ProtParam method (Pace values). A full
 #' explanation of the method can be found at
-#' https://web.expasy.org/protparam/protparam-doc.html
+#' `https://web.expasy.org/protparam/protparam-doc.html`.
 #'
 #' @param protein character string of protein sequence using 1-letter code
 #' @param disulphides logical. Does protein have disulphides?
@@ -15,7 +15,7 @@
 #' @param mol_weight numerical value for molecular weight (g/mol). Optional. If
 #'   specified the function gives extinction coefficients for 1% (10mg/ml) and
 #'   0.1% (1mg/ml) solutions too.
-#' @param save logical. Should function save csv file of output?
+#' @param save logical. Should function save CSV file of output?
 #' @param outfolder path to folder where output files should be saved. Defaults
 #'   to current working directory.
 #'

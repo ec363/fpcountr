@@ -26,7 +26,7 @@ calibrate_flu(
 
 \item{flu_slug}{name of fluorescent protein in FPbase slug format}
 
-\item{conversion_factors_csv}{path of the csv file
+\item{conversion_factors_csv}{path of the CSV file
 containing predicted conversion factors for the fluorescent channels}
 }
 \value{

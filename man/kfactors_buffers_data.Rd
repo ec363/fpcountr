@@ -8,10 +8,10 @@
 A data frame with 10 rows and 6 variables: \describe{
 \item{buffer}{name of the buffer} \item{concentration}{concentration of the
 buffer, units are variable} \item{units}{units of the concentration column,
-M is molar, pc is percentage ie. w/v (\%)} \item{description}{string
+M is molar, pc is percentage i.e. w/v (\%)} \item{description}{string
 containing buffer-concentration-units information all in one}
-\item{kfactor}{kfactor value (A975-A900 at 1cm pathlength)}
-\item{fold_change}{fold change in kfactor from water} }
+\item{kfactor}{k-factor value (A975-A900 at 1cm pathlength)}
+\item{fold_change}{fold change in k-factor from water} }
 }
 \usage{
 kfactors_buffers_data
@@ -22,7 +22,7 @@ of a range of aqueous buffers with salts and solvents, obtained from figure 5
 of a Thermo Scientific application note on 'Microplate Based Pathlength
 Correction Method for Photometric DNA Quantification Assay' (Lampinen,
 Raitio, Perälä, Oranen and Harinen, 2012, ANMR_MUGO_0412). The dataset was
-extracted using WebPlotDigitizer (https://automeris.io/WebPlotDigitizer/),
+extracted using WebPlotDigitizer (\verb{https://automeris.io/WebPlotDigitizer/}),
 tidied to allow easier handling for programmatic purposes, and a column was
 added to calculate fold change in k-factors for all buffers compared to
 water. Source: \verb{https://static.thermoscientific.com/images/D20827~.pdf}

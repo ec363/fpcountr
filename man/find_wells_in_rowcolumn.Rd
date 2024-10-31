@@ -11,7 +11,7 @@ find_wells_in_rowcolumn(rows, columns, plate_type = 96)
 
 \item{columns}{number or list of numbers, representing column(s) such as \code{1} or \code{12}. character strings also accepted.}
 
-\item{plate_type}{type of plate. numeric, ie. \code{96} for 96-well plate.}
+\item{plate_type}{type of plate. numeric, i.e. \code{96} for 96-well plate.}
 }
 \value{
 a list containing the names of all the wells in specified row(s) and column(s) of a specified plate

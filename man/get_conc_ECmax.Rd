@@ -24,7 +24,7 @@ slug of FPbase entry.}
 \item{protein_seq}{character string of protein sequence using 1-letter code.
 Required for MW calculation.}
 
-\item{processed_spectrum_csv}{Path to csv file of a processed absorbance
+\item{processed_spectrum_csv}{Path to CSV file of a processed absorbance
 spectrum. Processing should be done with \code{plot_absorbance_spectrum3}, which
 corrects for path lengths and normalises to blank wells.}
 
@@ -34,7 +34,7 @@ NULL.}
 \item{xrange}{list of two numerical values corresponding to the wavelength
 range to keep when fitting the loess model across the absorbance spectrum.
 By default these values are 250nm and 800nm but where the data at the UV
-range is noisy, adjusting the xrange can prevent errors in the fitting.}
+range is noisy, adjusting the \code{xrange} can prevent errors in the fitting.}
 
 \item{corr_method}{string corresponding to type of correction method to use
 for the data to remove contribution of light scatter. Options are \code{none},
@@ -53,31 +53,38 @@ correction. Defaults to 333nm.}
 \item{outfolder}{path to folder where output files should be saved. Defaults
 to current working directory.}
 
-\item{filename}{filename of csv file from fpbase}
+\item{filename}{filename of CSV file from fpbase}
 }
 \description{
 Get protein's concentration from a \emph{dilution series} measured with an
 \emph{A200-1000 absorbance spectrum}. Based on \code{get_conc_A280}, but uses "ECmax",
 the FPbase-stated extinction coefficient for the FPbase-stated maximal
 excitation wavelength (which usually corresponds to its maximal absorbance
-wavelength). ... Function expects an input such as the csv file exported from
-\code{plot_absorbance_spectrum} called '_processed.csv', which contains values
+wavelength). ... Function expects an input such as the CSV file exported from
+\code{plot_absorbance_spectrum} called \verb{_processed.csv}, which contains values
 corrected for path length and normalised to blanks as a column called
 \code{normalised_cm1_value}, but retains replicate data containing positional
 (well) information required for exporting predicted concentrations at the end
 of this function. ... Function uses \code{fpcountR::get_properties} to get FPbase
 EC in M-1cm-1 and wavelength, and converts it to an ECmax mass extinction
-coefficient in (mgml)-1cm-1 using the MW (worked out from \code{protein_seq} and
-\code{fpcountR::get_mw}). Then the function uses the EC_max_mgml to work out the
+coefficient in \verb{(mgml)-1cm-1} using the MW (worked out from \code{protein_seq} and
+\code{fpcountR::get_mw}). Then the function uses the \code{EC_max_mgml} to work out the
 concentration of protein in each well, using three correction methods.
 Instead of using the normalised data directly, the values used are based on a
 LOESS fit through the absorption spectra to minimise fluctuations due to
 noise. ... Finally, linear models are fitted to each concentration prediction
-method, and a csv file is built containing predicted concentrations according
+method, and a CSV file is built containing predicted concentrations according
 to the user's chosen correction method. Plots showing each of the analytical
 steps are saved concurrently. Troubleshooting: for 'incompatible lengths'
-errors, adjust xrange to avoid noisy wavelengths.
+errors, adjust \code{xrange} to avoid noisy wavelengths.
 }
 \examples{
-ecmax_concs <- get_conc_ECmax(protein_slug = "mcherry", protein_seq = protein_seq, processed_spectrum_csv = "abs_parsed_processed.csv", corr_method = "scatter", wav_to_use1 = 700, wav_to_use2 = 315, outfolder = "protquant_ecmax/mCherry_T5N15pi", filename = "mCherry_properties.csv")
+\dontrun{
+  ecmax_concs <- get_conc_ECmax(
+    protein_slug = "mcherry", protein_seq = protein_seq,
+    processed_spectrum_csv = "abs_parsed_processed.csv",
+    corr_method = "scatter", wav_to_use1 = 700, wav_to_use2 = 315,
+    outfolder = "protquant_ecmax/mCherry_T5N15pi", filename = "mCherry_properties.csv"
+  )
+}
 }

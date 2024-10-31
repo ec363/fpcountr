@@ -7,7 +7,7 @@
 find_plate_format(plate_type)
 }
 \arguments{
-\item{plate_type}{type of plate. numeric, ie. \code{96} for 96-well plate.}
+\item{plate_type}{type of plate. numeric, i.e. \code{96} for 96-well plate.}
 }
 \description{
 Internal function.

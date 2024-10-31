@@ -4,7 +4,7 @@
 #'
 #' Works out all wells in that plate type and returns as a list.
 #'
-#' @param plate_type type of plate. numeric, ie. `96` for 96-well plate.
+#' @param plate_type type of plate. numeric, i.e. `96` for 96-well plate.
 #' @return a list containing the names of all the wells of a specified plate
 #'
 #' @export
@@ -37,8 +37,7 @@ find_wells <- function(plate_type = 96){
 #'
 #' Internal function.
 #'
-#' @param plate_type type of plate. numeric, ie. `96` for 96-well plate.
-#'
+#' @param plate_type type of plate. numeric, i.e. `96` for 96-well plate.
 #' @keywords internal
 find_plate_format <- function(plate_type) {
 
@@ -66,8 +65,7 @@ find_plate_format <- function(plate_type) {
 #'
 #' Internal function.
 #'
-#' @param plate_type type of plate. numeric, ie. `96` for 96-well plate.
-#'
+#' @param plate_type type of plate. numeric, i.e. `96` for 96-well plate.
 #' @keywords internal
 #' @export
 find_rows <- function(plate_type = 96){
@@ -86,8 +84,7 @@ find_rows <- function(plate_type = 96){
 #'
 #' Internal function.
 #'
-#' @param plate_type type of plate. numeric, ie. `96` for 96-well plate.
-#'
+#' @param plate_type type of plate. numeric, i.e. `96` for 96-well plate.
 #' @keywords internal
 #' @export
 find_columns <- function(plate_type = 96){
@@ -105,7 +102,7 @@ find_columns <- function(plate_type = 96){
 #' List of all wells in a specific row of a given plate type
 #'
 #' @param rows character string, or list of character strings, representing row(s) such as "A" or "H"
-#' @param plate_type type of plate. numeric, ie. `96` for 96-well plate.
+#' @param plate_type type of plate. numeric, i.e. `96` for 96-well plate.
 #'
 #' @return a list containing the names of all the wells in the specified row(s) of a specified plate
 #' @export
@@ -133,7 +130,7 @@ find_wells_in_row <- function(rows,
 #' List of all wells in a specific column of a given plate type
 #'
 #' @param columns number or list of numbers, representing column(s) such as `1` or `12`. character strings also accepted.
-#' @param plate_type type of plate. numeric, ie. `96` for 96-well plate.
+#' @param plate_type type of plate. numeric, i.e. `96` for 96-well plate.
 #'
 #' @return a list containing the names of all the wells in the specified column(s) of a specified plate
 #' @export
@@ -171,7 +168,7 @@ find_wells_in_column <- function(columns,
 #'
 #' @param rows character string, or list of character strings, representing row(s) such as "A" or "H"
 #' @param columns number or list of numbers, representing column(s) such as `1` or `12`. character strings also accepted.
-#' @param plate_type type of plate. numeric, ie. `96` for 96-well plate.
+#' @param plate_type type of plate. numeric, i.e. `96` for 96-well plate.
 #'
 #' @return a list containing the names of all the wells in specified row(s) and column(s) of a specified plate
 #' @export

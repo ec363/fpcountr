@@ -12,9 +12,9 @@ magellan_spectrum_parse(
 )
 }
 \arguments{
-\item{data_csv}{path to csv file from Tecan Spark plate reader}
+\item{data_csv}{path to CSV file from Tecan Spark plate reader}
 
-\item{layout_csv}{path to csv file containing plate layout information}
+\item{layout_csv}{path to CSV file containing plate layout information}
 
 \item{wellstart}{character string representing first well recorded in data file. Defaults to "A1".}
 
@@ -27,5 +27,11 @@ a data.frame containing the parsed plate reader data
 Parser for absorbance spectrum data exported from a Tecan Spark plate reader using SparkControl Magellan software.
 }
 \examples{
-parsed_data <- magellan_spectrum_parse(data_csv = "data/20210104_data.csv", layout_csv = "data/20210104_data_layout.csv", wellstart = "A1", wellend = "H12")
+\dontrun{
+  parsed_data <- magellan_spectrum_parse(
+    data_csv = "data/20210104_data.csv",
+    layout_csv = "data/20210104_data_layout.csv",
+    wellstart = "A1", wellend = "H12"
+  )
+}
 }

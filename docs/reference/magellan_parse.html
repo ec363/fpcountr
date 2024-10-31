@@ -83,11 +83,11 @@ data.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data_csv</dt>
-<dd><p>path to csv file from Tecan Spark plate reader</p></dd>
+<dd><p>path to CSV file from Tecan Spark plate reader</p></dd>
 
 
 <dt>layout_csv</dt>
-<dd><p>path to csv file containing plate layout information</p></dd>
+<dd><p>path to CSV file containing plate layout information</p></dd>
 
 
 <dt>timeseries</dt>
@@ -110,7 +110,7 @@ kinetic loop. Default is 10.</p></dd>
 with reading the relevant channels, followed by incubation for the interval
 time, meaning the first timepoint was at 0 min. Setting "incubate_first"
 mode tells the script the opposite was true, making the first timepoint
-equal to the length of the set interval, eg 10 min.</p></dd>
+equal to the length of the set interval, e.g. 10 min.</p></dd>
 
 
 <dt>metadata_above</dt>
@@ -131,30 +131,30 @@ Replicate info, etc.</p></dd>
 <dd><p>Boolean flag indicating whether script should deviate from the
 default of collecting data from columns 2:97. If TRUE, script looks at
 arguments <code>insert_wells_above</code>, <code>insert_wells_below</code>, <code>startcol</code>, <code>endcol</code>.
-The total number of columns needs to add up to 96 if the layout_csv file
+The total number of columns needs to add up to 96 if the <code>layout_csv</code> file
 includes rows A1-H12 and they must be in the same order as the layout file
 because this script joins positionally, not by recorded well value (wells
 aren't exported by default).</p></dd>
 
 
 <dt>startcol</dt>
-<dd><p>numeric value corresponding to first column of data_csv
+<dd><p>numeric value corresponding to first column of <code>data_csv</code>
 corresponding to data</p></dd>
 
 
 <dt>endcol</dt>
-<dd><p>numeric value corresponding to last column of data_csv
+<dd><p>numeric value corresponding to last column of <code>data_csv</code>
 corresponding to data</p></dd>
 
 
 <dt>insert_wells_above</dt>
 <dd><p>numeric value corresponding to number of empty
-entries to insert before data in custom mode. This can be useful if a
-subplate was read instead of an entire plate, meaning the number of rows
-created by startcol:endcol does not add up to 96. For example, if the data
-starts at B1, but the plate layout starts at A1, you can set this to 12 to
-add 12 empty rows above the data which allows correct joining of data and
-layout tables.</p></dd>
+entries to insert before data in custom mode. This can be useful if only a
+portion of the plate was read, meaning the number of rows created by
+<code>startcol</code>:<code>endcol</code> does not add up to 96. For example, if the data starts
+at B1, but the plate layout starts at A1, you can set this to 12 to add 12
+empty rows above the data which allows correct joining of data and layout
+tables.</p></dd>
 
 
 <dt>insert_wells_below</dt>
@@ -171,8 +171,19 @@ entries to insert after data in custom mode.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="va">parsed_calib_plate</span> <span class="op">&lt;-</span> <span class="fu">magellan_parse</span><span class="op">(</span>data_csv <span class="op">=</span> <span class="st">"calibrations/20210104_calibration_data.csv"</span>, layout_csv <span class="op">=</span> <span class="st">"calibrations/20210104_calibration_plate_layout.csv"</span>, timeseries <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu">magellan_parse</span><span class="op">(</span>data_csv <span class="op">=</span> <span class="st">"data/20210104_data.csv"</span>, layout_csv <span class="op">=</span> <span class="st">"data/20210104_data_layout.csv"</span>, timeseries <span class="op">=</span> <span class="cn">TRUE</span>, timestart <span class="op">=</span> <span class="st">"0s"</span>, interval <span class="op">=</span> <span class="fl">30</span>, mode <span class="op">=</span> <span class="st">"read_first"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">parsed_calib_plate</span> <span class="op">&lt;-</span> <span class="fu">magellan_parse</span><span class="op">(</span></span>
+<span>    data_csv <span class="op">=</span> <span class="st">"calibrations/20210104_calibration_data.csv"</span>,</span>
+<span>    layout_csv <span class="op">=</span> <span class="st">"calibrations/20210104_calibration_plate_layout.csv"</span>,</span>
+<span>    timeseries <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu">magellan_parse</span><span class="op">(</span></span>
+<span>    data_csv <span class="op">=</span> <span class="st">"data/20210104_data.csv"</span>,</span>
+<span>    layout_csv <span class="op">=</span> <span class="st">"data/20210104_data_layout.csv"</span>,</span>
+<span>    timeseries <span class="op">=</span> <span class="cn">TRUE</span>, timestart <span class="op">=</span> <span class="st">"0s"</span>, interval <span class="op">=</span> <span class="fl">30</span>, mode <span class="op">=</span> <span class="st">"read_first"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

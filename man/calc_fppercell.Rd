@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_fppercell.R
 \name{calc_fppercell}
 \alias{calc_fppercell}
-\title{Calculate FP/cell values}
+\title{Calculate FP per cell values}
 \usage{
 calc_fppercell(
   data_csv,
@@ -17,7 +17,7 @@ calc_fppercell(
 )
 }
 \arguments{
-\item{data_csv}{path to a csv file containing processed plate reader data}
+\item{data_csv}{path to a CSV file containing processed plate reader data}
 
 \item{timecourse}{logical. Is the data timecourse/kinetic data and does it
 include a variable called 'time'?}
@@ -27,18 +27,18 @@ include a variable called 'time'?}
 \item{flu_labels}{the column names for the CALIBRATED fluorescence data}
 
 \item{remove_wells}{list of coordinates of wells to be removed from analysis
-(eg. empty wells)}
+(e.g. empty wells)}
 
-\item{get_rfu_od}{logical. if TRUE, uses normalised_FP and normalised_OD to
+\item{get_rfu_od}{logical. if TRUE, uses \code{normalised_FP} and \code{normalised_OD} to
 calculate FP per cell as FP/OD in relative fluorescence units/relative OD
 (rfu/od).}
 
-\item{get_mol_cell}{logical. if TRUE, uses calibrated_FP and calibrated_OD to
+\item{get_mol_cell}{logical. if TRUE, uses \code{calibrated_FP} and \code{calibrated_OD} to
 calculate FP per cell as FP/OD in relative fluorescence units/relative OD
 (molecules/cell).}
 
-\item{plate_type}{type of plate. numeric, ie. \code{96} for 96-well plate. Defines
-the rows and columns used for plotting figures. Defaults to \code{96}.}
+\item{plate_type}{type of plate. numeric, i.e. '96' for 96-well plate. Defines
+the rows and columns used for plotting figures. Defaults to '96'.}
 
 \item{outfolder}{path to folder where output files should be saved. Defaults
 to current working directory.}
@@ -49,11 +49,19 @@ a data.frame with columns for each FP/cell calculation
 \description{
 Takes as input timecourse plate reader data processed with \code{process_plate}
 and uses normalised/calibrated values to calculate per-cell values. Adds
-column(s) for FP/cell as either: (a) normalisedFP/normalisedOD (rfu/od), (b)
-calibratedFP/calibratedOD (molecules/cell). Plots results and returns df.
+column(s) for FP/cell as either: (a) \code{normalisedFP/normalisedOD} (rfu/od), (b)
+\code{calibratedFP/calibratedOD} (molecules/cell). Plots results and returns df.
 Note that technically, units of molecules are 'molecules of equivalent FP'
 and cells are 'particles of equivalent microspheres'.
 }
 \examples{
-pc_data_mCherry <- calc_fppercell(data_csv = "mcherry_parsed_processed.csv", flu_channels = c("red1red1"), flu_labels = c("mCherry"), remove_wells = c("A11"), get_rfu_od = TRUE, get_mol_cell = TRUE, outfolder = file.path("plots"))
+\dontrun{
+  pc_data_mCherry <- calc_fppercell(
+    data_csv = "mcherry_parsed_processed.csv",
+    flu_channels = c("red1red1"), flu_labels = c("mCherry"),
+    remove_wells = c("A11"),
+    get_rfu_od = TRUE, get_mol_cell = TRUE,
+    outfolder = file.path("plots")
+  )
+}
 }

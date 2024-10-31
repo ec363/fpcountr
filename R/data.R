@@ -19,7 +19,7 @@
 #' of a Thermo Scientific application note on 'Microplate Based Pathlength
 #' Correction Method for Photometric DNA Quantification Assay' (Lampinen,
 #' Raitio, Perälä, Oranen and Harinen, 2012, ANMR_MUGO_0412). The dataset was
-#' extracted using WebPlotDigitizer (https://automeris.io/WebPlotDigitizer/),
+#' extracted using WebPlotDigitizer (`https://automeris.io/WebPlotDigitizer/`),
 #' tidied to allow easier handling for programmatic purposes, and a column was
 #' added to calculate fold change in k-factors for all buffers compared to
 #' water. Source: `https://static.thermoscientific.com/images/D20827~.pdf`
@@ -27,10 +27,10 @@
 #' @format A data frame with 10 rows and 6 variables: \describe{
 #'   \item{buffer}{name of the buffer} \item{concentration}{concentration of the
 #'   buffer, units are variable} \item{units}{units of the concentration column,
-#'   M is molar, pc is percentage ie. w/v (%)} \item{description}{string
+#'   M is molar, pc is percentage i.e. w/v (%)} \item{description}{string
 #'   containing buffer-concentration-units information all in one}
-#'   \item{kfactor}{kfactor value (A975-A900 at 1cm pathlength)}
-#'   \item{fold_change}{fold change in kfactor from water} }
+#'   \item{kfactor}{k-factor value (A975-A900 at 1cm pathlength)}
+#'   \item{fold_change}{fold change in k-factor from water} }
 "kfactors_buffers_data"
 
 #' k-factors of water at different temperatures
@@ -40,13 +40,13 @@
 #' Scientific application note on 'Microplate Based Pathlength Correction Method
 #' for Photometric DNA Quantification Assay' (Lampinen, Raitio, Perälä, Oranen
 #' and Harinen, 2012, ANMR_MUGO_0412). The dataset was extracted using
-#' WebPlotDigitizer (https://automeris.io/WebPlotDigitizer/), and a column was
+#' WebPlotDigitizer (`https://automeris.io/WebPlotDigitizer/`), and a column was
 #' added to calculate fold change in k-factors for temperatures compared to
 #' 25oC. Source: `https://static.thermoscientific.com/images/D20827~.pdf`
 #'
 #' @format A data frame with 10 rows and 6 variables: \describe{
-#'   \item{temperature}{temperature in oC} \item{kfactor}{kfactor value
-#'   (A975-A900 at 1cm pathlength)} \item{fold_change}{fold change in kfactor
+#'   \item{temperature}{temperature in oC} \item{kfactor}{k-factor value
+#'   (A975-A900 at 1cm pathlength)} \item{fold_change}{fold change in k-factor
 #'   from 25oC} }
 "kfactors_temperature_data"
 
@@ -54,13 +54,13 @@
 #'
 #' A dataset containing experimentally derived pathlengths for microplate wells
 #' containing water at different volumes. Pathlengths were derived by using the
-#' equation pathlength (cm) = kfactor_well / kfactor_1cm. Kfactor_well is
+#' equation `pathlength (cm) = kfactor_well / kfactor_1cm`. `Kfactor_well` is
 #' defined as A975-A900 value for each well (there were 4 replicates per volume
-#' per experiment). Kfactor_1cm values were derived using get_kfactors function
+#' per experiment). `Kfactor_1cm` values were derived using `get_kfactors` function
 #' for water at 26oC.
 #'
 #' @format A data frame with 10 rows and 6 variables: \describe{
-#'   \item{volume}{volume in ul} \item{pathlength}{pathlength in cm}
+#'   \item{volume}{volume in µl} \item{pathlength}{pathlength in cm}
 #'   \item{expt}{experiment number denoting experimental repeat} }
 "pathlength_water_data"
 

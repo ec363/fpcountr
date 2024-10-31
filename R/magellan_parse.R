@@ -5,8 +5,8 @@
 #' spectra, such as absorbance scans). Handles standard or kinetic/timecourse
 #' data.
 #'
-#' @param data_csv path to csv file from Tecan Spark plate reader
-#' @param layout_csv path to csv file containing plate layout information
+#' @param data_csv path to CSV file from Tecan Spark plate reader
+#' @param layout_csv path to CSV file containing plate layout information
 #' @param timeseries logical. Is the data a timeseries? Defaults to FALSE.
 #' @param timestart string indicating the timepoint specified in column1 of the
 #'   export file corresponding to the first row of data. "0s" by default.
@@ -17,7 +17,7 @@
 #'   with reading the relevant channels, followed by incubation for the interval
 #'   time, meaning the first timepoint was at 0 min. Setting "incubate_first"
 #'   mode tells the script the opposite was true, making the first timepoint
-#'   equal to the length of the set interval, eg 10 min.
+#'   equal to the length of the set interval, e.g. 10 min.
 #' @param metadata_above numeric value corresponding to the number of types of
 #'   metadata requested during creation of the Excel export file in Magellan,
 #'   that was placed ABOVE the data. These can include Well positions, Layout,
@@ -29,21 +29,21 @@
 #' @param custom Boolean flag indicating whether script should deviate from the
 #'   default of collecting data from columns 2:97. If TRUE, script looks at
 #'   arguments `insert_wells_above`, `insert_wells_below`, `startcol`, `endcol`.
-#'   The total number of columns needs to add up to 96 if the layout_csv file
+#'   The total number of columns needs to add up to 96 if the `layout_csv` file
 #'   includes rows A1-H12 and they must be in the same order as the layout file
 #'   because this script joins positionally, not by recorded well value (wells
 #'   aren't exported by default).
-#' @param startcol numeric value corresponding to first column of data_csv
+#' @param startcol numeric value corresponding to first column of `data_csv`
 #'   corresponding to data
-#' @param endcol numeric value corresponding to last column of data_csv
+#' @param endcol numeric value corresponding to last column of `data_csv`
 #'   corresponding to data
 #' @param insert_wells_above numeric value corresponding to number of empty
-#'   entries to insert before data in custom mode. This can be useful if a
-#'   subplate was read instead of an entire plate, meaning the number of rows
-#'   created by startcol:endcol does not add up to 96. For example, if the data
-#'   starts at B1, but the plate layout starts at A1, you can set this to 12 to
-#'   add 12 empty rows above the data which allows correct joining of data and
-#'   layout tables.
+#'   entries to insert before data in custom mode. This can be useful if only a
+#'   portion of the plate was read, meaning the number of rows created by
+#'   `startcol`:`endcol` does not add up to 96. For example, if the data starts
+#'   at B1, but the plate layout starts at A1, you can set this to 12 to add 12
+#'   empty rows above the data which allows correct joining of data and layout
+#'   tables.
 #' @param insert_wells_below numeric value corresponding to number of empty
 #'   entries to insert after data in custom mode.
 #'
@@ -52,9 +52,20 @@
 #'
 #' @importFrom rlang .data
 #'
-#' @examples parsed_calib_plate <- magellan_parse(data_csv = "calibrations/20210104_calibration_data.csv", layout_csv = "calibrations/20210104_calibration_plate_layout.csv", timeseries = FALSE)
-#' parsed_data <- magellan_parse(data_csv = "data/20210104_data.csv", layout_csv = "data/20210104_data_layout.csv", timeseries = TRUE, timestart = "0s", interval = 30, mode = "read_first")
-
+#' @examples
+#' \dontrun{
+#'   parsed_calib_plate <- magellan_parse(
+#'     data_csv = "calibrations/20210104_calibration_data.csv",
+#'     layout_csv = "calibrations/20210104_calibration_plate_layout.csv",
+#'     timeseries = FALSE
+#'   )
+#'
+#'   parsed_data <- magellan_parse(
+#'     data_csv = "data/20210104_data.csv",
+#'     layout_csv = "data/20210104_data_layout.csv",
+#'     timeseries = TRUE, timestart = "0s", interval = 30, mode = "read_first"
+#'   )
+#' }
 magellan_parse <- function(data_csv, layout_csv, timeseries = FALSE,
                            timestart = "0s",
                            interval = 10, # minutes.
