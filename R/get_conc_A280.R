@@ -78,7 +78,7 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
   # Where protein is none, dilution is usually NA, so these rows are lost in later steps.
   # To keep them, they need a value.
   spectrum_data <- spectrum_data %>%
-    dplyr::mutate(dilution = ifelse(protein == "none", 0, dilution))
+    dplyr::mutate(dilution = ifelse(.data$protein == "none", 0, .data$dilution))
   spectrum_data
   unique(spectrum_data$dilution)
 
@@ -103,13 +103,13 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
 
   # Plot absorbance spectra (250-800nm) of replicates separately as sanity check for reproducibility
   data.to.plot <- spectrum_data_subset %>%
-    dplyr::filter(measure > 250 & measure < 800)
+    dplyr::filter(.data$measure > 250 & .data$measure < 800)
   data.to.plot$dilution <- as.factor(data.to.plot$dilution) # make dilution a factor
   newlist <- levels(data.to.plot$dilution)
   data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
   plot1 <- ggplot2::ggplot(data.to.plot) +
     ggplot2::geom_hline(yintercept = 0, colour = "grey") + # bottom
-    ggplot2::geom_point(ggplot2::aes(x = measure, y = normalised_cm1_value,
+    ggplot2::geom_point(ggplot2::aes(x = .data$measure, y = .data$normalised_cm1_value,
                                      colour = as.factor(replicate)), # where you want to plot >1 replicate
                         size = 0.5) +
     ggplot2::scale_x_continuous("wavelength (nm)", limits = c(250,800)) +
@@ -173,15 +173,15 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
 
   # Plot absorbance spectrum loess with 'geom_smooth' (250-800nm)
   data.to.plot <- summ_data %>%
-    dplyr::filter(measure > 250 & measure < 800)
+    dplyr::filter(.data$measure > 250 & .data$measure < 800)
   data.to.plot$dilution <- as.factor(data.to.plot$dilution) # make dilution a factor
   newlist <- levels(data.to.plot$dilution)
   data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
   plot1 <- ggplot2::ggplot(data.to.plot) +
     ggplot2::geom_hline(yintercept = 0, colour = "grey") + # bottom
-    ggplot2::geom_point(ggplot2::aes(x = measure, y = normalised_cm1_value),
+    ggplot2::geom_point(ggplot2::aes(x = .data$measure, y = .data$normalised_cm1_value),
                         colour = "lightblue") +
-    ggplot2::geom_smooth(ggplot2::aes(x = measure, y = normalised_cm1_value),
+    ggplot2::geom_smooth(ggplot2::aes(x = .data$measure, y = .data$normalised_cm1_value),
                          colour = "black",
                          span = 0.5/5.5 ### could leave as default, us 0.5, or add as argument in function # 0.5 used for 250-350
     ) +
@@ -206,15 +206,15 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
 
   # Plot absorbance spectrum loess with 'geom_smooth' (250-350nm)
   data.to.plot <- summ_data %>%
-    dplyr::filter(measure > 250 & measure < 350)
+    dplyr::filter(.data$measure > 250 & .data$measure < 350)
   data.to.plot$dilution <- as.factor(data.to.plot$dilution) # make dilution a factor
   newlist <- levels(data.to.plot$dilution)
   data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
   plot1 <- ggplot2::ggplot(data.to.plot) +
     ggplot2::geom_hline(yintercept = 0, colour = "grey") + # bottom
-    ggplot2::geom_point(ggplot2::aes(x = measure, y = normalised_cm1_value),
+    ggplot2::geom_point(ggplot2::aes(x = .data$measure, y = .data$normalised_cm1_value),
                         colour = "lightblue") +
-    ggplot2::geom_smooth(ggplot2::aes(x = measure, y = normalised_cm1_value),
+    ggplot2::geom_smooth(ggplot2::aes(x = .data$measure, y = .data$normalised_cm1_value),
                          colour = "black",
                          span = 0.5 # 0.5 used for 250-350
     ) +
@@ -247,26 +247,26 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
 
   # subset
   spectrum_data_subset <- summ_data %>%
-    dplyr::filter(measure > 250) %>%
-    dplyr::filter(measure < 800)
+    dplyr::filter(.data$measure > 250) %>%
+    dplyr::filter(.data$measure < 800)
   # nest
   spectrum_data_nested <- spectrum_data_subset %>%
-    dplyr::group_by(instrument, media, calibrant, dilution) %>%
+    dplyr::group_by(.data$instrument, .data$media, .data$calibrant, .data$dilution) %>%
     tidyr::nest()
   spectrum_data_nested
   spectrum_data_nested$data
   # purrr map to make model
   spectrum_data_nested <- spectrum_data_nested %>%
-    dplyr::mutate(model = purrr::map(data, stats::loess, formula = normalised_cm1_value ~ measure, span = 0.5/5.5)) # 0.5 for 250-350, 0.5/5.5 for 250-800
+    dplyr::mutate(model = purrr::map(.data$data, stats::loess, formula = normalised_cm1_value ~ measure, span = 0.5/5.5)) # 0.5 for 250-350, 0.5/5.5 for 250-800
   spectrum_data_nested
   # extract fitted values!!
   spectrum_data_nested <- spectrum_data_nested %>%
-    dplyr::mutate(fitted_cm1_value = purrr::map(model, `[[`, "fitted"))
+    dplyr::mutate(fitted_cm1_value = purrr::map(.data$model, `[[`, "fitted"))
   spectrum_data_nested
   # remove model column (awkward and no longer necessary) and unnest
   spectrum_data_model <- spectrum_data_nested %>%
-    dplyr::select(-model) %>%
-    tidyr::unnest(cols = c(data, fitted_cm1_value))
+    dplyr::select(-.data$model) %>%
+    tidyr::unnest(cols = c(.data$data, .data$fitted_cm1_value))
   spectrum_data_model
   spectrum_data_model$fitted_cm1_value
 
@@ -279,9 +279,9 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
   data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
   plot1 <- ggplot2::ggplot(data.to.plot) +
     ggplot2::geom_hline(yintercept = 0, colour = "grey") + # bottom
-    ggplot2::geom_point(ggplot2::aes(x = measure, y = normalised_cm1_value), colour = "lightblue") +
+    ggplot2::geom_point(ggplot2::aes(x = .data$measure, y = .data$normalised_cm1_value), colour = "lightblue") +
     # geom_line of extracted loess fitted values
-    ggplot2::geom_line(ggplot2::aes(x = measure, y = fitted_cm1_value)) +
+    ggplot2::geom_line(ggplot2::aes(x = .data$measure, y = .data$fitted_cm1_value)) +
     ggplot2::geom_vline(xintercept = 280, colour = "red") +
     ggplot2::scale_x_continuous("wavelength (nm)", limits = c(250,800)) +
     ggplot2::scale_y_continuous("absorbance (cm-1)") +
@@ -303,9 +303,9 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
   # Model check, uv:
   plot1 <- ggplot2::ggplot(data.to.plot) +
     ggplot2::geom_hline(yintercept = 0, colour = "grey") + # bottom
-    ggplot2::geom_point(ggplot2::aes(x = measure, y = normalised_cm1_value), colour = "lightblue") +
+    ggplot2::geom_point(ggplot2::aes(x = .data$measure, y = .data$normalised_cm1_value), colour = "lightblue") +
     # geom_line of extracted loess fitted values
-    ggplot2::geom_line(ggplot2::aes(x = measure, y = fitted_cm1_value)) +
+    ggplot2::geom_line(ggplot2::aes(x = .data$measure, y = .data$fitted_cm1_value)) +
     ggplot2::geom_vline(xintercept = 280, colour = "red") +
     ggplot2::scale_x_continuous("wavelength (nm)", limits = c(250,350)) +
     ggplot2::scale_y_continuous("absorbance (cm-1)") +
@@ -337,9 +337,9 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
 
   ## 4c. Get mgml extinction coefficient
   ectable <- get_extcoeff_A280(protein = protein_seq, disulphides = disulphides,
-                                showWarnings = showWarnings, showMessages = showMessages,
-                                protein_name = protein_slug, buffer = buffer, mol_weight = protein_mw,
-                                outfolder = outfolder)
+                               showWarnings = showWarnings, showMessages = showMessages,
+                               protein_name = protein_slug, buffer = buffer, mol_weight = protein_mw,
+                               outfolder = outfolder)
   ectable
 
   ## 4d. Add 'EC of 1mg/ml of protein' to table
@@ -369,9 +369,9 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
 
     # Abs
     abs_280 <- temp_diln_values %>%
-      dplyr::filter(measure == 280) %>%
+      dplyr::filter(.data$measure == 280) %>%
       dplyr::ungroup() %>%
-      dplyr::select(fitted_cm1_value) %>% # so pathlength = 1cm
+      dplyr::select(.data$fitted_cm1_value) %>% # so pathlength = 1cm
       as.numeric()
     abs_280
 
@@ -382,7 +382,7 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
 
     # Get conc from this Abs and add it into df
     temp_diln_values <- temp_diln_values %>%
-      dplyr::mutate(conc_a280_std = a280_std/EC_A280_mgml) # quicker
+      dplyr::mutate(conc_a280_std = .data$a280_std/.data$EC_A280_mgml) # quicker
     temp_diln_values
 
     # Rbind
@@ -394,11 +394,11 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
 
   # Plot processing steps
   plot1 <- ggplot2::ggplot(data = df_3 %>%
-                             dplyr::filter(measure == 280)) +
-    ggplot2::geom_point(ggplot2::aes(x = dilution, y = raw_value), colour = "grey") +
-    ggplot2::geom_point(ggplot2::aes(x = dilution, y = raw_cm1_value), colour = "black") +
-    ggplot2::geom_point(ggplot2::aes(x = dilution, y = normalised_cm1_value), colour = "red") +
-    ggplot2::geom_point(ggplot2::aes(x = dilution, y = fitted_cm1_value), colour = "blue") +
+                             dplyr::filter(.data$measure == 280)) +
+    ggplot2::geom_point(ggplot2::aes(x = .data$dilution, y = .data$raw_value), colour = "grey") +
+    ggplot2::geom_point(ggplot2::aes(x = .data$dilution, y = .data$raw_cm1_value), colour = "black") +
+    ggplot2::geom_point(ggplot2::aes(x = .data$dilution, y = .data$normalised_cm1_value), colour = "red") +
+    ggplot2::geom_point(ggplot2::aes(x = .data$dilution, y = .data$fitted_cm1_value), colour = "blue") +
     ggplot2::scale_x_continuous("dilution", limits = c(0,1)) +
     ggplot2::scale_y_continuous("absorbance") +
     ggplot2::labs(subtitle = "raw data and processing steps",
@@ -415,20 +415,20 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
                   width = 8, height = 8, units = "cm")
 
   # Subset data to get rid of negatives:
-  df_3_subset <- subset(df_3, conc_a280_std >= 0)
+  df_3_subset <- subset(df_3, .data$conc_a280_std >= 0)
   # Fit model as (Y ~ X):
   model1 <- stats::lm(conc_a280_std ~ dilution + 0, data = df_3_subset) # force through zero to compare points to ideal
   model1
   plot1 <- ggplot2::ggplot() +
     # all points
     ggplot2::geom_point(data = df_3,
-                        ggplot2::aes(x = dilution, y = conc_a280_std*1000)) +
+                        ggplot2::aes(x = .data$dilution, y = .data$conc_a280_std*1000)) +
     # points used in model
     ggplot2::geom_point(data = df_3_subset,
-                        ggplot2::aes(x = dilution, y = conc_a280_std*1000),
+                        ggplot2::aes(x = .data$dilution, y = .data$conc_a280_std*1000),
                         colour = "red") +
     ggplot2::geom_line(data = df_3, # to extend line to zero
-                       ggplot2::aes(x = dilution,
+                       ggplot2::aes(x = .data$dilution,
                                     y = (stats::predict(model1, df_3))*1000),
                        colour = "red") +
     ggplot2::scale_x_continuous("dilution", limits = c(0,1)) +
@@ -469,15 +469,15 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
 
     # max
     abs_280 <- temp_diln_values %>%
-      dplyr::filter(measure == 280) %>%
+      dplyr::filter(.data$measure == 280) %>%
       dplyr::ungroup() %>%
-      dplyr::select(fitted_cm1_value) %>% # so pathlength = 1cm
+      dplyr::select(.data$fitted_cm1_value) %>% # so pathlength = 1cm
       as.numeric()
     abs_280
     abs_340 <- temp_diln_values %>%
-      dplyr::filter(measure == wav_to_use1) %>%
+      dplyr::filter(.data$measure == wav_to_use1) %>%
       dplyr::ungroup() %>%
-      dplyr::select(fitted_cm1_value) %>% # so pathlength = 1cm
+      dplyr::select(.data$fitted_cm1_value) %>% # so pathlength = 1cm
       as.numeric()
     abs_340
 
@@ -489,7 +489,7 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
 
     # Get conc from this Abs and add it into df
     temp_diln_values <- temp_diln_values %>%
-      dplyr::mutate(conc_a280_corr1 = abs280_corr1/EC_A280_mgml)
+      dplyr::mutate(conc_a280_corr1 = .data$abs280_corr1/.data$EC_A280_mgml)
     temp_diln_values
 
     # Rbind
@@ -500,20 +500,20 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
   df_4
 
   # Subset data to get rid of negatives:
-  df_4_subset <- subset(df_4, conc_a280_corr1 >= 0)
+  df_4_subset <- subset(df_4, .data$conc_a280_corr1 >= 0)
   # Fit model as (Y ~ X):
   model2 <- stats::lm(conc_a280_corr1 ~ dilution + 0, data = df_4_subset) # force through zero to compare points to ideal
   model2
   plot1 <- ggplot2::ggplot() +
     # all points
     ggplot2::geom_point(data = df_4,
-                        ggplot2::aes(x = dilution, y = conc_a280_corr1*1000)) +
+                        ggplot2::aes(x = .data$dilution, y = .data$conc_a280_corr1*1000)) +
     # points used in model
     ggplot2::geom_point(data = df_4_subset,
-                        ggplot2::aes(x = dilution, y = conc_a280_corr1*1000),
+                        ggplot2::aes(x = .data$dilution, y = .data$conc_a280_corr1*1000),
                         colour = "red") +
     ggplot2::geom_line(data = df_4, # to extend line to zero
-                       ggplot2::aes(x = dilution,
+                       ggplot2::aes(x = .data$dilution,
                                     y = (stats::predict(model2, df_4))*1000),
                        colour = "red") +
     ggplot2::scale_x_continuous("dilution", limits = c(0,1)) +
@@ -591,15 +591,15 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
 
     # max
     abs_280 <- temp_diln_values %>%
-      dplyr::filter(measure == 280) %>%
+      dplyr::filter(.data$measure == 280) %>%
       dplyr::ungroup() %>%
-      dplyr::select(fitted_cm1_value) %>% # so pathlength = 1cm
+      dplyr::select(.data$fitted_cm1_value) %>% # so pathlength = 1cm
       as.numeric()
     abs_280
     abs_333 <- temp_diln_values %>%
-      dplyr::filter(measure == wav_to_use2) %>%
+      dplyr::filter(.data$measure == wav_to_use2) %>%
       dplyr::ungroup() %>%
-      dplyr::select(fitted_cm1_value) %>% # so pathlength = 1cm
+      dplyr::select(.data$fitted_cm1_value) %>% # so pathlength = 1cm
       as.numeric()
     abs_333
 
@@ -611,7 +611,7 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
 
     # Get conc from this value and add it into df
     temp_diln_values <- temp_diln_values %>%
-      dplyr::mutate(conc_a280_corr2 = abs280_corr2/EC_A280_mgml)
+      dplyr::mutate(conc_a280_corr2 = .data$abs280_corr2/.data$EC_A280_mgml)
     temp_diln_values
 
     # Rbind
@@ -622,7 +622,7 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
   df_5
 
   # Subset data to get rid of negatives:
-  df_5_subset <- subset(df_5, conc_a280_corr2 >= 0)
+  df_5_subset <- subset(df_5, .data$conc_a280_corr2 >= 0)
   # Fit model as (Y ~ X):
   model3 <- stats::lm(conc_a280_corr2 ~ dilution + 0, data = df_5_subset) # force through zero to compare points to ideal
   model3
@@ -631,13 +631,13 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
   plot1 <- ggplot2::ggplot() +
     # all points
     ggplot2::geom_point(data = df_5,
-                        ggplot2::aes(x = dilution, y = conc_a280_corr2*1000)) +
+                        ggplot2::aes(x = .data$dilution, y = .data$conc_a280_corr2*1000)) +
     # points used in model
     ggplot2::geom_point(data = df_5_subset,
-                        ggplot2::aes(x = dilution, y = conc_a280_corr2*1000),
+                        ggplot2::aes(x = .data$dilution, y = .data$conc_a280_corr2*1000),
                         colour = "red") +
     ggplot2::geom_line(data = df_5, # to extend line to zero
-                       ggplot2::aes(x = dilution,
+                       ggplot2::aes(x = .data$dilution,
                                     y = (stats::predict(model3, df_5))*1000),
                        colour = "red") +
     ggplot2::scale_x_continuous("dilution", limits = c(0,1)) +
@@ -727,13 +727,13 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
   ## Tidy data
   df_6 <- df_5 %>%
     dplyr::ungroup() %>%
-    dplyr::select(media, calibrant, protein, dilution,
-                  measure,
-                  conc_a280_std, conc_a280_corr1, conc_a280_corr2) %>%
-    dplyr::filter(measure == 280)
+    dplyr::select(.data$media, .data$calibrant, .data$protein, .data$dilution,
+                  .data$measure,
+                  .data$conc_a280_std, .data$conc_a280_corr1, .data$conc_a280_corr2) %>%
+    dplyr::filter(.data$measure == 280)
   df_6 <- df_6 %>%
     tidyr::pivot_longer(cols = c(
-      conc_a280_std, conc_a280_corr1, conc_a280_corr2),
+      .data$conc_a280_std, .data$conc_a280_corr1, .data$conc_a280_corr2),
       names_to = "type", values_to = "value")
   df_6
   df_6$type <- factor(df_6$type, levels = c("conc_a280_std", "conc_a280_corr1", "conc_a280_corr2"))
@@ -742,31 +742,31 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
 
   # remove blanks
   df_7 <- df_6 %>%
-    dplyr::filter(protein != "none")
+    dplyr::filter(.data$protein != "none")
 
   # nest to get to df with three rows, one per model required
   # nesting methods from https://r4ds.had.co.nz/many-models.html
   df_7_nested <- df_7 %>%
-    dplyr::group_by(media, calibrant, protein, measure, type) %>%
+    dplyr::group_by(.data$media, .data$calibrant, .data$protein, .data$measure, .data$type) %>%
     tidyr::nest() # basically nesting dilution and value cols only
   df_7_nested
   df_7_nested$data
 
   # purrr map to make models
   df_7_nested <- df_7_nested %>%
-    dplyr::mutate(model = purrr::map(data, stats::lm, formula = value ~ dilution + 0))
+    dplyr::mutate(model = purrr::map(.data$data, stats::lm, formula = value ~ dilution + 0))
   df_7_nested
   df_7_nested$model
 
   # extract fitted values
   df_7_nested <- df_7_nested %>%
-    dplyr::mutate(tidied = purrr::map(model, broom::tidy)) %>% # tidy fn from broom # https://cran.r-project.org/web/packages/broom/vignettes/broom_and_dplyr.html
-    tidyr::unnest(tidied)
+    dplyr::mutate(tidied = purrr::map(.data$model, broom::tidy)) %>% # tidy fn from broom # https://cran.r-project.org/web/packages/broom/vignettes/broom_and_dplyr.html
+    tidyr::unnest(.data$tidied)
   df_7_nested
 
   # save model coefficients
   df_7_model_tosave <- df_7_nested %>%
-    dplyr::select(-model, -data)
+    dplyr::select(-.data$model, -.data$data)
   df_7_model_tosave
   csvname <- "a280_coeffs.csv"
   utils::write.csv(x = df_7_model_tosave, file = file.path(outfolder, csvname), row.names = FALSE)
@@ -774,17 +774,17 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
   ### Plot points and model fits
 
   df_9 <- df_7_nested %>%
-    tidyr::unnest(data) %>%
-    dplyr::mutate(pred_conc = estimate*dilution)
+    tidyr::unnest(.data$data) %>%
+    dplyr::mutate(pred_conc = .data$estimate*.data$dilution)
   df_9
   type.labs <- c("none", "baseline", "scatter")
   names(type.labs) <- c("conc_a280_std", "conc_a280_corr1", "conc_a280_corr2")
 
   plot1 <- ggplot2::ggplot() +
     # data
-    ggplot2::geom_point(data = df_6, ggplot2::aes(x = dilution, y = value*1000)) +
+    ggplot2::geom_point(data = df_6, ggplot2::aes(x = .data$dilution, y = .data$value*1000)) +
     # model
-    ggplot2::geom_line(data = df_9, ggplot2::aes(x = dilution, y = pred_conc*1000)) +
+    ggplot2::geom_line(data = df_9, ggplot2::aes(x = .data$dilution, y = .data$pred_conc*1000)) +
     ggplot2::geom_hline(yintercept = 0) +
 
     ggplot2::scale_x_continuous("dilution", limits = c(0,1)) +
@@ -808,12 +808,12 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
   plot1 <- ggplot2::ggplot() +
     # data
     ggplot2::geom_point(data = df_6 %>%
-                          dplyr::filter(dilution != 0),
-                        ggplot2::aes(x = dilution, y = value*1000)) +
+                          dplyr::filter(.data$dilution != 0),
+                        ggplot2::aes(x = .data$dilution, y = .data$value*1000)) +
     # model
     ggplot2::geom_line(data = df_9 %>%
-                          dplyr::filter(dilution != 0),
-                        ggplot2::aes(x = dilution, y = pred_conc*1000)) +
+                         dplyr::filter(.data$dilution != 0),
+                       ggplot2::aes(x = .data$dilution, y = .data$pred_conc*1000)) +
     ggplot2::scale_x_log10("dilution") +
     ggplot2::scale_y_log10("concentration (ng/ul)") +
     ggplot2::facet_grid(. ~ type,
@@ -840,8 +840,8 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
   ## Prep base df
   names(spectrum_data)
   spectrum_data_tidy <- spectrum_data %>%
-    dplyr::select(c( media:well )) %>% # take all cols between A:B - https://suzan.rbind.io/2018/01/dplyr-tutorial-1/
-    dplyr::select(c( -volume )) # remove volume as downstream assays may have used different volumes
+    dplyr::select(c( .data$media:.data$well )) %>% # take all cols between A:B - https://suzan.rbind.io/2018/01/dplyr-tutorial-1/
+    dplyr::select(c( -.data$volume )) # remove volume as downstream assays may have used different volumes
   names(spectrum_data_tidy)
   # loads of duplicated rows here now that measure (wavelength) and absorption value columns have been deleted
   nrow(spectrum_data_tidy) # eg. 19,224
@@ -862,25 +862,25 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
   df_7_nested
   if(corr_method == "none"){
     conc_fit_coef <- df_7_nested %>%
-      dplyr::filter(type == "conc_a280_std") %>%
+      dplyr::filter(.data$type == "conc_a280_std") %>%
       dplyr::ungroup() %>%
-      dplyr::select(estimate) %>%
+      dplyr::select(.data$estimate) %>%
       as.numeric()
     conc_fit_coef
   }
   if(corr_method == "baseline"){
     conc_fit_coef <- df_7_nested %>%
-      dplyr::filter(type == "conc_a280_corr1") %>%
+      dplyr::filter(.data$type == "conc_a280_corr1") %>%
       dplyr::ungroup() %>%
-      dplyr::select(estimate) %>%
+      dplyr::select(.data$estimate) %>%
       as.numeric()
     conc_fit_coef
   }
   if(corr_method == "scatter"){
     conc_fit_coef <- df_7_nested %>%
-      dplyr::filter(type == "conc_a280_corr2") %>%
+      dplyr::filter(.data$type == "conc_a280_corr2") %>%
       dplyr::ungroup() %>%
-      dplyr::select(estimate) %>%
+      dplyr::select(.data$estimate) %>%
       as.numeric()
     conc_fit_coef
   }
@@ -888,12 +888,12 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
   # add concs
   conc_data <- conc_data %>%
     # Concentration = predicted concentration for the highest dilution, multiplied down for each dilution
-    dplyr::mutate(concentration_ngul = conc_fit_coef * dilution * 1000) # *1000 to convert from ug/ul to ng/ul
+    dplyr::mutate(concentration_ngul = conc_fit_coef * .data$dilution * 1000) # *1000 to convert from ug/ul to ng/ul
   conc_data
 
   # fill in protein column where dilution exists (for ease of future joining)
   conc_data <- conc_data %>%
-    dplyr::mutate(protein = ifelse(.data$protein == "" & !is.na(.data$dilution), calibr, protein))
+    dplyr::mutate(protein = ifelse(.data$protein == "" & !is.na(.data$dilution), .data$calibr, .data$protein))
   # if protein column is empty AND dilution is not NA, add the calibr into the protein column, else, leave protein entry as it is
   conc_data
 
@@ -912,4 +912,3 @@ get_conc_A280 <- function(protein_slug, protein_seq, buffer = "",
   return(conc_data)
 
 }
-

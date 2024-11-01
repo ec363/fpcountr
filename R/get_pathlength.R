@@ -37,7 +37,7 @@ get_pathlength <- function(test_volume, plot = FALSE, outfolder = "."){
 
   data.to.plot <- pathlength_volume_data
   plot1 <- ggplot2::ggplot(data = data.to.plot) +
-    ggplot2::geom_point(ggplot2::aes(x = volume, y = pathlength)) +
+    ggplot2::geom_point(ggplot2::aes(x = volume, y = .data$pathlength)) +
     ggplot2::scale_x_continuous("volume (ul)", limits = c(0,300)) +
     ggplot2::scale_y_continuous("path length (cm)", limits = c(0, 1)) +
     ggplot2::theme_bw() +
@@ -82,14 +82,14 @@ get_pathlength <- function(test_volume, plot = FALSE, outfolder = "."){
 
       # black: pathlength vs volume data
       ggplot2::geom_point(data = pathlength_volume_data,
-                          ggplot2::aes(x = volume, y = pathlength)) +
+                          ggplot2::aes(x = volume, y = .data$pathlength)) +
       # black: pathlength vs volume model using volumes that go to 0
       ggplot2::geom_line(data = df2,
                          ggplot2::aes(x = volume,
                                       y = stats::predict(model2, df2))) +
       # red: predicted pathlength for given volume
       ggplot2::geom_point(data = small_df,
-                          ggplot2::aes(x = volume, y = pathlength),
+                          ggplot2::aes(x = volume, y = .data$pathlength),
                           colour = "red", shape = 1, size = 2) +
       # ggplot2::geom_vline(xintercept = small_df$volume[1], colour = "red") +
       # ggplot2::geom_hline(yintercept = small_df$pathlength[1], colour = "red") +

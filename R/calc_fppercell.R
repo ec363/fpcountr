@@ -166,7 +166,7 @@ calc_fppercell <- function(data_csv,
           # heatmap1 - raw fluor
           max_value <- max(percell_data[[flu_channels[flu_idx]]], na.rm = TRUE)
           plt_flu <- ggplot2::ggplot(data = percell_data,
-                                           ggplot2::aes(x = column, y = row, fill = .data[[flu_channels[flu_idx]]])) +
+                                           ggplot2::aes(x = .data$column, y = row, fill = .data[[flu_channels[flu_idx]]])) +
 
             ggplot2::geom_tile() +
             ggplot2::scale_x_discrete("", position = "top",
@@ -199,7 +199,7 @@ calc_fppercell <- function(data_csv,
           # heatmap2 - normalised fluor
           max_value <- max(percell_data[[paste0("normalised_", flu_channels[flu_idx])]], na.rm = TRUE)
           plt_flu <- ggplot2::ggplot(data = percell_data,
-                                           ggplot2::aes(x = column, y = row, fill = .data[[paste0("normalised_", flu_channels[flu_idx])]])) +
+                                           ggplot2::aes(x = .data$column, y = row, fill = .data[[paste0("normalised_", flu_channels[flu_idx])]])) +
 
             ggplot2::geom_tile() +
             ggplot2::scale_x_discrete("", position = "top",
@@ -273,7 +273,7 @@ calc_fppercell <- function(data_csv,
         # heatmap - normalised fluor per OD
         max_value <- max(percell_data[[paste0("normalised", flu_channels[flu_idx], "_perOD")]], na.rm = TRUE)
         plt_flu <- ggplot2::ggplot(data = percell_data,
-                                         ggplot2::aes(x = column, y = row, fill = .data[[paste0("normalised", flu_channels[flu_idx], "_perOD")]])) +
+                                         ggplot2::aes(x = .data$column, y = row, fill = .data[[paste0("normalised", flu_channels[flu_idx], "_perOD")]])) +
 
           ggplot2::geom_tile() +
           ggplot2::scale_x_discrete("", position = "top",
@@ -465,7 +465,7 @@ calc_fppercell <- function(data_csv,
           # heatmap - calibrated fluor
           max_value <- max(percell_data[[paste0("calibrated_", flu_labels[flu_idx])]], na.rm = TRUE)
           plt_flu_calib <- ggplot2::ggplot(data = percell_data,
-                                           ggplot2::aes(x = column, y = row, fill = .data[[paste0("calibrated_", flu_labels[flu_idx])]])) +
+                                           ggplot2::aes(x = .data$column, y = row, fill = .data[[paste0("calibrated_", flu_labels[flu_idx])]])) +
 
             ggplot2::geom_tile() +
             ggplot2::scale_x_discrete("", position = "top",
@@ -533,7 +533,7 @@ calc_fppercell <- function(data_csv,
         # heatmap - calibrated fluor per cell
         max_value <- max(percell_data[[paste0("calibrated", flu_labels[flu_idx], "_perCell")]], na.rm = TRUE)
         plt_flu_calib <- ggplot2::ggplot(data = percell_data,
-                                         ggplot2::aes(x = column, y = row, fill = .data[[paste0("calibrated", flu_labels[flu_idx], "_perCell")]])) +
+                                         ggplot2::aes(x = .data$column, y = row, fill = .data[[paste0("calibrated", flu_labels[flu_idx], "_perCell")]])) +
 
           ggplot2::geom_tile() +
           ggplot2::scale_x_discrete("", position = "top",

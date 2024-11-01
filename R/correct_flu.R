@@ -56,8 +56,12 @@ correct_flu <- function(pr_data,
 
   pr_data <- pr_data %>%
     # dplyr::mutate(flu_quench = param1*(normalised_OD_cm1)^2 + param2*(normalised_OD_cm1) + param3) %>% # handwritten version
-    dplyr::mutate(flu_quench = stats::predict(quench_model, .)) %>%
-    dplyr::mutate(v1 = .data[[paste0("normalised_", flu_channel)]] / flu_quench)
+
+    # dplyr::mutate(flu_quench = stats::predict(quench_model, .)) %>% # . here causes R CMD CHECK to flag a globalVariable NOTE
+    # dplyr::mutate(flu_quench = stats::predict(quench_model, .data)) %>% # .data here removes NOTE but makes fn fail
+    dplyr::mutate(flu_quench = stats::predict(quench_model, pr_data)) %>% # pr_data removes NOTE without error
+
+    dplyr::mutate(v1 = .data[[paste0("normalised_", flu_channel)]] / .data$flu_quench)
   # flu_quench represents expected quenching that has already happened. so to correct for it we must divide by this
   # eg if quench = 0.90, that suggests we are seeing 90% of the real value. dividing by 0.9 would help us correct this.
   pr_data[1:5,]

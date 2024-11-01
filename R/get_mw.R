@@ -16,6 +16,8 @@ get_mw <- function(protein){
   # eg # aa_mass_data
   # source: https://web.expasy.org/findmod/findmod_masses.html#AA
 
+  aa_mass_data <- fpcountr::aa_mass_data # to fix globalVariable NOTE
+
   # Get AAs ----------------------------------
   amino_acids <- strsplit(protein, split="")
   # class(amino_acids) # list
@@ -33,8 +35,8 @@ get_mw <- function(protein){
 
     num_aa <- length(which(amino_acids == new_aa)) # count AA
     mass_aa <- aa_mass_data %>% # get mass of AA
-      dplyr::filter(X1.letter.code == new_aa) %>%
-      dplyr::select(average) %>%
+      dplyr::filter(.data$X1.letter.code == new_aa) %>%
+      dplyr::select(.data$average) %>%
       as.numeric()
     added_mass <- num_aa*mass_aa # find total mass of all of those AAs
 

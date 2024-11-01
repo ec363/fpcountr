@@ -21,11 +21,11 @@ find_wells <- function(plate_type = 96){
   rows <- find_rows(plate_type = plate_type)
   columns <- find_columns(plate_type = plate_type)
 
-  # find combinations of rows and columns, ie well names
+  # find combinations of rows and columns, i.e. well names
   df <- expand.grid(row = rows, column = columns)
   df <- df %>%
     dplyr::arrange(row) %>%
-    dplyr::mutate(well = paste0(row, column))
+    dplyr::mutate(well = paste0(row, .data$column))
   df
 
   all_wells <- df$well # save list of wells

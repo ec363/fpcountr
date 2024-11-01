@@ -190,7 +190,7 @@ process_plate <- function(
       max_value <- max(od_norm_pr_data[[od_name]], na.rm = TRUE)
       plt_od <- ggplot2::ggplot(data = od_norm_pr_data,
                                 # ggplot2::aes(x = row, y = column, fill = .data[[od_name]])) +
-                                ggplot2::aes(x = column, y = row, fill = .data[[od_name]])) +
+                                ggplot2::aes(x = .data$column, y = row, fill = .data[[od_name]])) +
 
         ggplot2::geom_tile() +
         ggplot2::scale_x_discrete("", position = "top", # put axis labels at top
@@ -219,7 +219,7 @@ process_plate <- function(
       # normalised OD
       max_value <- max(od_norm_pr_data$normalised_OD, na.rm = TRUE)
       plt_od <- ggplot2::ggplot(data = od_norm_pr_data,
-                                ggplot2::aes(x = column, y = row, fill = .data$normalised_OD)) +
+                                ggplot2::aes(x = .data$column, y = row, fill = .data$normalised_OD)) +
 
         ggplot2::geom_tile() +
         ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(od_norm_pr_data$column))) +
@@ -285,7 +285,7 @@ process_plate <- function(
         # heatmap1 - raw OD
         max_value <- max(od_norm_pr_data$normalised_OD_cm1, na.rm = TRUE)
         plt_od <- ggplot2::ggplot(data = od_norm_pr_data,
-                                  ggplot2::aes(x = column, y = row, fill = .data$normalised_OD_cm1)) +
+                                  ggplot2::aes(x = .data$column, y = row, fill = .data$normalised_OD_cm1)) +
 
           ggplot2::geom_tile() +
           ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(od_norm_pr_data$column))) +
@@ -366,7 +366,7 @@ process_plate <- function(
       # heatmap1 - raw fluor
       max_value <- max(flu_norm_pr_data[[flu_channels[flu_idx]]], na.rm = TRUE)
       plt_flu <- ggplot2::ggplot(data = flu_norm_pr_data,
-                                 ggplot2::aes(x = column, y = row, fill = .data[[flu_channels[flu_idx]]])) +
+                                 ggplot2::aes(x = .data$column, y = row, fill = .data[[flu_channels[flu_idx]]])) +
 
         ggplot2::geom_tile() +
         ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(flu_norm_pr_data$column))) +
@@ -393,7 +393,7 @@ process_plate <- function(
       # heatmap2 - normalised fluor
       max_value <- max(flu_norm_pr_data[[paste0("normalised_", flu_channels[flu_idx])]], na.rm = TRUE)
       plt_flu <- ggplot2::ggplot(data = flu_norm_pr_data,
-                                 ggplot2::aes(x = column, y = row, fill = .data[[paste("normalised_", flu_channels[flu_idx], sep = "")]])) +
+                                 ggplot2::aes(x = .data$column, y = row, fill = .data[[paste("normalised_", flu_channels[flu_idx], sep = "")]])) +
 
         ggplot2::geom_tile() +
         ggplot2::scale_x_discrete("", position = "top", # put axis labels at top
@@ -478,7 +478,7 @@ process_plate <- function(
         # heatmap - corrected
         max_value <- max(out_data[[paste0("corrected_normalised_", flu_channels[flu_idx])]], na.rm = TRUE)
         plt_flu <- ggplot2::ggplot(data = out_data,
-                                   ggplot2::aes(x = column, y = row, fill = .data[[paste("corrected_normalised_", flu_channels[flu_idx], sep = "")]])) +
+                                   ggplot2::aes(x = .data$column, y = row, fill = .data[[paste("corrected_normalised_", flu_channels[flu_idx], sep = "")]])) +
 
           ggplot2::geom_tile() +
           ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(out_data$column))) +
@@ -564,7 +564,7 @@ process_plate <- function(
         # heatmap - calibrated OD
         max_value <- max(out_data$calibrated_OD, na.rm = TRUE)
         plt_od_calib <- ggplot2::ggplot(data = out_data,
-                                        ggplot2::aes(x = column, y = row, fill = .data$calibrated_OD)) +
+                                        ggplot2::aes(x = .data$column, y = row, fill = .data$calibrated_OD)) +
 
           ggplot2::geom_tile() +
           ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(out_data$column))) +
@@ -635,7 +635,7 @@ process_plate <- function(
         # heatmap - calibrated OD
         max_value <- max(out_data[[paste0("calibrated_", flu_labels[flu_idx])]], na.rm = TRUE)
         plt_flu_calib <- ggplot2::ggplot(data = out_data,
-                                         ggplot2::aes(x = column, y = row, fill = .data[[paste("calibrated_", flu_labels[flu_idx], sep = "")]])) +
+                                         ggplot2::aes(x = .data$column, y = row, fill = .data[[paste("calibrated_", flu_labels[flu_idx], sep = "")]])) +
 
           ggplot2::geom_tile() +
           ggplot2::scale_x_discrete("", position = "top", limits = factor(unique(out_data$column))) +

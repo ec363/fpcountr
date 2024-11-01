@@ -62,7 +62,7 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
   names(bca_data)[col_idx] <- "raw_bca"
   # Rename volume column to allow joining
   bca_data <- bca_data %>%
-    dplyr::rename(volume_bca = volume)
+    dplyr::rename(volume_bca = .data$volume)
 
   if(is.null(a562_baseline_csv)){
 
@@ -78,7 +78,7 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
     names(a562_baseline_data)[col_idx] <- "raw_baseline"
     # Rename volume column to allow joining
     a562_baseline_data <- a562_baseline_data %>%
-      dplyr::rename(volume_a562 = volume)
+      dplyr::rename(volume_a562 = .data$volume)
     # # Easiest to join data as early as possible
     # colnames(bca_data)
     # colnames(a562_baseline_data)
@@ -105,21 +105,21 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
   # Take only the rows with the correct buffer
   # To avoid the large errors that occur when BSA and FP results in different buffers are compared
   joined_data <- joined_data %>%
-    dplyr::filter(media == buffer)
+    dplyr::filter(.data$media == buffer)
 
   # Normalise --------------------------------------------------------------------------------------------------
 
   # Step1. For each well, subtract raw_baseline (baseline A562 absorbance) from raw_bca (BCA value)
 
   norm_data <- joined_data %>%
-    dplyr::mutate(base_norm_bca = raw_bca - (volume_bca/volume_a562)*raw_baseline)
+    dplyr::mutate(base_norm_bca = .data$raw_bca - (.data$volume_bca/.data$volume_a562)*.data$raw_baseline)
   ## nb. volume differences matter because they effect the path length. the path length varies with volume proportionally (see pathlength_water_data).
   norm_data
 
   # Step2. Take mean of baseline-normalised blanks/buffers, subtract this from baseline-normalised values of proteins
 
   # Identify negatives/blanks
-  blanks_bca <- subset(norm_data, protein == "none")
+  blanks_bca <- subset(norm_data, .data$protein == "none")
   blanks_bca
   mean_blanks_bca <- mean(blanks_bca$base_norm_bca, na.rm = TRUE)
   mean_blanks_bca
@@ -128,7 +128,7 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
   processed_bca <- norm_data %>%
     dplyr::mutate(mean_blanks_bca = mean_blanks_bca) %>%
     # make new column called 'mean_blanks_bca' which contains the value of object mean_blanks_bca from above
-    dplyr::mutate(normalised_bca = base_norm_bca - mean_blanks_bca)
+    dplyr::mutate(normalised_bca = .data$base_norm_bca - mean_blanks_bca)
   processed_bca
 
   # Save processed BCA data - BSA and FP ---------------------------------------------------------------------
@@ -139,19 +139,19 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
   # Basic Plots ---------------------------------------------------------------------
 
   # Remove blanks for plotting
-  data.to.plot <- subset(processed_bca, protein != "none" & protein != "")
+  data.to.plot <- subset(processed_bca, .data$protein != "none" & .data$protein != "")
   data.to.plot
 
   # Plot BSA and FP(s) - dilution vs raw/normalised values
   plot3 <- ggplot2::ggplot(data.to.plot) +
-    ggplot2::geom_point(ggplot2::aes(x = dilution,
-                                     y = raw_bca,
+    ggplot2::geom_point(ggplot2::aes(x = .data$dilution,
+                                     y = .data$raw_bca,
                                      colour = "raw")) +
-    ggplot2::geom_point(ggplot2::aes(x = dilution,
-                                     y = base_norm_bca,
+    ggplot2::geom_point(ggplot2::aes(x = .data$dilution,
+                                     y = .data$base_norm_bca,
                                      colour = "baseline normalised")) +
-    ggplot2::geom_point(ggplot2::aes(x = dilution,
-                                     y = normalised_bca,
+    ggplot2::geom_point(ggplot2::aes(x = .data$dilution,
+                                     y = .data$normalised_bca,
                                      colour = "baseline and blank normalised")) +
 
     ggplot2::geom_hline(yintercept = 0) +
@@ -177,9 +177,9 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
                   height = 16, width = 16, units = "cm")
 
   # Plot BSA vs conc
-  plot3 <- ggplot2::ggplot(subset(data.to.plot, protein == "BSA")) +
-    ggplot2::geom_point(ggplot2::aes(x = concentration_ngul,
-                                     y = normalised_bca)) +
+  plot3 <- ggplot2::ggplot(subset(data.to.plot, .data$protein == "BSA")) +
+    ggplot2::geom_point(ggplot2::aes(x = .data$concentration_ngul,
+                                     y = .data$normalised_bca)) +
     ggplot2::geom_hline(yintercept = 0) +
     ggplot2::scale_y_continuous(limits = c(0, 2.5)) +
     ggplot2::xlab("concentration (ng/ul)") +
@@ -224,9 +224,9 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
 
   # Plot raw A562 baselines...
   plot3 <- ggplot2::ggplot(data.to.plot) +
-    ggplot2::geom_point(ggplot2::aes(x = dilution,
-                                     y = raw_baseline,
-                                     colour = protein)) +
+    ggplot2::geom_point(ggplot2::aes(x = .data$dilution,
+                                     y = .data$raw_baseline,
+                                     colour = .data$protein)) +
     ggplot2::scale_y_continuous(limits = c(0,0.15)) +
     ggplot2::xlab("dilution") +
     ggplot2::ylab("A562") +
@@ -254,11 +254,11 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
   processed_a562 <- processed_bca %>%
     dplyr::mutate(mean_blanks_baseline = mean_blanks_a562) %>%
     dplyr::mutate(sd_blanks_baseline = sd_blanks_a562) %>%
-    dplyr::mutate(normalised_baseline = raw_baseline - mean_blanks_baseline)
+    dplyr::mutate(normalised_baseline = .data$raw_baseline - .data$mean_blanks_baseline)
   processed_a562
 
   # Remove blanks for plotting
-  data.to.plot3 <- subset(processed_a562, protein != "none" & protein != "")
+  data.to.plot3 <- subset(processed_a562, .data$protein != "none" & .data$protein != "")
   data.to.plot3
 
   # Plot A562 baselines, visualised normalised to its own blanks...
@@ -271,9 +271,9 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
     ggplot2::geom_hline(yintercept = 0) +
 
     # data
-    ggplot2::geom_point(ggplot2::aes(x = dilution,
-                                     y = normalised_baseline,
-                                     colour = protein)) +
+    ggplot2::geom_point(ggplot2::aes(x = .data$dilution,
+                                     y = .data$normalised_baseline,
+                                     colour = .data$protein)) +
 
     ggplot2::scale_y_continuous(limits = c(-0.02,0.02)) +
     ggplot2::xlab("dilution") +
@@ -296,7 +296,7 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
   # Fit polynomial curve to BSA vs concentration relationship, to obtain standard curve -----------------------------------------------
 
   # Separate out standards
-  data_standards <- subset(processed_bca, protein == "BSA")
+  data_standards <- subset(processed_bca, .data$protein == "BSA")
   data_standards
 
   # Fit curve with A562 on X and conc on Y:
@@ -322,9 +322,9 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
 
   # Plot BSA standard curve with polynomial fit
   plot3 <- ggplot2::ggplot(data_standards) +
-    ggplot2::geom_point(ggplot2::aes(x = normalised_bca,
-                                     y = concentration_ngul)) +
-    ggplot2::geom_line(ggplot2::aes(x = normalised_bca,
+    ggplot2::geom_point(ggplot2::aes(x = .data$normalised_bca,
+                                     y = .data$concentration_ngul)) +
+    ggplot2::geom_line(ggplot2::aes(x = .data$normalised_bca,
                                     y = stats::predict(model, data_standards))) +
 
     ggplot2::xlab("A562") +
@@ -349,7 +349,7 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
   # Get concentration estimates for chosen FP ----------------------------------------------------------------------------------------
 
   # Get FP data
-  data_tests <- subset(processed_bca, protein == calibr)
+  data_tests <- subset(processed_bca, .data$protein == calibr)
   data_tests
 
   # Add column
@@ -391,8 +391,8 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
   # Plot concentration estimates vs dilutions
   plt4 <- ggplot2::ggplot(data_tests) +
     ggplot2::geom_hline(yintercept = 0, colour = "grey") + # to guide the eyes
-    ggplot2::geom_point(ggplot2::aes(x = dilution,
-                                     y = predicted_conc)) + # data
+    ggplot2::geom_point(ggplot2::aes(x = .data$dilution,
+                                     y = .data$predicted_conc)) + # data
     ggplot2::ylab("predicted concentration") +
     ggplot2::labs(title = "Predicted concentration vs dilution") +
     ggplot2::theme_bw() +
@@ -430,15 +430,15 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
     # NB Need to use a base df that contains columns like well, row, column - use input df
     names(bca_data)
     bca_data_tidy <- bca_data %>%
-      dplyr::select(c( media:well )) %>% # take all cols between A:B - https://suzan.rbind.io/2018/01/dplyr-tutorial-1/
-      dplyr::select(c( -volume_bca )) # remove volume as downstream assays may have used different volumes
+      dplyr::select(c( .data$media:.data$well )) %>% # take all cols between A:B - https://suzan.rbind.io/2018/01/dplyr-tutorial-1/
+      dplyr::select(c( -.data$volume_bca )) # remove volume as downstream assays may have used different volumes
     names(bca_data_tidy)
     bca_data_tidy
 
     # subset
     conc_data <- bca_data_tidy %>%
-      dplyr::filter(calibrant == calibr) %>%
-      dplyr::filter(media == buffer)
+      dplyr::filter(.data$calibrant == calibr) %>%
+      dplyr::filter(.data$media == buffer)
     conc_data
 
     # complete MW column
@@ -448,12 +448,12 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
     # add concs
     conc_data <- conc_data %>%
       # Concentration = predicted concentration for the highest dilution, multiplied down for each dilution
-      dplyr::mutate(concentration_ngul = predictedconc_neat * dilution)
+      dplyr::mutate(concentration_ngul = predictedconc_neat * .data$dilution)
     conc_data
 
     # fill in protein column where dilution exists (for ease of future joining)
     conc_data <- conc_data %>%
-      dplyr::mutate(protein = ifelse(.data$protein == "" & !is.na(.data$dilution), calibr, protein))
+      dplyr::mutate(protein = ifelse(.data$protein == "" & !is.na(.data$dilution), calibr, .data$protein))
     # if protein column is empty AND dilution is not NA, add the calibr into the protein column, else, leave protein entry as it is
     conc_data
 
@@ -466,14 +466,14 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
     # but mean is used to decide whether a dilution should be trimmed or not
     # as BCA assay is reported to be linear only >2ng/ul.
     data_tests_fit <- data_tests %>%
-      dplyr::group_by(dilution) %>%
-      dplyr::mutate(mean_predicted_conc = mean(predicted_conc, na.rm = TRUE))
+      dplyr::group_by(.data$dilution) %>%
+      dplyr::mutate(mean_predicted_conc = mean(.data$predicted_conc, na.rm = TRUE))
     data_tests_fit
 
     plt4 <- ggplot2::ggplot(data_tests_fit) +
       ggplot2::geom_hline(yintercept = 0, colour = "grey") + # to guide the eyes
-      ggplot2::geom_point(ggplot2::aes(x = dilution,
-                                       y = mean_predicted_conc)) + # data
+      ggplot2::geom_point(ggplot2::aes(x = .data$dilution,
+                                       y = .data$mean_predicted_conc)) + # data
       ggplot2::scale_x_continuous(limits = c(0,1)) +
       ggplot2::ylab("predicted concentration") +
       ggplot2::labs(title = "Predicted concentration (mean) vs dilution") +
@@ -486,13 +486,13 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
 
     # Remove anomalous values
     data_tests_fit_trimmed <- data_tests_fit %>%
-      dplyr::filter(mean_predicted_conc > 1)
+      dplyr::filter(.data$mean_predicted_conc > 1)
     data_tests_fit_trimmed
 
     plt4 <- ggplot2::ggplot(data_tests_fit_trimmed) +
       ggplot2::geom_hline(yintercept = 0, colour = "grey") + # to guide the eyes
-      ggplot2::geom_point(ggplot2::aes(x = dilution,
-                                       y = mean_predicted_conc)) + # data
+      ggplot2::geom_point(ggplot2::aes(x = .data$dilution,
+                                       y = .data$mean_predicted_conc)) + # data
       ggplot2::scale_x_continuous(limits = c(0,1)) +
       ggplot2::ylab("predicted concentration") +
       ggplot2::labs(title = "Predicted concentration (mean, trimmed) vs dilution") +
@@ -570,15 +570,15 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
     # NB Need to use a base df that contains columns like well, row, column - use input df
     names(bca_data)
     bca_data_tidy <- bca_data %>%
-      dplyr::select(c( media:well )) %>% # take all cols between A:B - https://suzan.rbind.io/2018/01/dplyr-tutorial-1/
-      dplyr::select(c( -volume_bca )) # remove volume as downstream assays may have used different volumes
+      dplyr::select(c( .data$media:.data$well )) %>% # take all cols between A:B - https://suzan.rbind.io/2018/01/dplyr-tutorial-1/
+      dplyr::select(c( -.data$volume_bca )) # remove volume as downstream assays may have used different volumes
     names(bca_data_tidy)
     bca_data_tidy
 
     # subset
     conc_data <- bca_data_tidy %>%
-      dplyr::filter(calibrant == calibr) %>%
-      dplyr::filter(media == buffer)
+      dplyr::filter(.data$calibrant == calibr) %>%
+      dplyr::filter(.data$media == buffer)
     conc_data
 
     # complete MW column
@@ -588,12 +588,12 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
     # add concs
     conc_data <- conc_data %>%
       # Concentration = predicted concentration for the highest dilution, multiplied down for each dilution
-      dplyr::mutate(concentration_ngul = conc_fit_coefs$m * dilution)
+      dplyr::mutate(concentration_ngul = conc_fit_coefs$m * .data$dilution)
     conc_data
 
     # fill in protein column where dilution exists (for ease of future joining)
     conc_data <- conc_data %>%
-      dplyr::mutate(protein = ifelse(.data$protein == "" & !is.na(.data$dilution), calibr, protein))
+      dplyr::mutate(protein = ifelse(.data$protein == "" & !is.na(.data$dilution), calibr, .data$protein))
     # if protein column is empty AND dilution is not NA, add the calibr into the protein column, else, leave protein entry as it is
     conc_data
 

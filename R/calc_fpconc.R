@@ -161,13 +161,13 @@ calc_fpconc <- function(data_csv,
       # Calc
       if(isFALSE(timecourse)){
         percell_data <- percell_data %>%
-          dplyr::mutate(v1 = (.data[[flumeasure]]) / total_cell_volume_L )
+          dplyr::mutate(v1 = (.data[[flumeasure]]) / .data$total_cell_volume_L )
         # divides norm GFP by cell volume
         as.data.frame(percell_data)[1,]
       } else if(isTRUE(timecourse)){
         percell_data <- percell_data %>%
           dplyr::group_by(.data$time) %>%
-          dplyr::mutate(v1 = (.data[[flumeasure]]) / total_cell_volume_L )
+          dplyr::mutate(v1 = (.data[[flumeasure]]) / .data$total_cell_volume_L )
         # for each timepoint, divides norm GFP by cell volume
         as.data.frame(percell_data)[1,]
       }
@@ -188,7 +188,7 @@ calc_fpconc <- function(data_csv,
         max_value <- max(percell_data[[paste0("normalised_", flu_labels[flu_idx], "_percellvolume")]], na.rm = TRUE)
         plt_flu <-
           ggplot2::ggplot(data = percell_data,
-                          ggplot2::aes(x = column, y = row, fill = .data[[paste0("normalised_", flu_labels[flu_idx], "_percellvolume")]])) +
+                          ggplot2::aes(x = .data$column, y = row, fill = .data[[paste0("normalised_", flu_labels[flu_idx], "_percellvolume")]])) +
 
           ggplot2::geom_tile() +
           ggplot2::scale_x_discrete("", position = "top",
@@ -291,13 +291,13 @@ calc_fpconc <- function(data_csv,
       # #molar: 1M = 1mol/L
       if(isFALSE(timecourse)){
         percell_data <- percell_data %>%
-          dplyr::mutate(v1 = (.data[[moles_columnname]]) / total_cell_volume_L )
+          dplyr::mutate(v1 = (.data[[moles_columnname]]) / .data$total_cell_volume_L )
         # divides calib GFP by cell volume
         as.data.frame(percell_data)[1,]
       } else if(isTRUE(timecourse)){
         percell_data <- percell_data %>%
           dplyr::group_by(.data$time) %>%
-          dplyr::mutate(v1 = (.data[[moles_columnname]]) / total_cell_volume_L )
+          dplyr::mutate(v1 = (.data[[moles_columnname]]) / .data$total_cell_volume_L )
         # for each timepoint, divides calib GFP by cell volume
         as.data.frame(percell_data)[1,]
       }
@@ -318,7 +318,7 @@ calc_fpconc <- function(data_csv,
         max_value <- max(percell_data[[paste0("calibrated_", flu_labels[flu_idx], "_Molar")]]*1e6, na.rm = TRUE)
         plt_flu_calib <-
           ggplot2::ggplot(data = percell_data,
-                          ggplot2::aes(x = column, y = row, fill = .data[[paste0("calibrated_", flu_labels[flu_idx], "_Molar")]]*1e6)) +
+                          ggplot2::aes(x = .data$column, y = row, fill = .data[[paste0("calibrated_", flu_labels[flu_idx], "_Molar")]]*1e6)) +
 
           ggplot2::geom_tile() +
           ggplot2::scale_x_discrete("", position = "top",

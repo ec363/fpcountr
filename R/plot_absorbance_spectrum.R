@@ -129,7 +129,7 @@ plot_absorbance_spectrum <- function(spectrum_csv,
   data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
   ymax <- max(data.to.plot$raw_value)*1.1 # set y axis max
   plot1 <- ggplot2::ggplot() +
-    ggplot2::geom_point(data = data.to.plot, ggplot2::aes(x = measure, y = raw_value, colour = as.factor(replicate)), size = 0.5) +
+    ggplot2::geom_point(data = data.to.plot, ggplot2::aes(x = .data$measure, y = .data$raw_value, colour = as.factor(replicate)), size = 0.5) +
     ggplot2::scale_x_continuous("wavelength (nm)") +
     ggplot2::scale_y_continuous("absorbance", limits = c(0, ymax)) +
     ggplot2::scale_colour_discrete("replicate") +
@@ -151,10 +151,10 @@ plot_absorbance_spectrum <- function(spectrum_csv,
 
   # Raw data full spectrum, blanks only
   data.to.plot <- data.to.plot %>%
-    dplyr::filter(is.na(dilution))
+    dplyr::filter(is.na(.data$dilution))
   ymax <- max(data.to.plot$raw_value)*1.1 # set y axis max
   plot1 <- ggplot2::ggplot(data = data.to.plot) +
-    ggplot2::geom_point(ggplot2::aes(x = measure, y = raw_value, colour = as.factor(replicate)), size = 1) +
+    ggplot2::geom_point(ggplot2::aes(x = .data$measure, y = .data$raw_value, colour = as.factor(replicate)), size = 1) +
     ggplot2::scale_x_continuous("wavelength (nm)", limits = c(200,1000)) +
     ggplot2::scale_y_continuous("absorbance", limits = c(0, ymax)) +
     ggplot2::labs(title = "raw absorbance of blanks") +
@@ -174,14 +174,14 @@ plot_absorbance_spectrum <- function(spectrum_csv,
 
   # Raw data 250nm+
   data.to.plot <- raw_values %>%
-    dplyr::filter(measure > 250) %>%
-    dplyr::filter(measure >= xrange[1] & measure <= xrange[2])
+    dplyr::filter(.data$measure > 250) %>%
+    dplyr::filter(.data$measure >= xrange[1] & .data$measure <= xrange[2])
   data.to.plot$dilution <- as.factor(data.to.plot$dilution) # make dilution a factor
   newlist <- levels(data.to.plot$dilution)
   data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
   ymax <- max(data.to.plot$raw_value)*1.1 # set y axis max
   ggplot2::ggplot() +
-    ggplot2::geom_point(data = data.to.plot, ggplot2::aes(x = measure, y = raw_value, colour = as.factor(replicate)), size = 1) +
+    ggplot2::geom_point(data = data.to.plot, ggplot2::aes(x = .data$measure, y = .data$raw_value, colour = as.factor(replicate)), size = 1) +
     ggplot2::scale_x_continuous("wavelength (nm)") +
     ggplot2::scale_y_continuous("absorbance", limits = c(0, ymax)) +
     ggplot2::scale_colour_discrete("replicate") +
@@ -206,7 +206,7 @@ plot_absorbance_spectrum <- function(spectrum_csv,
   # Find kfactor for buffer
   raw_values <- raw_values %>%
     dplyr::mutate(kfactor_1cm = fpcountr::get_kfactor(buffer_used = buffer_used, concentration_used = concentration_used,
-                                                              temperature_used = temperature_used))
+                                                      temperature_used = temperature_used))
   raw_values
 
   # Create new df
@@ -269,11 +269,11 @@ plot_absorbance_spectrum <- function(spectrum_csv,
 
   ## 2B. Path length calcs from blanks only
   pl_by_blanks <- pl_values %>%
-    dplyr::mutate(dilution = ifelse(is.na(dilution), 0, dilution)) %>% # make blanks 'dilution = 0'
-    dplyr::filter(dilution == 0) %>%
-    dplyr::select(pathlength_each) %>%
+    dplyr::mutate(dilution = ifelse(is.na(.data$dilution), 0, .data$dilution)) %>% # make blanks 'dilution = 0'
+    dplyr::filter(.data$dilution == 0) %>%
+    dplyr::select(.data$pathlength_each) %>%
     dplyr::distinct() %>% # collapse identical rows due to all the wavelengths = 2 rows
-    dplyr::summarise(pathlength_each = mean(pathlength_each)) %>% # take mean of duplicate blanks
+    dplyr::summarise(pathlength_each = mean(.data$pathlength_each)) %>% # take mean of duplicate blanks
     as.numeric()
   pl_by_blanks
   pl_values <- pl_values %>%
@@ -288,14 +288,14 @@ plot_absorbance_spectrum <- function(spectrum_csv,
 
     # Absorbance at 900-1000nm
     data.to.plot <- pl_values %>%
-      dplyr::filter(measure > 875) %>%
-      dplyr::filter(measure >= xrange[1] & measure <= xrange[2])
+      dplyr::filter(.data$measure > 875) %>%
+      dplyr::filter(.data$measure >= xrange[1] & .data$measure <= xrange[2])
     data.to.plot$dilution <- as.factor(data.to.plot$dilution) # make dilution a factor
     newlist <- levels(data.to.plot$dilution)
     data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
     ymax <- max(data.to.plot$raw_value)*1.1 # set y axis max
     plot1 <- ggplot2::ggplot() +
-      ggplot2::geom_point(data = data.to.plot, ggplot2::aes(x = measure, y = raw_value, colour = as.factor(replicate)), size = 1) +
+      ggplot2::geom_point(data = data.to.plot, ggplot2::aes(x = .data$measure, y = .data$raw_value, colour = as.factor(replicate)), size = 1) +
       ggplot2::geom_vline(xintercept = 900, colour = "black") +
       ggplot2::geom_vline(xintercept = 975, colour = "black") +
       ggplot2::scale_x_continuous("wavelength (nm)") +
@@ -320,18 +320,18 @@ plot_absorbance_spectrum <- function(spectrum_csv,
     # path lengths cm
     unique(pl_values$dilution)
     data.to.plot <- pl_values %>%
-      dplyr::mutate(dilution = ifelse(is.na(dilution), 0, dilution)) # include dilution = 0 on plot
+      dplyr::mutate(dilution = ifelse(is.na(.data$dilution), 0, .data$dilution)) # include dilution = 0 on plot
     unique(data.to.plot$dilution)
     plot1 <- ggplot2::ggplot() +
 
       # path length using data
       ggplot2::geom_point(data = data.to.plot %>%
-                            dplyr::filter(dilution > 0),
-                          ggplot2::aes(x = dilution, y = pathlength_each, colour = as.factor(replicate)),
+                            dplyr::filter(.data$dilution > 0),
+                          ggplot2::aes(x = .data$dilution, y = .data$pathlength_each, colour = as.factor(replicate)),
                           size = 1) +
       ggplot2::geom_point(data = data.to.plot %>%
-                            dplyr::filter(dilution == 0),
-                          ggplot2::aes(x = dilution, y = pathlength_each, colour = as.factor(replicate)),
+                            dplyr::filter(.data$dilution == 0),
+                          ggplot2::aes(x = .data$dilution, y = .data$pathlength_each, colour = as.factor(replicate)),
                           size = 1, shape = 1) +
 
       # path length using mean of blanks
@@ -376,36 +376,36 @@ plot_absorbance_spectrum <- function(spectrum_csv,
     message("Path length will calculated per well from the data.")
     pl_values <- pl_values %>%
       dplyr::mutate(pathlength_method = pl_method) %>% # record method
-      dplyr::mutate(pathlength = pathlength_each) # assign chosen pathlength calc as "pathlength" column
+      dplyr::mutate(pathlength = .data$pathlength_each) # assign chosen pathlength calc as "pathlength" column
   }
   if(pl_method == "calc_blanks"){
     message("Path length will calculated from the blanks data.")
     pl_values <- pl_values %>%
       dplyr::mutate(pathlength_method = pl_method) %>% # record method
-      dplyr::mutate(pathlength = pathlength_blanks) # assign chosen pathlength calc as "pathlength" column
+      dplyr::mutate(pathlength = .data$pathlength_blanks) # assign chosen pathlength calc as "pathlength" column
   }
   if(pl_method == "volume"){
     message("Path length will be based on volume.")
     message(paste0("Volume used = ", pl_values$volume[1], " ul."))
     pl_values <- pl_values %>%
       dplyr::mutate(pathlength_method = pl_method) %>% # record method
-      dplyr::mutate(pathlength = pathlength_volume) # assign chosen pathlength calc as "pathlength" column
+      dplyr::mutate(pathlength = .data$pathlength_volume) # assign chosen pathlength calc as "pathlength" column
   }
   pl_values <- pl_values %>%
-    dplyr::mutate(raw_cm1_value = raw_value/pathlength) # calculate cm-1 values
+    dplyr::mutate(raw_cm1_value = .data$raw_value/.data$pathlength) # calculate cm-1 values
 
   # Plots
   # Raw data cm_1 250nm+
   data.to.plot <- pl_values  %>%
-    dplyr::filter(measure > 250) %>%
-    dplyr::filter(measure >= xrange[1] & measure <= xrange[2])
+    dplyr::filter(.data$measure > 250) %>%
+    dplyr::filter(.data$measure >= xrange[1] & .data$measure <= xrange[2])
   data.to.plot$dilution <- as.factor(data.to.plot$dilution) # make dilution a factor
   newlist <- levels(data.to.plot$dilution)
   data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
   ymax <- max(data.to.plot$raw_cm1_value)*1.1 # set y axis max
   plot1 <- ggplot2::ggplot() +
     ggplot2::geom_point(data = data.to.plot,
-                        ggplot2::aes(x = measure, y = raw_cm1_value, colour = as.factor(replicate)),
+                        ggplot2::aes(x = .data$measure, y = .data$raw_cm1_value, colour = as.factor(replicate)),
                         size = 1) +
     ggplot2::scale_x_continuous("wavelength (nm)") +
     ggplot2::scale_y_continuous("absorbance (cm-1)", limits = c(0, ymax)) +
@@ -449,7 +449,7 @@ plot_absorbance_spectrum <- function(spectrum_csv,
     # add new columns
     temp_meas_values <- temp_meas_values %>%
       dplyr::mutate(raw_cm1_blanks = mean_raw_cm1_blanks) %>%
-      dplyr::mutate(normalised_cm1_value = .data$raw_cm1_value - raw_cm1_blanks)
+      dplyr::mutate(normalised_cm1_value = .data$raw_cm1_value - .data$raw_cm1_blanks)
     temp_meas_values
 
     # rbind normalised values
@@ -461,8 +461,8 @@ plot_absorbance_spectrum <- function(spectrum_csv,
   # Plots
   # Normalised cm_1 250nm+
   data.to.plot <- norm_values  %>%
-    dplyr::filter(measure > 250 & measure < 800) %>%
-    dplyr::filter(measure >= xrange[1] & measure <= xrange[2])
+    dplyr::filter(.data$measure > 250 & .data$measure < 800) %>%
+    dplyr::filter(.data$measure >= xrange[1] & .data$measure <= xrange[2])
   data.to.plot$dilution <- as.factor(data.to.plot$dilution) # make dilution a factor
   newlist <- levels(data.to.plot$dilution)
   data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
@@ -470,7 +470,7 @@ plot_absorbance_spectrum <- function(spectrum_csv,
 
   plot1 <- ggplot2::ggplot() +
     ggplot2::geom_point(data = data.to.plot,
-                        ggplot2::aes(x = measure, y = normalised_cm1_value, colour = as.factor(replicate)),
+                        ggplot2::aes(x = .data$measure, y = .data$normalised_cm1_value, colour = as.factor(replicate)),
                         size = 1) +
     ggplot2::scale_x_continuous("wavelength (nm)") +
     ggplot2::scale_y_continuous("absorbance (norm, cm-1)") +
@@ -521,15 +521,15 @@ plot_absorbance_spectrum <- function(spectrum_csv,
 
   # Normalised cm_1 250nm+
   data.to.plot <- summ_values %>%
-    dplyr::filter(measure > 250 & measure < 800) %>%
-    dplyr::filter(measure >= xrange[1] & measure <= xrange[2])
+    dplyr::filter(.data$measure > 250 & .data$measure < 800) %>%
+    dplyr::filter(.data$measure >= xrange[1] & .data$measure <= xrange[2])
   data.to.plot$dilution <- as.factor(data.to.plot$dilution) # make dilution a factor
   newlist <- levels(data.to.plot$dilution)
   data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
   ymax <- max(data.to.plot$normalised_cm1_value)*1.1 # set y axis max
   plot1 <- ggplot2::ggplot() +
     ggplot2::geom_point(data = data.to.plot,
-                        ggplot2::aes(x = measure, y = normalised_cm1_value),
+                        ggplot2::aes(x = .data$measure, y = .data$normalised_cm1_value),
                         size = 1) +
     ggplot2::scale_x_continuous("wavelength (nm)") +
     ggplot2::scale_y_continuous("absorbance (norm, cm-1)", limits = c(0, ymax)) +

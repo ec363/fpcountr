@@ -199,7 +199,7 @@ generate_cfs <- function(calibration_csv,
     # if protein is "none", edit that row, otherwise leave data as is
     calibration_data <- calibration_data %>%
       # dplyr::mutate(concentration_ngul = ifelse(is.na(concentration_ngul), 0, concentration_ngul))
-      dplyr::mutate(concentration_ngul = ifelse(protein == "none", 0, concentration_ngul))
+      dplyr::mutate(concentration_ngul = ifelse(.data$protein == "none", 0, .data$concentration_ngul))
     calibration_data
 
   }
@@ -208,9 +208,9 @@ generate_cfs <- function(calibration_csv,
 
   # work out molecules from concentration_ngul and MW and volume
   calibration_data <- calibration_data %>%
-    dplyr::mutate(mass_ng = concentration_ngul*volume) %>% # ng = ng/ul*ul
-    dplyr::mutate(moles = mass_ng*10^-9/mw_gmol1) %>% # mol = g/(g/mol)
-    dplyr::mutate(molecules = moles*6*10^23) # molecules = mol * molecules/mol
+    dplyr::mutate(mass_ng = .data$concentration_ngul*.data$volume) %>% # ng = ng/ul*ul
+    dplyr::mutate(moles = .data$mass_ng*10^-9/.data$mw_gmol1) %>% # mol = g/(g/mol)
+    dplyr::mutate(molecules = .data$moles*6*10^23) # molecules = mol * molecules/mol
   calibration_data
 
   # Data transformation steps -------------------------------------------------------
@@ -255,7 +255,7 @@ generate_cfs <- function(calibration_csv,
       # add new columns
       temp_meas_calib_values <- temp_meas_calib_values %>%
         dplyr::mutate(raw_blanks = mean_raw_blanks) %>%
-        dplyr::mutate(normalised_value = .data$raw_value - raw_blanks)
+        dplyr::mutate(normalised_value = .data$raw_value - .data$raw_blanks)
       temp_meas_calib_values
 
       # rbind normalised values
@@ -724,7 +724,7 @@ generate_cfs <- function(calibration_csv,
     # trimmed_values$gain # 40  50  60  70  80  90 100
     # Move gain to right of measure
     trimmed_values <- trimmed_values %>%
-      dplyr::relocate(gain, .after = measure)
+      dplyr::relocate(gain, .after = .data$measure)
 
     # Add a check for channel_name and channel in measure being the same thing!!
     if(grepl(fit_values$channel_name[1], fit_values$measure[1])){
@@ -733,7 +733,7 @@ generate_cfs <- function(calibration_csv,
       fit_values$gain <- as.numeric(gsub(paste0(fit_values$channel_name[1], separator), "", fit_values$measure))
       # Move gain to right of measure
       fit_values <- fit_values %>%
-        dplyr::relocate(gain, .after = measure)
+        dplyr::relocate(gain, .after = .data$measure)
       # Sort by gain (as sometimes gains get mixed up..)
       fit_values <- fit_values[order(fit_values$gain),]
       fit_values
@@ -744,7 +744,7 @@ generate_cfs <- function(calibration_csv,
               or if the naming schemes for the channel names provided in the plate reader methods change, from eg 'GFP' to 'green' or 'greenamber'.")
       fit_values$gain <- NA
       fit_values <- fit_values %>%
-        dplyr::relocate(gain, .after = measure)
+        dplyr::relocate(gain, .after = .data$measure)
 
     }
 
@@ -762,13 +762,13 @@ generate_cfs <- function(calibration_csv,
 
     trimmed_values <- trimmed_values %>%
       dplyr::mutate(min_normflu = 1) %>% # normalised min fluorescence value that can be distinguished from buffer (0) is 1.
-      dplyr::mutate(min_mols = min_normflu/cf)
+      dplyr::mutate(min_mols = .data$min_normflu/.data$cf)
     # MAX
     trimmed_values <- trimmed_values %>%
       dplyr::group_by(.data$measure) %>%
       dplyr::mutate(max_normflu = 100000 - # raw max = 100,000 bc depends on instrument
                       .data$raw_blanks) %>% # normalised max fluorescence = raw max - blank (for that measure)
-      dplyr::mutate(max_mols = max_normflu/cf)
+      dplyr::mutate(max_mols = .data$max_normflu/.data$cf)
     trimmed_values
   }
 
@@ -885,12 +885,12 @@ generate_cfs <- function(calibration_csv,
   # top down diagonal calibration plot
   flu_plt <- ggplot2::ggplot(data = trimmed_values %>%
                                dplyr::filter(.data$molecules != 0)) +
-    ggplot2::geom_point(ggplot2::aes(x = dilution_idx,
-                                     y = normalised_value)) +
-    ggplot2::geom_line(ggplot2::aes(x = dilution_idx,
-                                    y = cf * max_concentration *
-                                      (1 - dilution_ratio - beta) *
-                                      (dilution_ratio + beta) ^ (dilution_idx - 1))) +
+    ggplot2::geom_point(ggplot2::aes(x = .data$dilution_idx,
+                                     y = .data$normalised_value)) +
+    ggplot2::geom_line(ggplot2::aes(x = .data$dilution_idx,
+                                    y = .data$cf * .data$max_concentration *
+                                      (1 - .data$dilution_ratio - beta) *
+                                      (.data$dilution_ratio + beta) ^ (.data$dilution_idx - 1))) +
     ggplot2::scale_y_continuous("Normalised Fluorescence", trans = "log10",
                                 breaks = c(1e+00, 1e+01, 1e+02, 1e+03, 1e+04, 1e+05)) +
     ggplot2::scale_x_continuous("Dilution # (1:2 dilution series)",
@@ -909,12 +909,12 @@ generate_cfs <- function(calibration_csv,
   # molecule number on x, linear x/y
   flu_plt2 <- ggplot2::ggplot(data = trimmed_values %>%
                                 dplyr::filter(.data$molecules != 0)) +
-    ggplot2::geom_point(ggplot2::aes(x = molecules,
-                                     y = normalised_value)) +
-    ggplot2::geom_line(ggplot2::aes(x = molecules,
-                                    y = cf * max_concentration *
-                                      (1 - dilution_ratio - beta) *
-                                      (dilution_ratio + beta) ^ (dilution_idx - 1))) +
+    ggplot2::geom_point(ggplot2::aes(x = .data$molecules,
+                                     y = .data$normalised_value)) +
+    ggplot2::geom_line(ggplot2::aes(x = .data$molecules,
+                                    y = .data$cf * .data$max_concentration *
+                                      (1 - .data$dilution_ratio - beta) *
+                                      (.data$dilution_ratio + beta) ^ (.data$dilution_idx - 1))) +
     ggplot2::scale_y_continuous("Normalised Fluorescence") +
     ggplot2::scale_x_continuous("Molecules") +
     ggplot2::facet_wrap(~measure) +
@@ -931,12 +931,12 @@ generate_cfs <- function(calibration_csv,
   # molecule number on x, log-scale x/y
   flu_plt3 <- ggplot2::ggplot(data = trimmed_values %>%
                                 dplyr::filter(.data$molecules != 0)) +
-    ggplot2::geom_point(ggplot2::aes(x = molecules,
-                                     y = normalised_value)) +
-    ggplot2::geom_line(ggplot2::aes(x = molecules,
-                                    y = cf * max_concentration *
-                                      (1 - dilution_ratio - beta) *
-                                      (dilution_ratio + beta) ^ (dilution_idx - 1))) +
+    ggplot2::geom_point(ggplot2::aes(x = .data$molecules,
+                                     y = .data$normalised_value)) +
+    ggplot2::geom_line(ggplot2::aes(x = .data$molecules,
+                                    y = .data$cf * .data$max_concentration *
+                                      (1 - .data$dilution_ratio - beta) *
+                                      (.data$dilution_ratio + beta) ^ (.data$dilution_idx - 1))) +
     ggplot2::scale_y_continuous("Normalised Fluorescence", trans = "log10",
                                 breaks = c(1e+00, 1e+01, 1e+02, 1e+03, 1e+04, 1e+05)) +
     ggplot2::scale_x_continuous("Molecules", trans = "log10",
@@ -994,12 +994,12 @@ generate_cfs <- function(calibration_csv,
                             # summ_values_nonsat loses a few points bc of taking of the mean (tidier)
                             # for trimmed_values unfortunately i had to remove all rows where normalised_value is NA so some raw values disappeared too
                             dplyr::filter(.data$molecules != 0),
-                          ggplot2::aes(x = molecules,
-                                       y = raw_value),
+                          ggplot2::aes(x = .data$molecules,
+                                       y = .data$raw_value),
                           colour = "red") +
       ggplot2::geom_hline(data = summ_values_nonsat %>%
                             dplyr::filter(.data$molecules == 0),
-                          ggplot2::aes(yintercept = raw_value),
+                          ggplot2::aes(yintercept = .data$raw_value),
                           colour = "red", alpha = 0.5) +
       ggplot2::scale_y_continuous("Raw Fluorescence", trans = "log10", breaks = c(1,10,100,1000,10000,100000)) +
       ggplot2::scale_x_continuous("Molecules", trans = "log10",
@@ -1024,8 +1024,8 @@ generate_cfs <- function(calibration_csv,
                             # summ_values_nonsat loses a few points bc of taking of the mean (tidier)
                             # for trimmed_values unfortunately i had to remove all rows where normalised_value is NA so some raw values disappeared too
                             dplyr::filter(.data$molecules != 0),
-                          ggplot2::aes(x = molecules,
-                                       y = normalised_value),
+                          ggplot2::aes(x = .data$molecules,
+                                       y = .data$normalised_value),
                           colour = "red") +
       ggplot2::scale_y_continuous("Normalised Fluorescence", trans = "log10", breaks = c(1,10,100,1000,10000,100000)) +
       ggplot2::scale_x_continuous("Molecules", trans = "log10",
@@ -1053,12 +1053,12 @@ generate_cfs <- function(calibration_csv,
                             # summ_values_nonsat loses a few points bc of taking of the mean (tidier)
                             # for trimmed_values unfortunately i had to remove all rows where normalised_value is NA so some raw values disappeared too
                             dplyr::filter(.data$molecules != 0),
-                          ggplot2::aes(x = molecules,
-                                       y = raw_value),
+                          ggplot2::aes(x = .data$molecules,
+                                       y = .data$raw_value),
                           colour = "red") +
       ggplot2::geom_hline(data = summ_values_nonsat %>%
                             dplyr::filter(.data$molecules == 0),
-                          ggplot2::aes(yintercept = raw_value),
+                          ggplot2::aes(yintercept = .data$raw_value),
                           colour = "red", alpha = 0.5) +
       ggplot2::geom_point(data = trimmed_values %>%
                             # summ_values_nonsat best for all raw values as some raw values removed by the na.omit
@@ -1066,8 +1066,8 @@ generate_cfs <- function(calibration_csv,
                             # the only way to work out non-sat raw values is to remove rows that had NA in normalised_values
                             # ie what i did for trimmed_values.
                             dplyr::filter(.data$molecules != 0),
-                          ggplot2::aes(x = molecules,
-                                       y = raw_value),
+                          ggplot2::aes(x = .data$molecules,
+                                       y = .data$raw_value),
                           colour = "green") + # overlay the green!
       # removed fit line here as that's technically to normalised values not raw values
       ggplot2::scale_y_continuous("Raw Fluorescence", trans = "log10", breaks = c(1,10,100,1000,10000,100000)) +
@@ -1095,20 +1095,20 @@ generate_cfs <- function(calibration_csv,
       # all points
       ggplot2::geom_point(data = summ_values_all, # all
                           # summ_values_all required for this. summarised version of norm_values that was not put through sat check
-                          ggplot2::aes(x = molecules,
-                                       y = normalised_value),
+                          ggplot2::aes(x = .data$molecules,
+                                       y = .data$normalised_value),
                           colour = "red") +
       # non-saturated points
       ggplot2::geom_point(data = summ_values_nonsat, # sat points removed post normalisation
                           # can use either summ_values_nonsat or trimmed_values here
-                          ggplot2::aes(x = molecules,
-                                       y = normalised_value),
+                          ggplot2::aes(x = .data$molecules,
+                                       y = .data$normalised_value),
                           colour = "green") +
       ggplot2::geom_line(data = trimmed_values,
-                         ggplot2::aes(x = molecules,
-                                      y = cf * max_concentration *
-                                        (1 - dilution_ratio - beta) *
-                                        (dilution_ratio + beta) ^ (dilution_idx - 1)),
+                         ggplot2::aes(x = .data$molecules,
+                                      y = .data$cf * .data$max_concentration *
+                                        (1 - .data$dilution_ratio - beta) *
+                                        (.data$dilution_ratio + beta) ^ (.data$dilution_idx - 1)),
                          colour = "green") +
       ggplot2::scale_y_continuous("Normalised Fluorescence", trans = "log10", breaks = c(1,10,100,1000,10000,100000)) +
       ggplot2::scale_x_continuous("Molecules", trans = "log10", breaks = c(1,1e+4,1e+8,1e+12,1e+16)) + ###
@@ -1142,11 +1142,11 @@ generate_cfs <- function(calibration_csv,
       ggplot2::geom_point(data = trimmed_values %>%
                             dplyr::filter(.data$molecules == 0),
                           ggplot2::aes(x = gain,
-                                       y = raw_value)) +
+                                       y = .data$raw_value)) +
       ggplot2::geom_line(data = trimmed_values %>%
                            dplyr::filter(.data$molecules == 0),
                          ggplot2::aes(x = gain,
-                                      y = raw_value)) +
+                                      y = .data$raw_value)) +
       ggplot2::scale_x_continuous("Gain", limits = c(40,120)) +
       ggplot2::scale_y_continuous("Raw fluorescence", trans = "log10", limits = c(1,100000),
                                   breaks = c(1,10,100,1000,10000,100000)) +
@@ -1167,20 +1167,20 @@ generate_cfs <- function(calibration_csv,
     flu_plt3 <- ggplot2::ggplot(data = trimmed_values) +
       ggplot2::geom_point(data = trimmed_values %>%
                             dplyr::filter(.data$normalised_value >=1),
-                          ggplot2::aes(x = molecules,
-                                       y = normalised_value)) +
-      ggplot2::geom_hline(ggplot2::aes(yintercept = min_normflu),
+                          ggplot2::aes(x = .data$molecules,
+                                       y = .data$normalised_value)) +
+      ggplot2::geom_hline(ggplot2::aes(yintercept = .data$min_normflu),
                           colour = "red", alpha = 0.5) +
-      ggplot2::geom_hline(ggplot2::aes(yintercept = max_normflu),
+      ggplot2::geom_hline(ggplot2::aes(yintercept = .data$max_normflu),
                           colour = "red", alpha = 0.5) +
-      ggplot2::geom_vline(ggplot2::aes(xintercept = min_mols),
+      ggplot2::geom_vline(ggplot2::aes(xintercept = .data$min_mols),
                           colour = "black", alpha = 0.5) +
-      ggplot2::geom_vline(ggplot2::aes(xintercept = max_mols),
+      ggplot2::geom_vline(ggplot2::aes(xintercept = .data$max_mols),
                           colour = "black", alpha = 0.5) +
-      ggplot2::geom_line(ggplot2::aes(x = molecules,
-                                      y = cf * max_concentration *
-                                        (1 - dilution_ratio - beta) *
-                                        (dilution_ratio + beta) ^ (dilution_idx - 1)),
+      ggplot2::geom_line(ggplot2::aes(x = .data$molecules,
+                                      y = .data$cf * .data$max_concentration *
+                                        (1 - .data$dilution_ratio - beta) *
+                                        (.data$dilution_ratio + beta) ^ (.data$dilution_idx - 1)),
                          colour = "black") +
       ggplot2::scale_y_continuous("Normalised Fluorescence", trans = "log10", breaks = c(1,10,100,1000,10000,100000)) +
       ggplot2::scale_x_continuous("Molecules", trans = "log10",
@@ -1204,12 +1204,12 @@ generate_cfs <- function(calibration_csv,
     # Plot min and max with gain
     flu_plt3 <- ggplot2::ggplot(data = fit_values2) +
       ggplot2::geom_line(ggplot2::aes(x = gain,
-                                      y = min_mols,
+                                      y = .data$min_mols,
                                       colour = "min mols")) +
       ggplot2::geom_line(ggplot2::aes(x = gain,
-                                      y = max_mols,
+                                      y = .data$max_mols,
                                       colour = "max mols")) +
-      ggplot2::geom_ribbon(ggplot2::aes(x = gain, ymin = min_mols, ymax = max_mols, fill = "detection range"),
+      ggplot2::geom_ribbon(ggplot2::aes(x = gain, ymin = .data$min_mols, ymax = .data$max_mols, fill = "detection range"),
                            # fill = "grey50",
                            alpha = 0.1) +
       ggplot2::scale_x_continuous("Gain", limits = c(40,120)) +
@@ -1238,16 +1238,16 @@ generate_cfs <- function(calibration_csv,
     # Plot sensitivity of each gain (using min_mols)
     # Work out min_mols of gain40
     min_mols_g40 <- as.numeric(fit_values2 %>%
-      dplyr::filter(gain == 40) %>%
-      dplyr::select(min_mols))
+                                 dplyr::filter(gain == 40) %>%
+                                 dplyr::select(.data$min_mols))
     flu_plt3 <- ggplot2::ggplot() +
       ggplot2::geom_point(data = fit_values2,
                           ggplot2::aes(x = gain,
-                                       y = min_mols_g40/min_mols),
+                                       y = min_mols_g40/.data$min_mols),
                           colour = "black") +
       ggplot2::geom_line(data = fit_values2,
                          ggplot2::aes(x = gain,
-                                      y = min_mols_g40/min_mols),
+                                      y = min_mols_g40/.data$min_mols),
                          colour = "black") +
       ggplot2::scale_x_continuous("Gain", limits = c(40,120)) +
       ggplot2::scale_y_continuous("molecules (Gain40) / molecules (Gain)", trans = "log10") +
@@ -1266,11 +1266,11 @@ generate_cfs <- function(calibration_csv,
     flu_plt3 <- ggplot2::ggplot() +
       ggplot2::geom_point(data = fit_values2,
                           ggplot2::aes(x = gain,
-                                       y = max_mols/min_mols),
+                                       y = .data$max_mols/.data$min_mols),
                           colour = "black") +
       ggplot2::geom_line(data = fit_values2,
                          ggplot2::aes(x = gain,
-                                      y = max_mols/min_mols),
+                                      y = .data$max_mols/.data$min_mols),
                          colour = "black") +
       ggplot2::scale_x_continuous("Gain", limits = c(40,120)) +
       ggplot2::scale_y_continuous("max/min detectable molecules", limits = c(8.9e+4,1.01e+5),
@@ -1293,4 +1293,3 @@ generate_cfs <- function(calibration_csv,
   return(fit_values)
 
 }
-

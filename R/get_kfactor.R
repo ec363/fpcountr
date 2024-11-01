@@ -19,7 +19,7 @@
 #'
 #' @examples get_kfactor(buffer_used = "TBS", concentration_used = 0.005, temperature_used = 30)
 get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperature_used = 25
-                        ){
+){
 
   # Summary --------------------------------------------------
 
@@ -37,8 +37,8 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
 
   # Set reference value: water at 25oC according to kfactors_temperature_data = 0.172
   reference_kfactor <- kfactors_temperature_data %>%
-    dplyr::filter(temperature == 25) %>%
-    dplyr::select(kfactor) %>%
+    dplyr::filter(.data$temperature == 25) %>%
+    dplyr::select(.data$kfactor) %>%
     as.numeric
   reference_kfactor # should be 0.172
 
@@ -48,31 +48,31 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
 
   # Subset for buffer and find fold change
 
-  if(nrow(dplyr::filter(kfactors_buffers_data, buffer == buffer_used))>0){
+  if(nrow(dplyr::filter(kfactors_buffers_data, .data$buffer == buffer_used))>0){
 
     # Subset by buffer
     subset_data <- kfactors_buffers_data %>%
-      dplyr::filter(buffer == buffer_used)
+      dplyr::filter(.data$buffer == buffer_used)
     subset_data
 
     cat("\nK-factors available for given buffer: \n")
     print(subset_data)
 
-    if(buffer_used == "water" | nrow(dplyr::filter(subset_data, concentration == concentration_used))>0){
+    if(buffer_used == "water" | nrow(dplyr::filter(subset_data, .data$concentration == concentration_used))>0){
 
       # Subset by concentration
       # For water, concentration value is ignored
       if(buffer_used == "water"){
         buffer_fc_to_use <- subset_data %>%
-          dplyr::select(fold_change) %>%
+          dplyr::select(.data$fold_change) %>%
           as.numeric()
         buffer_fc_to_use
       } else {
 
         # For others:
         buffer_fc_to_use <- subset_data %>%
-          dplyr::filter(concentration == concentration_used) %>%
-          dplyr::select(fold_change) %>%
+          dplyr::filter(.data$concentration == concentration_used) %>%
+          dplyr::select(.data$fold_change) %>%
           as.numeric()
         buffer_fc_to_use
       }
@@ -85,7 +85,7 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
 
       # get data for water as well as buffer
       subset_data_water <- kfactors_buffers_data %>%
-        dplyr::filter(buffer == "water")
+        dplyr::filter(.data$buffer == "water")
       subset_data_water
       subset_data_water$concentration <- 0
       subset_data_water
@@ -105,9 +105,9 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
 
       plot1 <- ggplot2::ggplot() +
         ggplot2::geom_point(data = subset_data,
-                            ggplot2::aes(x = concentration, y = fold_change)) +
+                            ggplot2::aes(x = .data$concentration, y = .data$fold_change)) +
         ggplot2::geom_line(data = subset_data,
-                           ggplot2::aes(x = concentration,
+                           ggplot2::aes(x = .data$concentration,
                                         y = stats::predict(model1, subset_data))) +
         ggplot2::theme_bw() +
         ggplot2::theme(
@@ -145,11 +145,11 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
 
   # Subset for temperature and find fold change
 
-  if(nrow(dplyr::filter(kfactors_temperature_data, temperature == temperature_used))>0){
+  if(nrow(dplyr::filter(kfactors_temperature_data, .data$temperature == temperature_used))>0){
 
     # Subset by temperature
     subset_data2 <- kfactors_temperature_data %>%
-      dplyr::filter(temperature == temperature_used)
+      dplyr::filter(.data$temperature == temperature_used)
     subset_data2
 
     cat("\nRows found for temperature: \n")
@@ -157,7 +157,7 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
 
     # Find fold change
     temperature_fc_to_use <- subset_data2 %>%
-      dplyr::select(fold_change) %>%
+      dplyr::select(.data$fold_change) %>%
       as.numeric()
     temperature_fc_to_use
 
@@ -180,9 +180,9 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
 
     plot1 <- ggplot2::ggplot() +
       ggplot2::geom_point(data = kfactors_temperature_data,
-                          ggplot2::aes(x = temperature, y = fold_change)) +
+                          ggplot2::aes(x = .data$temperature, y = .data$fold_change)) +
       ggplot2::geom_line(data = kfactors_temperature_data,
-                         ggplot2::aes(x = temperature,
+                         ggplot2::aes(x = .data$temperature,
                                       y = stats::predict(model2, kfactors_temperature_data))) +
       ggplot2::scale_x_continuous("temperature (oC)") +
       ggplot2::scale_y_continuous("fold change over 25oC", limits = c(0.8,1.2)) +
