@@ -7,7 +7,8 @@
 get_pathlength(test_volume, plot = FALSE, outfolder = ".")
 }
 \arguments{
-\item{test_volume}{numeric value of volume whose pathlength is required, in microlitres (ul)}
+\item{test_volume}{numeric value of volume whose pathlength is required, in
+microlitres (ul)}
 
 \item{plot}{logical. Should the function plot the model and prediction?
 Defaults to FALSE.}

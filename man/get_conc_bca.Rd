@@ -15,8 +15,7 @@ get_conc_bca(
 )
 }
 \arguments{
-\item{microbca_data_csv}{path of the CSV file of your BCA data.
-required.}
+\item{microbca_data_csv}{path of the CSV file of your BCA data.}
 
 \item{a562_baseline_csv}{path of the CSV file of your A562 baseline data.
 Optional. If data is missing, use NULL. If NULL is specified, the value of

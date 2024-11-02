@@ -16,7 +16,6 @@
 #' specified and exported.
 #'
 #' @param microbca_data_csv path of the CSV file of your BCA data.
-#'   required.
 #' @param a562_baseline_csv path of the CSV file of your A562 baseline data.
 #'   Optional. If data is missing, use NULL. If NULL is specified, the value of
 #'   0 is assigned as baseline for all wells. Default is NULL.

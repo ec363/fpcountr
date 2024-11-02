@@ -14,7 +14,8 @@
 #' buffers give very similar pathlength values for a given volume, so here we
 #' use data from water to approximate all aqueous buffers.
 #'
-#' @param test_volume numeric value of volume whose pathlength is required, in microlitres (ul)
+#' @param test_volume numeric value of volume whose pathlength is required, in
+#'   microlitres (ul)
 #' @param plot logical. Should the function plot the model and prediction?
 #'   Defaults to FALSE.
 #' @param outfolder path to folder where output files should be saved. Defaults
