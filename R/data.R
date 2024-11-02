@@ -60,7 +60,7 @@
 #' for water at 26oC.
 #'
 #' @format A data frame with 10 rows and 6 variables: \describe{
-#'   \item{volume}{volume in µl} \item{pathlength}{pathlength in cm}
+#'   \item{volume}{volume in ul} \item{pathlength}{pathlength in cm}
 #'   \item{expt}{experiment number denoting experimental repeat} }
 "pathlength_water_data"
 

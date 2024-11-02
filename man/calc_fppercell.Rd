@@ -29,16 +29,16 @@ include a variable called 'time'?}
 \item{remove_wells}{list of coordinates of wells to be removed from analysis
 (e.g. empty wells)}
 
-\item{get_rfu_od}{logical. if TRUE, uses \code{normalised_FP} and \code{normalised_OD} to
-calculate FP per cell as FP/OD in relative fluorescence units/relative OD
-(rfu/od).}
+\item{get_rfu_od}{logical. if TRUE, uses \code{normalised_FP} and \code{normalised_OD}
+to calculate FP per cell as FP/OD in relative fluorescence units/relative
+OD (RFU/OD).}
 
-\item{get_mol_cell}{logical. if TRUE, uses \code{calibrated_FP} and \code{calibrated_OD} to
-calculate FP per cell as FP/OD in relative fluorescence units/relative OD
-(molecules/cell).}
+\item{get_mol_cell}{logical. if TRUE, uses \code{calibrated_FP} and
+\code{calibrated_OD} to calculate FP per cell as FP/OD in relative fluorescence
+units/relative OD (molecules/cell).}
 
-\item{plate_type}{type of plate. numeric, i.e. '96' for 96-well plate. Defines
-the rows and columns used for plotting figures. Defaults to '96'.}
+\item{plate_type}{type of plate. numeric, i.e. '96' for 96-well plate.
+Defines the rows and columns used for plotting figures. Defaults to '96'.}
 
 \item{outfolder}{path to folder where output files should be saved. Defaults
 to current working directory.}
@@ -49,10 +49,10 @@ a data.frame with columns for each FP/cell calculation
 \description{
 Takes as input timecourse plate reader data processed with \code{process_plate}
 and uses normalised/calibrated values to calculate per-cell values. Adds
-column(s) for FP/cell as either: (a) \code{normalisedFP/normalisedOD} (rfu/od), (b)
-\code{calibratedFP/calibratedOD} (molecules/cell). Plots results and returns df.
-Note that technically, units of molecules are 'molecules of equivalent FP'
-and cells are 'particles of equivalent microspheres'.
+column(s) for FP/cell as either: (a) \code{normalisedFP/normalisedOD} (RFU/OD),
+(b) \code{calibratedFP/calibratedOD} (molecules/cell). Plots results and returns a
+dataframe. Note that technically, units of molecules are 'molecules of
+equivalent FP' and cells are 'particles of equivalent microspheres'.
 }
 \examples{
 \dontrun{

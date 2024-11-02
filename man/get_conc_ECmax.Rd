@@ -32,7 +32,7 @@ corrects for path lengths and normalises to blank wells.}
 NULL.}
 
 \item{xrange}{list of two numerical values corresponding to the wavelength
-range to keep when fitting the loess model across the absorbance spectrum.
+range to keep when fitting the LOESS model across the absorbance spectrum.
 By default these values are 250nm and 800nm but where the data at the UV
 range is noisy, adjusting the \code{xrange} can prevent errors in the fitting.}
 

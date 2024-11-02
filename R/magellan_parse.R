@@ -131,7 +131,7 @@ magellan_parse <- function(data_csv, layout_csv, timeseries = FALSE,
 
         ## Add timepoints as column names
 
-        ## Cannot use column1 times ("0s" etc) as colnames since you end up with slightly different timepoints
+        ## Cannot use column1 times ("0s" etc.) as colnames since you end up with slightly different timepoints
         ## for each channel, which cannot then be combined into a single table.
         ## Instead, need to work out timepoints in minutes from the specified interval time, and the total # of timepoints.
 
@@ -141,9 +141,9 @@ magellan_parse <- function(data_csv, layout_csv, timeseries = FALSE,
 
         ## Last timepoint in minutes:
         last_time <- lag + (timepoints-1)*(interval)
-        ## "read_first" mode: OD600, GFP etc readings taken first, then cells are incubated for interval time
+        ## "read_first" mode: OD600, GFP etc. readings taken first, then cells are incubated for interval time
         ## first timepoint is 0min
-        ## "incubate_first" mode: cells are incubated for interval time first, then OD600, GFP etc readings taken
+        ## "incubate_first" mode: cells are incubated for interval time first, then OD600, GFP etc. readings taken
         ## first timepoint will be however long the interval is, eg. 30min
 
         ## Times to use as colnames:

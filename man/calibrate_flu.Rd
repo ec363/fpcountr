@@ -38,7 +38,7 @@ calibrated fluorescence column to the data, which is returned. Originally
 based on \code{flopr::calibrate_flu}, but with multiple changes. A list of
 arguments have been added to allow selection of required conversion factor
 from table that may include conversion factors from multiple instruments,
-FPs, etc, and function now includes error checks that report to the user if
+FPs, etc., and function now includes error checks that report to the user if
 conversion factors are missing.
 }
 \keyword{internal}

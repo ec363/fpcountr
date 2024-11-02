@@ -35,7 +35,7 @@ include a variable called \code{time}?}
 \item{get_rfu_vol}{logical. if TRUE, uses \code{normalised_FP} and OD-specific
 cell volume (\code{od_specific_total_volume}, specified in ul) to calculate FP
 concentration as \code{FP/cellvolume} in relative fluorescence units/litre
-(rfu/L).}
+(RFU/L).}
 
 \item{get_mol_vol}{logical. if TRUE, uses calibrated_FP and OD-specific cell
 volume (\code{od_specific_total_volume}, specified in ul) to calculate FP
@@ -67,8 +67,8 @@ a data.frame with columns for each FP/cell calculation
 Takes as input timecourse plate reader data processed with \code{process_plate}
 and uses normalised/calibrated values to calculate FP concentration. Adds
 column(s) for FP concentration as either: (a) \code{normalisedFP/cellvolume}
-(rfu/L), (b) \code{calibratedFP/cellvolume} (moles/L, or M). Plots results and
-returns df.
+(RFU/L), (b) \code{calibratedFP/cellvolume} (moles/L, or M). Plots results and
+returns a dataframe.
 }
 \examples{
 \dontrun{

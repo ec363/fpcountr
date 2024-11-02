@@ -31,7 +31,7 @@ system.file("extdata", "", package = "fpcountr", mustWork = TRUE)
 
 This will give you the location of the files. 
 
-Create a new folder for this worked example (eg. called fpcountr_example) and copy all of the files into a subfolder called data. So your data should be under fpcountr_example/data. Next, open RStudio, start a new R session and navigate to the fpcountr_example folder.
+Create a new folder for this worked example (e.g.. called fpcountr_example) and copy all of the files into a subfolder called data. So your data should be under fpcountr_example/data. Next, open RStudio, start a new R session and navigate to the fpcountr_example folder.
 
 ## Worked example
 
@@ -68,21 +68,21 @@ parsed_data_spectrum[1:5,1:20] # check parsed absorbance spectrum looks good
 
 For absorbance data, path lengths require calculation. This can be done in 3 ways:
 
-1) calculation using the 900-1000nm region for each well (use pl_method = "calc_each"), 
-2) calculation using the 900-1000nm region for the blanks, which is used for all wells (use pl_method = "calc_blanks"), 
-3) by using previously obtained relationship of volume:path length using water (use pl_method = "volume").
+1) calculation using the 900-1000nm region for each well (use `pl_method = "calc_each"`), 
+2) calculation using the 900-1000nm region for the blanks, which is used for all wells (use `pl_method = "calc_blanks"`), 
+3) by using previously obtained relationship of volume:path length using water (use `pl_method = "volume"`).
 
 For the first two, the buffer and temperature needs to be specified. `view_kfactors()` allows the inspection of possible buffer types.
 
-- The specified 'buffer_used' needs to match one of the buffers listed in this table. (The example data was carried out with T5N15_pi buffer, this is most closely represented by "TBS".)
+- The specified 'buffer_used' needs to match one of the buffers listed in this table. (The example data was carried out with T5N15_pi buffer, this is most closely represented by "TBS" (Tris-buffered saline).)
 - The number specified for 'concentration_used' needs to match the units in those tables. (Example: 0.005 M)
 - The number specified for 'temperature_used' does *not* need to match those in the temperature table. (Example: 30)
 
-For the third, make sure the absorbance_scan_layout.csv file contains a completed volume column (in ul).
+For the third, make sure the `absorbance_scan_layout.csv` file contains a completed volume column (in ul).
 
 **Provide mTagBFP2 protein sequence**
 
-For the example data, the protein sequences are available from within the package in the protein_seq_data dataset.
+For the example data, the protein sequences are available from within the package in the `protein_seq_data` dataset.
 
 For other FPs, protein sequences in 1-letter code need to be provided for the following functions (to allow function to work out the molecular weight).
 
@@ -181,7 +181,7 @@ parsed_data <- magellan_parse(data_csv = file.path(data_folder, paste0(raw_data_
 parsed_data
 ```
 
-#### 2. Generate cfs
+#### 2. Generate conversion factors
 
 ```{r warning=FALSE, message=FALSE}
 fitvals <- generate_cfs(calibration_csv = file.path(data_folder, paste0(raw_data_fluor, "_parsed.csv")),
@@ -189,9 +189,9 @@ fitvals <- generate_cfs(calibration_csv = file.path(data_folder, paste0(raw_data
                         # columns/channels to include/exclude:
                         include_only = "blueblue", exclude = NULL,
                         # column/channel fixes:
-                        gain_fix = TRUE, # fixes order of fluor channels w gains by making 2digits->3digits (eg 040->40)
+                        gain_fix = TRUE, # fixes order of fluor channels w gains by making 2digits->3digits (e.g. 040->40)
                         rename_from = "blueblue", rename_to = "blueblue ", # adding space here helps to extract gain
-                        separator = "", # the character between `rename_to` value (eg "blueblue") and the gain number (eg 040)
+                        separator = "", # the character between `rename_to` value (e.g. "blueblue") and the gain number (e.g. 040)
                         complete_blank = TRUE,
                         subset_rows = TRUE, rows_to_keep = c("G","H"),
                         outfolder = file.path("conversion_factors/T5N15pi") # where to create conversion factor plots and csv files
@@ -264,7 +264,7 @@ parsed_data <- magellan_parse(data_csv = file.path(data_folder, paste0(raw_data,
                               mode = "read_first", # mode can only be "read_first" or "incubate_first"
                               metadata_above = 1, # Well Positions
                               metadata_below = 0,
-                              # metadata is how many lines of metadata was requested w the data # eg well positions, layout, replicate info.
+                              # metadata is how many lines of metadata was requested w the data # e.g. well positions, layout, replicate info.
                               custom = TRUE, startcol = 3, endcol = 97, insert_wells_above = 0, insert_wells_below = 1
 )
 parsed_data[1:12,]

@@ -32,7 +32,7 @@
 #' @param wells_to_remove list of wells to remove before analysis. Defaults to
 #'   NULL.
 #' @param xrange list of two numerical values corresponding to the wavelength
-#'   range to keep when fitting the loess model across the absorbance spectrum.
+#'   range to keep when fitting the LOESS model across the absorbance spectrum.
 #'   By default these values are 250nm and 800nm but where the data at the UV
 #'   range is noisy, adjusting the `xrange` can prevent errors in the fitting.
 #' @param corr_method string corresponding to type of correction method to use

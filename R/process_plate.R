@@ -37,7 +37,7 @@
 #'   from the columns in the data file. Needs to be same length as flu_channels,
 #'   if not all require changing, specify them anyway to allow positional
 #'   replacement (first element in flu_channels_rename replaces first in
-#'   flu_channels, etc). Defaults to NULL.
+#'   flu_channels, etc.). Defaults to NULL.
 #' @param af_model model used to fit negative control autofluorescence. For now
 #'   these include "polynomial", "inverse_poly", "exponential", "spline" and
 #'   "loess". If set to NULL, no model is used, and fluorescence is normalised

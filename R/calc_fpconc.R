@@ -3,8 +3,8 @@
 #' Takes as input timecourse plate reader data processed with `process_plate`
 #' and uses normalised/calibrated values to calculate FP concentration. Adds
 #' column(s) for FP concentration as either: (a) `normalisedFP/cellvolume`
-#' (rfu/L), (b) `calibratedFP/cellvolume` (moles/L, or M). Plots results and
-#' returns df.
+#' (RFU/L), (b) `calibratedFP/cellvolume` (moles/L, or M). Plots results and
+#' returns a dataframe.
 #'
 #' @param data_csv path to a CSV file containing processed plate reader data
 #' @param timecourse logical. Is the data timecourse/kinetic data and does it
@@ -16,7 +16,7 @@
 #' @param get_rfu_vol logical. if TRUE, uses `normalised_FP` and OD-specific
 #'   cell volume (`od_specific_total_volume`, specified in ul) to calculate FP
 #'   concentration as `FP/cellvolume` in relative fluorescence units/litre
-#'   (rfu/L).
+#'   (RFU/L).
 #' @param get_mol_vol logical. if TRUE, uses calibrated_FP and OD-specific cell
 #'   volume (`od_specific_total_volume`, specified in ul) to calculate FP
 #'   concentration as moles/L in Molar (M) units.

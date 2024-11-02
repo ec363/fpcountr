@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_conc_bca.R
 \name{get_conc_bca}
 \alias{get_conc_bca}
-\title{Get FP concentrations using BCA method}
+\title{Get FP concentrations using bicinchoninic acid (BCA) assay method}
 \usage{
 get_conc_bca(
   microbca_data_csv,
@@ -15,7 +15,7 @@ get_conc_bca(
 )
 }
 \arguments{
-\item{microbca_data_csv}{path of the CSV file of your microBCA data.
+\item{microbca_data_csv}{path of the CSV file of your BCA data.
 required.}
 
 \item{a562_baseline_csv}{path of the CSV file of your A562 baseline data.
@@ -36,28 +36,30 @@ with this function. Function subsets the data by the value specified here.}
 Required for MW calculation.}
 
 \item{option}{string specifying how to choose the predicted concentration to
-use. Default is "highest", in which the mean predicted conc of the highest
-dilution (i.e. neat) is used, and is multiplied by the dilution to determine
-the concentration of the other dilutions. The alternative, "fit", fits a
-\code{y=mx} linear model and uses that for the concentration determination.}
+use. Default is "highest", in which the mean predicted concentration of the
+highest dilution (i.e. neat) is used, and is multiplied by the dilution to
+determine the concentration of the other dilutions. The alternative, "fit",
+fits a \code{y=mx} linear model and uses that for the concentration
+determination.}
 
 \item{outfolder}{path to the folder where output files should be saved.
 Defaults to the current working directory.}
 }
 \description{
-Get protein's concentration from a \emph{dilution series} measured with the BCA
-assay. Takes two input data sets, the BCA assay data and the A562 baseline
-data. The A562 baseline data is necessary for proteins that might naturally
-absorb in this range. Script normalises BCA assay data for A562 baseline,
-then to blank values of BCA. Data from the BSA standards (identified by
-protein column containing the word "BSA"), are used to construct a standard
-curve of concentration in ng/ul vs normalised A562 values, which is used to
-predict FP concentrations at each dilution. The FP's concentration vs
-dilution values are then used to predict the FP concentration at each
-dilution in one of two ways. Where option is set to \code{fit}, a linear model is
-fitted between FP concentration and dilution, and the fitted values are
-exported. Where option is set to \code{highest}, FP concentrations are taken only
-from the highest concentration/dilution specified and exported.
+Get protein's concentration from a \emph{dilution series} measured with the
+bicinchoninic acid (BCA) assay. Takes two input data sets, the BCA assay data
+and the A562 baseline data. The A562 baseline data is necessary for proteins
+that might naturally absorb in this range. Script normalises BCA assay data
+for A562 baseline, then to blank values of BCA. Data from the bovine serum
+albumin (BSA) standards (identified by protein column containing the word
+"BSA"), are used to construct a standard curve of concentration in ng/ul vs
+normalised A562 values, which is used to predict FP concentrations at each
+dilution. The FP's concentration vs dilution values are then used to predict
+the FP concentration at each dilution in one of two ways. Where option is set
+to \code{fit}, a linear model is fitted between FP concentration and dilution, and
+the fitted values are exported. Where option is set to \code{highest}, FP
+concentrations are taken only from the highest concentration/dilution
+specified and exported.
 }
 \examples{
 \dontrun{

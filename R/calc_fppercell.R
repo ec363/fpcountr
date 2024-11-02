@@ -2,10 +2,10 @@
 #'
 #' Takes as input timecourse plate reader data processed with `process_plate`
 #' and uses normalised/calibrated values to calculate per-cell values. Adds
-#' column(s) for FP/cell as either: (a) `normalisedFP/normalisedOD` (rfu/od), (b)
-#' `calibratedFP/calibratedOD` (molecules/cell). Plots results and returns df.
-#' Note that technically, units of molecules are 'molecules of equivalent FP'
-#' and cells are 'particles of equivalent microspheres'.
+#' column(s) for FP/cell as either: (a) `normalisedFP/normalisedOD` (RFU/OD),
+#' (b) `calibratedFP/calibratedOD` (molecules/cell). Plots results and returns a
+#' dataframe. Note that technically, units of molecules are 'molecules of
+#' equivalent FP' and cells are 'particles of equivalent microspheres'.
 #'
 #' @param data_csv path to a CSV file containing processed plate reader data
 #' @param timecourse logical. Is the data timecourse/kinetic data and does it
@@ -14,14 +14,14 @@
 #' @param flu_labels the column names for the CALIBRATED fluorescence data
 #' @param remove_wells list of coordinates of wells to be removed from analysis
 #'   (e.g. empty wells)
-#' @param get_rfu_od logical. if TRUE, uses `normalised_FP` and `normalised_OD` to
-#'   calculate FP per cell as FP/OD in relative fluorescence units/relative OD
-#'   (rfu/od).
-#' @param get_mol_cell logical. if TRUE, uses `calibrated_FP` and `calibrated_OD` to
-#'   calculate FP per cell as FP/OD in relative fluorescence units/relative OD
-#'   (molecules/cell).
-#' @param plate_type type of plate. numeric, i.e. '96' for 96-well plate. Defines
-#'   the rows and columns used for plotting figures. Defaults to '96'.
+#' @param get_rfu_od logical. if TRUE, uses `normalised_FP` and `normalised_OD`
+#'   to calculate FP per cell as FP/OD in relative fluorescence units/relative
+#'   OD (RFU/OD).
+#' @param get_mol_cell logical. if TRUE, uses `calibrated_FP` and
+#'   `calibrated_OD` to calculate FP per cell as FP/OD in relative fluorescence
+#'   units/relative OD (molecules/cell).
+#' @param plate_type type of plate. numeric, i.e. '96' for 96-well plate.
+#'   Defines the rows and columns used for plotting figures. Defaults to '96'.
 #' @param outfolder path to folder where output files should be saved. Defaults
 #'   to current working directory.
 #'
