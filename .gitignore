@@ -2,6 +2,12 @@
 .DS_Store
 .Rhistory
 .Rproj.user
+.Rapp.history
+
+# vignette files
+inst/doc
+/doc/
+/Meta/
 
 # archived or test files
 z_*
