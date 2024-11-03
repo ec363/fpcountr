@@ -389,7 +389,7 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
                   width = 8, height = 8, units = "cm")
 
   # Subset data to get rid of negatives:
-  df_3_subset <- subset(df_3, .data$conc_max_std >= 0)
+  df_3_subset <- subset(df_3, df_3$conc_max_std >= 0)
   # Fit model as (Y ~ X):
   model1 <- stats::lm(conc_max_std ~ dilution + 0, data = df_3_subset) # force through zero to compare points to ideal
   model1
@@ -479,7 +479,7 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
   newlist <- levels(data.to.plot$dilution)
   data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
   # use top dilution
-  data.to.plot <- subset(data.to.plot, .data$dilution == levels(data.to.plot$dilution)[1])
+  data.to.plot <- subset(data.to.plot, data.to.plot$dilution == levels(data.to.plot$dilution)[1])
   # fit baseline to data at chosen wavelength
   baselinefit <- data.to.plot %>%
     dplyr::filter(.data$measure == wav_to_use1) %>%
@@ -515,7 +515,7 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
                   width = 8, height = 8, units = "cm")
 
   # Subset data to get rid of negatives:
-  df_4_subset <- subset(df_4, .data$conc_max_corr1 >= 0)
+  df_4_subset <- subset(df_4, df_4$conc_max_corr1 >= 0)
   # Fit model as (Y ~ X):
   model2 <- stats::lm(conc_max_corr1 ~ dilution + 0, data = df_4_subset) # force through zero to compare points to ideal
   model2
@@ -639,7 +639,7 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
   newlist <- levels(data.to.plot$dilution)
   data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
   # use only one dilution (top dilution), as stat_function doesn't play well with faceted plots
-  data.to.plot <- subset(data.to.plot, .data$dilution == levels(data.to.plot$dilution)[1])
+  data.to.plot <- subset(data.to.plot, data.to.plot$dilution == levels(data.to.plot$dilution)[1])
   ## fit scatter eqn to data at chosen wavelength
   eq = function(x){1/x^4}
   # eq(wav_to_use2) # value at scatter wavelength for 1/x^4 eqn
@@ -675,7 +675,7 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
                   width = 8, height = 8, units = "cm")
 
   # Subset data to get rid of negatives:
-  df_5_subset <- subset(df_5, .data$conc_max_corr2 >= 0)
+  df_5_subset <- subset(df_5, df_5$conc_max_corr2 >= 0)
   # Fit model as (Y ~ X):
   model3 <- stats::lm(conc_max_corr2 ~ dilution + 0, data = df_5_subset) # force through zero to compare points to ideal
   model3

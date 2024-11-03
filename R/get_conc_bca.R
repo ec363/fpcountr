@@ -120,7 +120,7 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
   # Step2. Take mean of baseline-normalised blanks/buffers, subtract this from baseline-normalised values of proteins
 
   # Identify negatives/blanks
-  blanks_bca <- subset(norm_data, .data$protein == "none")
+  blanks_bca <- subset(norm_data, norm_data$protein == "none")
   blanks_bca
   mean_blanks_bca <- mean(blanks_bca$base_norm_bca, na.rm = TRUE)
   mean_blanks_bca
@@ -140,7 +140,7 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
   # Basic Plots ---------------------------------------------------------------------
 
   # Remove blanks for plotting
-  data.to.plot <- subset(processed_bca, .data$protein != "none" & .data$protein != "")
+  data.to.plot <- subset(processed_bca, processed_bca$protein != "none" & processed_bca$protein != "")
   data.to.plot
 
   # Plot BSA and FP(s) - dilution vs raw/normalised values
@@ -178,7 +178,7 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
                   height = 16, width = 16, units = "cm")
 
   # Plot BSA vs conc
-  plot3 <- ggplot2::ggplot(subset(data.to.plot, .data$protein == "BSA")) +
+  plot3 <- ggplot2::ggplot(subset(data.to.plot, data.to.plot$protein == "BSA")) +
     ggplot2::geom_point(ggplot2::aes(x = .data$concentration_ngul,
                                      y = .data$normalised_bca)) +
     ggplot2::geom_hline(yintercept = 0) +
@@ -200,7 +200,7 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
                   height = 12, width = 12, units = "cm")
 
   # # Plot BSA vs molecules
-  # plot3 <- ggplot2::ggplot(subset(data.to.plot, protein == "BSA")) +
+  # plot3 <- ggplot2::ggplot(subset(data.to.plot, data.to.plot$protein == "BSA")) +
   #   ggplot2::geom_point(ggplot2::aes(x = molecules_microBCA,
   #                                    y = normalised_bca)) +
   #   ggplot2::geom_hline(yintercept = 0) +
@@ -259,7 +259,7 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
   processed_a562
 
   # Remove blanks for plotting
-  data.to.plot3 <- subset(processed_a562, .data$protein != "none" & .data$protein != "")
+  data.to.plot3 <- subset(processed_a562, processed_a562$protein != "none" & processed_a562$protein != "")
   data.to.plot3
 
   # Plot A562 baselines, visualised normalised to its own blanks...
@@ -297,7 +297,7 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
   # Fit polynomial curve to BSA vs concentration relationship, to obtain standard curve -----------------------------------------------
 
   # Separate out standards
-  data_standards <- subset(processed_bca, .data$protein == "BSA")
+  data_standards <- subset(processed_bca, processed_bca$protein == "BSA")
   data_standards
 
   # Fit curve with A562 on X and conc on Y:
@@ -350,7 +350,7 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
   # Get concentration estimates for chosen FP ----------------------------------------------------------------------------------------
 
   # Get FP data
-  data_tests <- subset(processed_bca, .data$protein == calibr)
+  data_tests <- subset(processed_bca, processed_bca$protein == calibr)
   data_tests
 
   # Add column

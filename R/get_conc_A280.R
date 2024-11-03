@@ -414,7 +414,7 @@ get_conc_a280 <- function(protein_slug, protein_seq, buffer = "",
                   width = 8, height = 8, units = "cm")
 
   # Subset data to get rid of negatives:
-  df_3_subset <- subset(df_3, .data$conc_a280_std >= 0)
+  df_3_subset <- subset(df_3, df_3$conc_a280_std >= 0)
   # Fit model as (Y ~ X):
   model1 <- stats::lm(conc_a280_std ~ dilution + 0, data = df_3_subset) # force through zero to compare points to ideal
   model1
@@ -499,7 +499,7 @@ get_conc_a280 <- function(protein_slug, protein_seq, buffer = "",
   df_4
 
   # Subset data to get rid of negatives:
-  df_4_subset <- subset(df_4, .data$conc_a280_corr1 >= 0)
+  df_4_subset <- subset(df_4, df_4$conc_a280_corr1 >= 0)
   # Fit model as (Y ~ X):
   model2 <- stats::lm(conc_a280_corr1 ~ dilution + 0, data = df_4_subset) # force through zero to compare points to ideal
   model2
@@ -621,7 +621,7 @@ get_conc_a280 <- function(protein_slug, protein_seq, buffer = "",
   df_5
 
   # Subset data to get rid of negatives:
-  df_5_subset <- subset(df_5, .data$conc_a280_corr2 >= 0)
+  df_5_subset <- subset(df_5, df_5$conc_a280_corr2 >= 0)
   # Fit model as (Y ~ X):
   model3 <- stats::lm(conc_a280_corr2 ~ dilution + 0, data = df_5_subset) # force through zero to compare points to ideal
   model3
