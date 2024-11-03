@@ -31,7 +31,7 @@ system.file("extdata", "", package = "fpcountr", mustWork = TRUE)
 
 This will give you the location of the files. 
 
-Create a new folder for this worked example (e.g. called fpcountr_example) and copy all of the files into a subfolder called data. So your data should be under fpcountr_example/data. Next, open RStudio, start a new R session and navigate to the fpcountr_example folder.
+Create a new folder for this worked example (e.g. called `fpcountr_example`) and copy all of the files into a subfolder called data. So your data should be under `fpcountr_example/data`. Next, open RStudio, start a new R session and navigate to the `fpcountr_example` folder.
 
 ## Worked example
 
