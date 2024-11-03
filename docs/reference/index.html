@@ -47,7 +47,7 @@
     </div>
 
     <div class="section level2">
-      <h2 id="functions-for-performing-calibrations">Functions for performing calibrations<a class="anchor" aria-label="anchor" href="#functions-for-performing-calibrations"></a></h2>
+      <h2 id="calibration-functions">Calibration functions<a class="anchor" aria-label="anchor" href="#calibration-functions"></a></h2>
       
       
 
@@ -59,12 +59,17 @@
 
       <dl><dt>
           
-          <code><a href="get_conc_A280.html">get_conc_A280()</a></code> 
+          <code><a href="process_absorbance_spectrum.html">process_absorbance_spectrum()</a></code> 
+        </dt>
+        <dd>Process absorbance spectrum data</dd>
+      </dl><dl><dt>
+          
+          <code><a href="get_conc_a280.html">get_conc_a280()</a></code> 
         </dt>
         <dd>Get FP concentrations using A280 method</dd>
       </dl><dl><dt>
           
-          <code><a href="get_conc_ECmax.html">get_conc_ECmax()</a></code> 
+          <code><a href="get_conc_ecmax.html">get_conc_ecmax()</a></code> 
         </dt>
         <dd>Get FP concentrations using ECmax method</dd>
       </dl><dl><dt>
@@ -77,18 +82,8 @@
           <code><a href="generate_cfs.html">generate_cfs()</a></code> 
         </dt>
         <dd>Generate conversion factors for FP calibrations</dd>
-      </dl><dl><dt>
-          
-          <code><a href="plot_absorbance_spectrum.html">plot_absorbance_spectrum()</a></code> 
-        </dt>
-        <dd>Plot absorbance spectrum</dd>
-      </dl><dl><dt>
-          
-          <code><a href="view_kfactors.html">view_kfactors()</a></code> 
-        </dt>
-        <dd>View k-factors</dd>
       </dl></div><div class="section level2">
-      <h2 id="experimental-data-handling-functions">Experimental data handling functions<a class="anchor" aria-label="anchor" href="#experimental-data-handling-functions"></a></h2>
+      <h2 id="experimental-data-analysis-functions">Experimental data analysis functions<a class="anchor" aria-label="anchor" href="#experimental-data-analysis-functions"></a></h2>
       
       
 
@@ -99,6 +94,11 @@
       
 
       <dl><dt>
+          
+          <code><a href="process_plate.html">process_plate()</a></code> 
+        </dt>
+        <dd>Process experimental data (normalise, correct and calibrate)</dd>
+      </dl><dl><dt>
           
           <code><a href="calc_fppercell.html">calc_fppercell()</a></code> 
         </dt>
@@ -108,15 +108,10 @@
           <code><a href="calc_fpconc.html">calc_fpconc()</a></code> 
         </dt>
         <dd>Calculate FP concentration in molar units</dd>
-      </dl><dl><dt>
-          
-          <code><a href="process_plate.html">process_plate()</a></code> 
-        </dt>
-        <dd>Process experimental data (normalise, correct and calibrate)</dd>
       </dl></div><div class="section level2">
       <h2 id="parser-functions">Parser functions<a class="anchor" aria-label="anchor" href="#parser-functions"></a></h2>
       
-      <div class="section-desc"><p>Functions that format and tidy data</p></div>
+      <div class="section-desc"><p>Functions that extract and tidy data</p></div>
 
       
     </div><div id="" class="section level2">
@@ -126,18 +121,18 @@
 
       <dl><dt>
           
-          <code><a href="magellan_parse.html">magellan_parse()</a></code> 
+          <code><a href="parse_magellan.html">parse_magellan()</a></code> 
         </dt>
-        <dd>Parser for Spark/Magellan data</dd>
+        <dd>Parse Tecan Spark/Magellan data from endpoint and kinetic assays</dd>
       </dl><dl><dt>
           
-          <code><a href="magellan_spectrum_parse.html">magellan_spectrum_parse()</a></code> 
+          <code><a href="parse_magellan_spectrum.html">parse_magellan_spectrum()</a></code> 
         </dt>
-        <dd>Parser for absorbance spectrum data</dd>
+        <dd>Parse Tecan Spark/Magellan data from absorbance spectrum data</dd>
       </dl></div><div class="section level2">
-      <h2 id="helper-functions">Helper functions<a class="anchor" aria-label="anchor" href="#helper-functions"></a></h2>
+      <h2 id="path-length-functions">Path length functions<a class="anchor" aria-label="anchor" href="#path-length-functions"></a></h2>
       
-      <div class="section-desc"><p>Miscellaneous useful functions</p></div>
+      <div class="section-desc"><p>Functions that determine path lengths for absorbance measurements</p></div>
 
       
     </div><div id="" class="section level2">
@@ -147,9 +142,9 @@
 
       <dl><dt>
           
-          <code><a href="get_extcoeff_A280.html">get_extcoeff_A280()</a></code> 
+          <code><a href="view_kfactors.html">view_kfactors()</a></code> 
         </dt>
-        <dd>Get a protein's molar extinction coefficient at A280</dd>
+        <dd>View k-factors</dd>
       </dl><dl><dt>
           
           <code><a href="get_kfactor.html">get_kfactor()</a></code> 
@@ -157,23 +152,39 @@
         <dd>Get k-factor of a buffer</dd>
       </dl><dl><dt>
           
+          <code><a href="get_pathlength.html">get_pathlength()</a></code> 
+        </dt>
+        <dd>Get path length in a typical 96-well plate</dd>
+      </dl></div><div class="section level2">
+      <h2 id="protein-property-functions">Protein property functions<a class="anchor" aria-label="anchor" href="#protein-property-functions"></a></h2>
+      
+      <div class="section-desc"><p>Functions that find protein properties</p></div>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
           <code><a href="get_mw.html">get_mw()</a></code> 
         </dt>
         <dd>Get molecular weight of a protein</dd>
       </dl><dl><dt>
           
-          <code><a href="get_pathlength.html">get_pathlength()</a></code> 
+          <code><a href="get_extcoeff_a280.html">get_extcoeff_a280()</a></code> 
         </dt>
-        <dd>Get path length in a typical 96-well plate</dd>
+        <dd>Get a protein's molar extinction coefficient at A280</dd>
       </dl><dl><dt>
           
-          <code><a href="get_properties.html">get_properties()</a></code> 
+          <code><a href="get_fpbase_properties.html">get_fpbase_properties()</a></code> 
         </dt>
         <dd>Get properties of an FP from FPbase</dd>
       </dl></div><div class="section level2">
       <h2 id="plate-format-functions">Plate format functions<a class="anchor" aria-label="anchor" href="#plate-format-functions"></a></h2>
       
-      <div class="section-desc"><p>Functions to generate row, column and well names from a given plate type</p></div>
+      <div class="section-desc"><p>Functions to generate row, column and well names</p></div>
 
       
     </div><div id="" class="section level2">

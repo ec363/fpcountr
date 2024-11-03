@@ -4,35 +4,38 @@ template:
   bootstrap: 5
 
 reference:
-- title: "Functions for performing calibrations"
+- title: "Calibration functions"
   desc: ""
 - contents:
-  - get_conc_A280
-  - get_conc_ECmax
+  - process_absorbance_spectrum
+  - get_conc_a280
+  - get_conc_ecmax
   - get_conc_bca
   - generate_cfs
-  - plot_absorbance_spectrum
-  - view_kfactors
-- title: "Experimental data handling functions"
+- title: "Experimental data analysis functions"
   desc: ""
 - contents:
+  - process_plate
   - calc_fppercell
   - calc_fpconc
-  - process_plate
 - title: "Parser functions"
-  desc: "Functions that format and tidy data"
+  desc: "Functions that extract and tidy data"
 - contents:
-  - ends_with("_parse")
-- title: "Helper functions"
-  desc: "Miscellaneous useful functions"
+  - starts_with("parse_")
+- title: "Path length functions"
+  desc: "Functions that determine path lengths for absorbance measurements"
 - contents:
-  - get_extcoeff_A280
+  - view_kfactors
   - get_kfactor
-  - get_mw
   - get_pathlength
-  - get_properties
+- title: "Protein property functions"
+  desc: "Functions that find protein properties"
+- contents:
+  - get_mw
+  - get_extcoeff_a280
+  - get_fpbase_properties
 - title: "Plate format functions"
-  desc: "Functions to generate row, column and well names from a given plate type"
+  desc: "Functions to generate row, column and well names"
 - contents:
   - find_wells
   - find_wells_in_row

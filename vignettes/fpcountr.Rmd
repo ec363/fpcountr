@@ -56,7 +56,7 @@ data_layout_spectrum <- "absorbance_scan_layout.csv" # with csv
 #### 1. Parse spectrum data
 
 ```{r warning=FALSE}
-parsed_data_spectrum <- magellan_spectrum_parse(data_csv = file.path(data_folder, paste0(raw_data_spectrum, ".csv")),
+parsed_data_spectrum <- parse_magellan_spectrum(data_csv = file.path(data_folder, paste0(raw_data_spectrum, ".csv")),
                                                 layout_csv = file.path(data_folder, data_layout_spectrum),
                                                 wellstart = "A1", wellend = "H12")
 parsed_data_spectrum[1:5,1:20] # check parsed absorbance spectrum looks good
@@ -101,7 +101,7 @@ protein_seq
 dir.create("protquant") # Create folder for get_concentration functions' output files
 
 # Process spectra (correct for for path length and normalise to blanks)
-processed_data_spectrum_t5n15pi <- plot_absorbance_spectrum(
+processed_data_spectrum_t5n15pi <- process_absorbance_spectrum(
   spectrum_csv = file.path(data_folder, paste0(raw_data_spectrum, "_parsed.csv")),
   subset_rows = TRUE, rows_to_keep = c("G","H"), columns_to_keep = c(1:12),
   xrange = c(250,1000),
@@ -175,7 +175,7 @@ data_layout_fluor <- "conversion_factors/plate_layout_joined_t5n15pi.csv" # with
 #### 1. Parse fluorescence data
 
 ```{r warning=FALSE}
-parsed_data <- magellan_parse(data_csv = file.path(data_folder, paste0(raw_data_fluor, ".csv")),
+parsed_data <- parse_magellan(data_csv = file.path(data_folder, paste0(raw_data_fluor, ".csv")),
                               layout_csv = file.path(data_layout_fluor),
                               timeseries = FALSE)
 parsed_data
@@ -256,7 +256,7 @@ data_layout <- "20210501_mTagBFP2_ecoli_response_data_layout.csv" # with csv
 #### 1. Parse data
 
 ```{r}
-parsed_data <- magellan_parse(data_csv = file.path(data_folder, paste0(raw_data, ".csv")),
+parsed_data <- parse_magellan(data_csv = file.path(data_folder, paste0(raw_data, ".csv")),
                               layout_csv = file.path(data_folder, data_layout),
                               timeseries = TRUE,
                               timestart = "0s",
@@ -392,9 +392,9 @@ These files can then be used to analyse data in absolute quantities...
 The paper covers the purpose and structure of these functions in more detail.
 
 - overview of all functions - Supplementary Fig. 13
-- `plot_absorbance_spectrum()` - Supplementary Fig. 6
+- `process_absorbance_spectrum()` (originally `plot_absorbance_spectrum()`) - Supplementary Fig. 6
 - path length correction - Supplementary Fig. 4
-- `get_conc_ECmax()` - Supplementary Fig. 8
+- `get_conc_ecmax()` (originally `get_conc_ECmax()`) - Supplementary Fig. 8
 - `generate_cfs()` - Fig.3 and Supplementary Fig. 3
 - microsphere calibrations - Supplementary Fig. 11
 - `process_plate()` - Fig. 4-5

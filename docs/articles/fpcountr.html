@@ -127,7 +127,7 @@ session and navigate to the <code>fpcountr_example</code> folder.</p>
 <h4 id="parse-spectrum-data">1. Parse spectrum data<a class="anchor" aria-label="anchor" href="#parse-spectrum-data"></a>
 </h4>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">parsed_data_spectrum</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/magellan_spectrum_parse.html">magellan_spectrum_parse</a></span><span class="op">(</span>data_csv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">data_folder</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">raw_data_spectrum</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span>,</span>
+<code class="sourceCode R"><span><span class="va">parsed_data_spectrum</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_magellan_spectrum.html">parse_magellan_spectrum</a></span><span class="op">(</span>data_csv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">data_folder</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">raw_data_spectrum</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                                                layout_csv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">data_folder</span>, <span class="va">data_layout_spectrum</span><span class="op">)</span>,</span>
 <span>                                                wellstart <span class="op">=</span> <span class="st">"A1"</span>, wellend <span class="op">=</span> <span class="st">"H12"</span><span class="op">)</span></span>
 <span><span class="va">parsed_data_spectrum</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">]</span> <span class="co"># check parsed absorbance spectrum looks good</span></span></code></pre></div>
@@ -177,7 +177,7 @@ weight).</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">"protquant"</span><span class="op">)</span> <span class="co"># Create folder for get_concentration functions' output files</span></span>
 <span></span>
 <span><span class="co"># Process spectra (correct for for path length and normalise to blanks)</span></span>
-<span><span class="va">processed_data_spectrum_t5n15pi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_absorbance_spectrum.html">plot_absorbance_spectrum</a></span><span class="op">(</span></span>
+<span><span class="va">processed_data_spectrum_t5n15pi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/process_absorbance_spectrum.html">process_absorbance_spectrum</a></span><span class="op">(</span></span>
 <span>  spectrum_csv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">data_folder</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">raw_data_spectrum</span>, <span class="st">"_parsed.csv"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  subset_rows <span class="op">=</span> <span class="cn">TRUE</span>, rows_to_keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"G"</span>,<span class="st">"H"</span><span class="op">)</span>, columns_to_keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span>,</span>
 <span>  xrange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">250</span>,<span class="fl">1000</span><span class="op">)</span>,</span>
@@ -197,7 +197,7 @@ weight).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Use maximum absorbance wavelength (ECmax) of processed spectra to calculate protein concentrations</span></span>
 <span><span class="va">buffer_name</span> <span class="op">&lt;-</span> <span class="st">"T5N15_pi"</span></span>
-<span><span class="va">proteinconcs_ecmax_t5n15pi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_conc_ECmax.html">get_conc_ECmax</a></span><span class="op">(</span>protein_slug <span class="op">=</span> <span class="st">"mtagbfp2"</span>, </span>
+<span><span class="va">proteinconcs_ecmax_t5n15pi</span> <span class="op">&lt;-</span> <span class="fu">get_conc_ECmax</span><span class="op">(</span>protein_slug <span class="op">=</span> <span class="st">"mtagbfp2"</span>, </span>
 <span>                                             protein_seq <span class="op">=</span> <span class="va">protein_seq</span>,</span>
 <span>                                             processed_spectrum_csv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">"protquant/ECmax_T5N15pi"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">raw_data_spectrum</span>, <span class="st">"_parsed_processed.csv"</span><span class="op">)</span><span class="op">)</span>, <span class="co"># processed data</span></span>
 <span>                                             <span class="co"># wells_to_remove = c(),</span></span>
@@ -242,7 +242,7 @@ the concentrations obtained from the ECmax assay above.</p>
 <h4 id="parse-fluorescence-data">1. Parse fluorescence data<a class="anchor" aria-label="anchor" href="#parse-fluorescence-data"></a>
 </h4>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/magellan_parse.html">magellan_parse</a></span><span class="op">(</span>data_csv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">data_folder</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">raw_data_fluor</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span>,</span>
+<code class="sourceCode R"><span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_magellan.html">parse_magellan</a></span><span class="op">(</span>data_csv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">data_folder</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">raw_data_fluor</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                              layout_csv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">data_layout_fluor</span><span class="op">)</span>,</span>
 <span>                              timeseries <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">parsed_data</span></span></code></pre></div>
@@ -323,7 +323,7 @@ experiments<a class="anchor" aria-label="anchor" href="#processing-data-from-e--
 <h4 id="parse-data">1. Parse data<a class="anchor" aria-label="anchor" href="#parse-data"></a>
 </h4>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/magellan_parse.html">magellan_parse</a></span><span class="op">(</span>data_csv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">data_folder</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">raw_data</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span>,</span>
+<code class="sourceCode R"><span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_magellan.html">parse_magellan</a></span><span class="op">(</span>data_csv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">data_folder</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">raw_data</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                              layout_csv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">data_folder</span>, <span class="va">data_layout</span><span class="op">)</span>,</span>
 <span>                              timeseries <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                              timestart <span class="op">=</span> <span class="st">"0s"</span>,</span>
@@ -449,10 +449,12 @@ detail.</p>
 <ul>
 <li>overview of all functions - Supplementary Fig. 13</li>
 <li>
-<code><a href="../reference/plot_absorbance_spectrum.html">plot_absorbance_spectrum()</a></code> - Supplementary Fig. 6</li>
+<code><a href="../reference/process_absorbance_spectrum.html">process_absorbance_spectrum()</a></code> (originally
+<code>plot_absorbance_spectrum()</code>) - Supplementary Fig. 6</li>
 <li>path length correction - Supplementary Fig. 4</li>
 <li>
-<code><a href="../reference/get_conc_ECmax.html">get_conc_ECmax()</a></code> - Supplementary Fig. 8</li>
+<code><a href="../reference/get_conc_ecmax.html">get_conc_ecmax()</a></code> (originally
+<code>get_conc_ECmax()</code>) - Supplementary Fig. 8</li>
 <li>
 <code><a href="../reference/generate_cfs.html">generate_cfs()</a></code> - Fig.3 and Supplementary Fig. 3</li>
 <li>microsphere calibrations - Supplementary Fig. 11</li>
