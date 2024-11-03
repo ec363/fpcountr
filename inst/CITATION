@@ -1,0 +1,29 @@
+citHeader("To cite `fpcountr`, please use the following:")
+
+bibentry(
+  key = "paper",
+  bibtype = "Article",
+  title = "Absolute protein quantification using fluorescence measurements with {FPCountR}",
+  author = c(person(given = "Eszter", family = "Csibra"),
+             person(given = "Stan", family = "Guy-Bart")),
+  journal = "Nature Communications",
+  year = 2022,
+  volume = 13,
+  number = 1,
+  pages = 6600,
+  doi = "10.1038/s41467-022-34232-6",
+  url = "https://www.nature.com/articles/s41467-022-34232-6"
+)
+
+bibentry(
+  key = "package",
+  bibtype = "Manual",
+  title = "fpcountr: Fluorescent protein calibration for plate readers",
+  author = c(person(given = "Eszter", family = "Csibra")),
+  year = 2021,
+  note = "R package, https://github.com/ec363/fpcountr",
+  url = "https://ec363.github.io/fpcountr/",
+  doi = "10.5281/zenodo.5760027"
+)
+
+citFooter("If possible, please complete the R package citation by adding the version used (e.g. R package v0.2.0), the year that version was released (e.g. 2024), and its Zenodo DOI (e.g. doi: 10.5281/zenodo.13951238).")
