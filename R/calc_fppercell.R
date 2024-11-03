@@ -1,9 +1,9 @@
 #' Calculate FP per cell values
 #'
-#' Takes as input timecourse plate reader data processed with `process_plate`
-#' and uses normalised/calibrated values to calculate per-cell values. Adds
-#' column(s) for FP/cell as either: (a) `normalisedFP/normalisedOD` (RFU/OD),
-#' (b) `calibratedFP/calibratedOD` (molecules/cell). Plots results and returns a
+#' Takes as input plate reader data processed with `process_plate()` and uses
+#' normalised/calibrated values to calculate per-cell values. Adds column(s) for
+#' FP/cell as either: (a) `normalisedFP/normalisedOD` (RFU/OD), (b)
+#' `calibratedFP/calibratedOD` (molecules/cell). Plots results and returns a
 #' dataframe. Note that technically, units of molecules are 'molecules of
 #' equivalent FP' and cells are 'particles of equivalent microspheres'.
 #'

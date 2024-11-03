@@ -40,9 +40,9 @@ measures (column names) specified here.}
 \item{exclude}{character string. If specified, excludes any measures (column
 names) specified here.}
 
-\item{gain_fix}{logical. Optionally add "0" before 2-digit gain names i.e. 'GFP
-40' -> 'GFP 040', or \verb{blueblue 40} -> \verb{blueblue 040}- which fixes ordering
-of plots. Defaults to FALSE.}
+\item{gain_fix}{logical. Optionally add "0" before 2-digit gain names i.e.
+'GFP 40' -> 'GFP 040', or \verb{blueblue 40} -> \verb{blueblue 040}- which fixes
+ordering of plots. Defaults to FALSE.}
 
 \item{rename_from}{character string. Rename measures (column names)
 containing character string \code{rename_from} to character string specified in
@@ -65,33 +65,33 @@ channel name and the gain value in the measures columns, e.g. for "GFP 40"
 it is " ", for "GFP40" it is "" and for "GFP_40" it is "_". Required for
 plotting the gain vs conversion factors. Defaults to "".}
 
-\item{complete_blank}{logical. Optionally adds "0" to the \code{concentration_ngul}
-column for wells identified as blank (\code{protein} = "none"). Useful if data
-layout is missing these values. Defaults to FALSE.}
+\item{complete_blank}{logical. Optionally adds "0" to the
+\code{concentration_ngul} column for wells identified as blank (\code{protein} =
+"none"). Useful if data layout is missing these values. Defaults to FALSE.}
 
 \item{outfolder}{character string. Path to folder where output files should
 be saved. Defaults to current working directory.}
 }
 \description{
-Generate conversion factors for FP calibrations. Originally based on
-\code{flopr::generate_cfs} but with many changes. ... The original function was
-intended for fluorescein and microspheres, this one can be used for any
-fluorescent calibrant, including proteins. Takes as input a parsed CSV of
-fluorescence data of a dilution series of FPs at one or more gains, that
-contains both data and metadata columns (including: \code{instrument}, \code{plate},
-\code{seal}, \code{channel_name}, \code{channel_ex}, \code{channel_em}, \code{media}, \code{calibrant},
-\code{protein}, \code{replicate}, \code{volume}, \code{molecular_weight_gmol},
-\code{concentration_ngul}, \code{dilution}, \code{rev_dilution}, \code{well}, the columns for the
-fluorescence data, \code{row}, \code{column}). ... A number of arguments allow the
-tweaking of the original data set. Following this, the data is reshaped,
-normalised, trimmed of saturated points, summarised and used to fit a model
-for the conversion factors from arbitrary to absolute units. Optional extras:
-the \code{sensitivity_plots} argument extends this analysis to identify the limits
-of detection and relative sensitivity and dynamic range of each gain. Plots
-are saved to record the processed data at every step, allowing for visual
-sanity checks and troubleshooting. A CSV file with the fitted conversion
-factors is saved (along with the processed data if requested with
-\code{more_csvs}).
+Generate conversion factors for fluorescent protein (FP) calibrations.
+Originally based on \code{flopr::generate_cfs()} but with numerous changes. The
+original function was intended for fluorescein and microsphere calibrations,
+whereas this one can be used for any fluorescent calibrant, including
+proteins. Takes as input a parsed CSV of fluorescence data of a dilution
+series of FPs at one or more gains, that contains both data and metadata
+columns (including: \code{instrument}, \code{plate}, \code{seal}, \code{channel_name},
+\code{channel_ex}, \code{channel_em}, \code{media}, \code{calibrant}, \code{protein}, \code{replicate},
+\code{volume}, \code{molecular_weight_gmol}, \code{concentration_ngul}, \code{dilution},
+\code{rev_dilution}, \code{well}, the columns for the fluorescence data, \code{row},
+\code{column}). A number of arguments allow the tweaking of the original data set.
+Following this, the data is reshaped, normalised, trimmed of saturated
+points, summarised and used to fit a model for the conversion factors from
+arbitrary to absolute units. Optional extras: the \code{sensitivity_plots}
+argument extends this analysis to identify the limits of detection and
+relative sensitivity and dynamic range of each gain. Plots are saved to
+record the processed data at every step, allowing for visual sanity checks
+and troubleshooting. A CSV file with the fitted conversion factors is saved
+(along with the processed data if requested with \code{more_csvs}).
 }
 \examples{
 \dontrun{

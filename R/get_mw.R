@@ -1,6 +1,10 @@
 #' Get molecular weight of a protein
 #'
-#' Get molecular weight of protein in Daltons from its sequence alone.
+#' Get the molecular weight of a protein in Daltons from its sequence alone.
+#' Uses calculation (<https://web.expasy.org/compute_pi/pi_tool-doc.html>) and
+#' amino acid mass data (`aa_mass_data`,
+#' <https://web.expasy.org/findmod/findmod_masses.html#AA>) from the Swiss
+#' Bioinformatics Resource Portal, Expasy.
 #'
 #' @param protein character string of protein sequence using the 1-letter code.
 #'

@@ -45,7 +45,7 @@ determination.}
 Defaults to the current working directory.}
 }
 \description{
-Get protein's concentration from a \emph{dilution series} measured with the
+Get protein's concentration from a dilution series measured with the
 bicinchoninic acid (BCA) assay. Takes two input data sets, the BCA assay data
 and the A562 baseline data. The A562 baseline data is necessary for proteins
 that might naturally absorb in this range. Script normalises BCA assay data

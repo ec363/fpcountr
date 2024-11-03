@@ -1,10 +1,10 @@
 #' Calculate FP concentration in molar units
 #'
-#' Takes as input timecourse plate reader data processed with `process_plate`
-#' and uses normalised/calibrated values to calculate FP concentration. Adds
-#' column(s) for FP concentration as either: (a) `normalisedFP/cellvolume`
-#' (RFU/L), (b) `calibratedFP/cellvolume` (moles/L, or M). Plots results and
-#' returns a dataframe.
+#' Takes as input plate reader data processed with `process_plate()` and uses
+#' normalised/calibrated values to calculate FP concentration. Adds column(s)
+#' for FP concentration as either: (a) `normalisedFP/cellvolume` (RFU/L), (b)
+#' `calibratedFP/cellvolume` (moles/L, or M). Plots results and returns a
+#' dataframe.
 #'
 #' @param data_csv path to a CSV file containing processed plate reader data
 #' @param timecourse logical. Is the data timecourse/kinetic data and does it

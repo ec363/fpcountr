@@ -64,11 +64,11 @@ to current working directory.}
 a data.frame with columns for each FP/cell calculation
 }
 \description{
-Takes as input timecourse plate reader data processed with \code{process_plate}
-and uses normalised/calibrated values to calculate FP concentration. Adds
-column(s) for FP concentration as either: (a) \code{normalisedFP/cellvolume}
-(RFU/L), (b) \code{calibratedFP/cellvolume} (moles/L, or M). Plots results and
-returns a dataframe.
+Takes as input plate reader data processed with \code{process_plate()} and uses
+normalised/calibrated values to calculate FP concentration. Adds column(s)
+for FP concentration as either: (a) \code{normalisedFP/cellvolume} (RFU/L), (b)
+\code{calibratedFP/cellvolume} (moles/L, or M). Plots results and returns a
+dataframe.
 }
 \examples{
 \dontrun{

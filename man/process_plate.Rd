@@ -2,7 +2,7 @@
 % Please edit documentation in R/process_plate.R
 \name{process_plate}
 \alias{process_plate}
-\title{Process timecourse plate reader data (normalise, correct and calibrate)}
+\title{Process experimental data (normalise, correct and calibrate)}
 \usage{
 process_plate(
   data_csv,
@@ -97,26 +97,31 @@ a data.frame with columns for raw plate reader data, normalised data
 and, if do_calibrate = TRUE, calibrated OD and FP data
 }
 \description{
-Normalise and calibrate plate reader measurements to obtain molecular units
-from the raw data. Originally based on \code{flopr::process_plate} but with many
-changes. Takes as input timecourse plate reader data containing optical
-density measurements and fluorescence measurements as CSV file. First, the
-function normalises optical density readings and fluorescence readings to an
-autofluorescence model based on the specified negative wells (see 2020
-Fedorec et al ACS SynBio for details). The identity of the blank wells need
-to be specified in \code{blank_wells}, the reading to be used for optical density
-in \code{od_name}, and the fluorescence channels in \code{flu_channels}. The
-autofluorescence model can be set with \code{af_model} on the \code{neg_well} wells,
-alternatively, fluorescence can be normalised to blank wells by setting
-\code{af_model} to \code{NULL}. Second, if \code{do_quench_correction} is TRUE, it
-compensates for cellular quenching of fluorescence measurements according to
-the cell density. This requires the specification of \code{od_type} as "OD600" or
-"OD700". Third, if \code{do_calibrate} is TRUE, normalised values are calibrated,
-where conversion factors are provided as \code{od_coeffs_csv} for OD and
-\code{fluor_coeffs_csv} for fluorescence, and each calibration is specified by the
-\code{flu_slugs} to represent the FP used, \code{flu_gains} to provide the gain used,
-and \code{flu_labels} to specify how the relevant plots should be labelled, (e.g.
-\code{flu_slugs = c("mcherry", "mtagbfp2")}, \code{flu_gains = c(60,80)}, \code{flu_labels = c("RFP, BFP")}).
+Processes experimental (fluorescence and absorbance) data from microplate
+readers. Expects 'parsed' data that is tidy and attached to appropriate
+metadata. Numerous arguments offer options to customise how and whether
+normalisation, correction and/or calibration is carried out. Data can be
+timecourse (kinetic) data or single timepoint (endpoint) data, and can
+contain fluorescence data only or include absorbance (OD) data to enumerate
+cell density. Originally based on \code{flopr::process_plate()} but with numerous
+changes. First, the function normalises optical density readings (if present)
+to media/buffer wells, and fluorescence readings, either to media/buffer
+wells or to cellular autofluorescence. Fluorescence channels must be
+specified in \code{flu_channels}, the blank wells in \code{blank_wells}, and the
+reading to be used for optical density in \code{od_name}. The cellular
+autofluorescence model can be set with \code{af_model} on the negative
+(\code{neg_well}) wells, or set to \code{NULL}. Second, if \code{do_quench_correction} is
+TRUE, the 'quenching' or attenuation of fluorescence measurements by cells is
+corrected for according to the cell density measured. This requires the
+specification of \code{od_type} as "OD600" or "OD700". Third, if \code{do_calibrate} is
+TRUE, normalised values for both fluorescence and optical density are
+converted into meaningful units. Here, the paths to conversion factor CSV
+files must be provided as \code{od_coeffs_csv} for OD and \code{fluor_coeffs_csv} for
+fluorescence. For fluorescence measurements, each calibration must be
+specified by \code{flu_slugs} to represent the FP used, \code{flu_gains} to provide the
+gain, and \code{flu_labels} to specify how the relevant plots should be labelled,
+(e.g. \code{flu_slugs = c("mcherry", "mtagbfp2")}, \code{flu_gains = c(60,80)},
+\code{flu_labels = c("RFP, BFP")}).
 }
 \examples{
 \dontrun{

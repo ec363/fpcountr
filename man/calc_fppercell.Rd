@@ -47,10 +47,10 @@ to current working directory.}
 a data.frame with columns for each FP/cell calculation
 }
 \description{
-Takes as input timecourse plate reader data processed with \code{process_plate}
-and uses normalised/calibrated values to calculate per-cell values. Adds
-column(s) for FP/cell as either: (a) \code{normalisedFP/normalisedOD} (RFU/OD),
-(b) \code{calibratedFP/calibratedOD} (molecules/cell). Plots results and returns a
+Takes as input plate reader data processed with \code{process_plate()} and uses
+normalised/calibrated values to calculate per-cell values. Adds column(s) for
+FP/cell as either: (a) \code{normalisedFP/normalisedOD} (RFU/OD), (b)
+\code{calibratedFP/calibratedOD} (molecules/cell). Plots results and returns a
 dataframe. Note that technically, units of molecules are 'molecules of
 equivalent FP' and cells are 'particles of equivalent microspheres'.
 }
