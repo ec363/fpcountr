@@ -1,5 +1,5 @@
 Package: fpcountr
-Title: FPCountR: Fluorescent protein calibration for plate readers
+Title: Fluorescent Protein Calibration For Plate Readers
 Version: 0.2.0
 Authors@R:
     person(given = "Eszter",
