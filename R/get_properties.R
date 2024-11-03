@@ -1,7 +1,7 @@
 #' Get properties of an FP from FPbase
 #'
 #' Gets properties of an FP from FPbase, including the maximal excitation
-#' wavelength and extinction coefficient, and optionally, saves these as CSV.
+#' wavelength and extinction coefficient. Optionally saves these as a CSV.
 #'
 #' @param slug Name of FP, which is used to find the FP-relevant data lines in
 #'   the FPbase datasets. This argument is called `slug` because for FPbase
@@ -23,8 +23,8 @@
 #' @importFrom dplyr %>%
 #' @importFrom rlang .data :=
 #'
-#' @examples get_properties("mcherry")
-get_properties <- function(slug, verbose = TRUE, save_file = FALSE, outfolder = ".", filename = "fp_properties.csv"){
+#' @examples get_fpbase_properties("mcherry")
+get_fpbase_properties <- function(slug, verbose = TRUE, save_file = FALSE, outfolder = ".", filename = "fp_properties.csv"){
 
   # Location for saved outputs ---------------------------------------------------------------------------------------------------
 

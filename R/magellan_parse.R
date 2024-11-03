@@ -1,9 +1,10 @@
-#' Parser for Spark/Magellan data
+#' Parse Tecan Spark/Magellan data from endpoint and kinetic assays
 #'
-#' Parser for data exported from a Tecan Spark plate reader using SparkControl
-#' Magellan software. Handles absorbance and/or fluorescence readings (but not
-#' spectra, such as absorbance scans). Handles standard or kinetic/timecourse
-#' data.
+#' Parses data exported from a Tecan Spark plate reader using Magellan software.
+#' Handles standard (endpoint) or timecourse (kinetic) data containing
+#' absorbance and/or fluorescence readings, but cannot handle spectra, such as
+#' absorbance scans. Parsing consists of data extraction, data tidying, and data
+#' joining to relevant 'plate layout' metadata.
 #'
 #' @param data_csv path to CSV file from Tecan Spark plate reader
 #' @param layout_csv path to CSV file containing plate layout information
@@ -54,19 +55,19 @@
 #'
 #' @examples
 #' \dontrun{
-#'   parsed_calib_plate <- magellan_parse(
+#'   parsed_calib_plate <- parse_magellan(
 #'     data_csv = "calibrations/20210104_calibration_data.csv",
 #'     layout_csv = "calibrations/20210104_calibration_plate_layout.csv",
 #'     timeseries = FALSE
 #'   )
 #'
-#'   parsed_data <- magellan_parse(
+#'   parsed_data <- parse_magellan(
 #'     data_csv = "data/20210104_data.csv",
 #'     layout_csv = "data/20210104_data_layout.csv",
 #'     timeseries = TRUE, timestart = "0s", interval = 30, mode = "read_first"
 #'   )
 #' }
-magellan_parse <- function(data_csv, layout_csv, timeseries = FALSE,
+parse_magellan <- function(data_csv, layout_csv, timeseries = FALSE,
                            timestart = "0s",
                            interval = 10, # minutes.
                            mode = "read_first", # mode can only be "read_first" or "incubate_first"

@@ -1,34 +1,36 @@
 #' Get FP concentrations using ECmax method
 #'
-#' Get protein's concentration from a *dilution series* measured with an
-#' *A200-1000 absorbance spectrum*. Based on `get_conc_A280`, but uses "ECmax",
-#' the FPbase-stated extinction coefficient for the FPbase-stated maximal
-#' excitation wavelength (which usually corresponds to its maximal absorbance
-#' wavelength). ... Function expects an input such as the CSV file exported from
-#' `plot_absorbance_spectrum` called `_processed.csv`, which contains values
-#' corrected for path length and normalised to blanks as a column called
-#' `normalised_cm1_value`, but retains replicate data containing positional
-#' (well) information required for exporting predicted concentrations at the end
-#' of this function. ... Function uses `fpcountR::get_properties` to get FPbase
-#' EC in M-1cm-1 and wavelength, and converts it to an ECmax mass extinction
+#' Get protein's concentration from a dilution series measured with an
+#' absorbance spectrum. Based on `get_conc_a280()`, but uses the FPbase-stated
+#' extinction coefficient (EC) for the FPbase-stated maximal excitation
+#' wavelength (which usually corresponds to its maximal absorbance wavelength),
+#' which we call the protein's 'ECmax', in order to convert absorbance values to
+#' concentrations. Expects 'processed' data such as that produced by
+#' `process_absorbance_spectrum()`, with a file name ending `_processed.csv`,
+#' which contains values corrected for path length and normalised to blanks as a
+#' column called `normalised_cm1_value`, but retains replicate data containing
+#' positional (well) information required for exporting predicted concentrations
+#' at the end of this function. Uses `get_fpbase_properties()` to get FPbase EC
+#' in M-1cm-1 and wavelength, and converts it to an ECmax mass extinction
 #' coefficient in `(mgml)-1cm-1` using the MW (worked out from `protein_seq` and
 #' `fpcountR::get_mw`). Then the function uses the `EC_max_mgml` to work out the
 #' concentration of protein in each well, using three correction methods.
 #' Instead of using the normalised data directly, the values used are based on a
 #' LOESS fit through the absorption spectra to minimise fluctuations due to
-#' noise. ... Finally, linear models are fitted to each concentration prediction
-#' method, and a CSV file is built containing predicted concentrations according
-#' to the user's chosen correction method. Plots showing each of the analytical
-#' steps are saved concurrently. Troubleshooting: for 'incompatible lengths'
-#' errors, adjust `xrange` to avoid noisy wavelengths.
+#' noise. Finally, linear models are fitted to each concentration prediction
+#' method, and a dataframe is built, returned and saved, containing predicted
+#' concentrations according to the user's chosen correction method. Plots
+#' showing each of the analytical steps are saved concurrently. Troubleshooting:
+#' for 'incompatible lengths' errors, adjust `xrange` to avoid noisy
+#' wavelengths.
 #'
 #' @param protein_slug character string of protein name in 'slug' form to match
 #'   slug of FPbase entry.
 #' @param protein_seq character string of protein sequence using 1-letter code.
 #'   Required for MW calculation.
 #' @param processed_spectrum_csv Path to CSV file of a processed absorbance
-#'   spectrum. Processing should be done with `plot_absorbance_spectrum3`, which
-#'   corrects for path lengths and normalises to blank wells.
+#'   spectrum. Processing should be done with `process_absorbance_spectrum()`,
+#'   which corrects for path lengths and normalises to blank wells.
 #' @param wells_to_remove list of wells to remove before analysis. Defaults to
 #'   NULL.
 #' @param xrange list of two numerical values corresponding to the wavelength
@@ -57,14 +59,14 @@
 #'
 #' @examples
 #' \dontrun{
-#'   ecmax_concs <- get_conc_ECmax(
+#'   ecmax_concs <- get_conc_ecmax(
 #'     protein_slug = "mcherry", protein_seq = protein_seq,
 #'     processed_spectrum_csv = "abs_parsed_processed.csv",
 #'     corr_method = "scatter", wav_to_use1 = 700, wav_to_use2 = 315,
 #'     outfolder = "protquant_ecmax/mCherry_T5N15pi", filename = "mCherry_properties.csv"
 #'   )
 #' }
-get_conc_ECmax <- function(protein_slug, protein_seq,
+get_conc_ecmax <- function(protein_slug, protein_seq,
                            processed_spectrum_csv, wells_to_remove = NULL,
                            xrange = c(250,800),
                            corr_method = "none", # "none", "baseline", "scatter"
@@ -180,7 +182,7 @@ get_conc_ECmax <- function(protein_slug, protein_seq,
   data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
 
   # Get ECmax wavelength of your FP for plotting
-  fp_properties <- fpcountr::get_properties(slug = protein_slug, verbose = TRUE, outfolder = outfolder, filename = filename)
+  fp_properties <- fpcountr::get_fpbase_properties(slug = protein_slug, verbose = TRUE, outfolder = outfolder, filename = filename)
   fp_properties
   # fp_properties$ex_max # is excitation max
   # fp_properties$ext_coeff # is EC
@@ -308,8 +310,8 @@ get_conc_ECmax <- function(protein_slug, protein_seq,
   protein_mw <- fpcountr::get_mw(protein = protein_seq)
   protein_mw
 
-  ## 4c. Get mgml extinction coefficient (get_properties fn call moved up to allow indication of ECmax in previous plots)
-  # fp_properties <- fpcountr::get_properties(slug = protein_slug, verbose = TRUE, outfolder = outfolder, filename = filename)
+  ## 4c. Get mgml extinction coefficient (get_fpbase_properties fn call moved up to allow indication of ECmax in previous plots)
+  # fp_properties <- fpcountr::get_fpbase_properties(slug = protein_slug, verbose = TRUE, outfolder = outfolder, filename = filename)
   # fp_properties
   # fp_properties$ex_max # is excitation max
   # fp_properties$ext_coeff # is EC

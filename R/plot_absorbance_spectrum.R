@@ -1,9 +1,9 @@
-#' Plot absorbance spectrum
+#' Process absorbance spectrum data
 #'
-#' Processes *parsed absorbance spectrum data*, collected as a *dilution series*
-#' measured with an *A200-1000 absorbance spectrum*. Corrects raw data to path
-#' length of 1cm by a user-defined method, and normalises to the blanks. Plots
-#' spectra and returns processed data.
+#' Processes raw absorbance spectrum data, collected as a dilution series.
+#' Expects 'parsed' data that is tidy and attached to appropriate metadata.
+#' Corrects raw data to path length of 1cm by a user-defined method, and
+#' normalises to the blanks. Plots spectra and returns processed data.
 #'
 #' @param spectrum_csv path of a CSV file of your spectrum data
 #' @param subset_rows logical. should script take a subset of the rows (or whole
@@ -34,8 +34,8 @@
 #' @param concentration_used numeric value corresponding to concentration of
 #'   buffer, for use in path length determination. Must be in the same units as
 #'   used by table in `fpcountR::get_kfactor()`. To look at table, use
-#'   `fpcountR::view_kfactors()`. Defaults to 0, which effectively means
-#'   water. Needs changing if using different buffer!
+#'   `fpcountR::view_kfactors()`. Defaults to 0, which effectively means water.
+#'   Needs changing if using different buffer!
 #' @param temperature_used numeric value corresponding to temperature of assay,
 #'   for use in path length determination. Defaults to 25.
 #' @param outfolder path to folder where output files should be saved. Defaults
@@ -48,7 +48,7 @@
 #'
 #' @examples
 #' \dontrun{
-#'   spectrum <- plot_absorbance_spectrum(
+#'   spectrum <- process_absorbance_spectrum(
 #'     spectrum_csv = "spectrum_parsed.csv",
 #'     subset_rows = TRUE, rows_to_keep = c("C","D"), columns_to_keep = c(1:12),
 #'     pl_method = "calc_blanks",
@@ -57,16 +57,16 @@
 #'     outfolder = "spectrum"
 #'   )
 #' }
-plot_absorbance_spectrum <- function(spectrum_csv,
+process_absorbance_spectrum <- function(spectrum_csv,
 
-                                     subset_rows = FALSE, rows_to_keep = c("C","D"), columns_to_keep = c(1,12),
-                                     xrange = c(200,1000),
+                                        subset_rows = FALSE, rows_to_keep = c("C","D"), columns_to_keep = c(1,12),
+                                        xrange = c(200,1000),
 
-                                     # for path length calcs:
-                                     pl_method = "calc_blanks", # options: "calc_each", "calc_blanks", "volume"
-                                     buffer_used = "water", concentration_used = 0, temperature_used = 25,
+                                        # for path length calcs:
+                                        pl_method = "calc_blanks", # options: "calc_each", "calc_blanks", "volume"
+                                        buffer_used = "water", concentration_used = 0, temperature_used = 25,
 
-                                     outfolder = "."){
+                                        outfolder = "."){
 
   # Get data --------------------------------------------------------------------------------------------------
 

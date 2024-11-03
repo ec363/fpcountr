@@ -1,11 +1,15 @@
-#' Parser for absorbance spectrum data
+#' Parse Tecan Spark/Magellan data from absorbance spectrum data
 #'
-#' Parser for absorbance spectrum data exported from a Tecan Spark plate reader using SparkControl Magellan software.
+#' Parses absorbance spectrum data exported from a Tecan Spark plate reader
+#' using Magellan software. Parsing consists of data extraction, data tidying,
+#' and data joining to relevant 'plate layout' metadata.
 #'
 #' @param data_csv path to CSV file from Tecan Spark plate reader
 #' @param layout_csv path to CSV file containing plate layout information
-#' @param wellstart character string representing first well recorded in data file. Defaults to "A1".
-#' @param wellend character string representing last well recorded in data file. Defaults to "H12".
+#' @param wellstart character string representing first well recorded in data
+#'   file. Defaults to "A1".
+#' @param wellend character string representing last well recorded in data file.
+#'   Defaults to "H12".
 #'
 #' @return a data.frame containing the parsed plate reader data
 #' @export
@@ -14,13 +18,13 @@
 #'
 #' @examples
 #' \dontrun{
-#'   parsed_data <- magellan_spectrum_parse(
+#'   parsed_data <- parse_magellan_spectrum(
 #'     data_csv = "data/20210104_data.csv",
 #'     layout_csv = "data/20210104_data_layout.csv",
 #'     wellstart = "A1", wellend = "H12"
 #'   )
 #' }
-magellan_spectrum_parse <- function(data_csv, layout_csv,
+parse_magellan_spectrum <- function(data_csv, layout_csv,
                                     wellstart = "A1", wellend = "H12"
 ) {
 

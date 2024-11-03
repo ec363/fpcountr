@@ -1,10 +1,9 @@
 #' Get a protein's molar extinction coefficient at A280
 #'
-#' The purpose of this function is to work out the theoretical molar extinction
-#' coefficient of a protein at 280nm (EC280, M-1cm-1) using only the protein's
-#' primary sequence, using the ProtParam method (Pace values). A full
-#' explanation of the method can be found at
-#' `https://web.expasy.org/protparam/protparam-doc.html`.
+#' Work out the theoretical molar extinction coefficient of a protein at 280nm
+#' (EC280, M-1cm-1) using only the protein's primary sequence, using the
+#' ProtParam method (Pace values). A full explanation of the method can be found
+#' at <https://web.expasy.org/protparam/protparam-doc.html>.
 #'
 #' @param protein character string of protein sequence using 1-letter code
 #' @param disulphides logical. Does protein have disulphides?
@@ -22,7 +21,7 @@
 #' @export
 #'
 #' @importFrom dplyr %>%
-get_extcoeff_A280 <- function(protein, # "AAAWYCAAA"
+get_extcoeff_a280 <- function(protein, # "AAAWYCAAA"
                               disulphides = FALSE, showWarnings = TRUE, showMessages = TRUE,
                               protein_name = "-", buffer = "-", mol_weight = NULL,
                               save = TRUE, outfolder = "."
@@ -89,13 +88,13 @@ get_extcoeff_A280 <- function(protein, # "AAAWYCAAA"
 
   # Warnings ----------------------------------
   if(showWarnings){
-    message("get_extcoeff_A280. Warnings:")
+    message("get_extcoeff_a280. Warnings:")
     message("Proteins with no Trp residues may have >10% error.")
     message("Not suitable for proteins with chromophores that absorb at 280nm.")
     message("")
   }
   if(showMessages){
-    message("get_extcoeff_A280. Messages:")
+    message("get_extcoeff_a280. Messages:")
     # message("The extinction coefficient here is a molar extinction coefficient with units M-1cm-1.")
     # message("Beer's law: A = E*C*L, where E = molar extinction coefficient (M-1cm-1), C = concentration (M), L = path length (cm).")
     # message("")
