@@ -765,7 +765,8 @@ generate_cfs <- function(calibration_csv,
     # add cf and beta columns to the right of long_values tibble:
     trimmed_values <- dplyr::full_join(trimmed_values, fit_values)
     # put the blanks back
-    trimmed_values <- rbind(trimmed_values_blanks, trimmed_values)
+    # trimmed_values <- rbind(trimmed_values_blanks, trimmed_values) ###
+    trimmed_values <- dplyr::bind_rows(trimmed_values_blanks, trimmed_values) # avoid error due to trimmed_values_blanks missing fit_values' columns
     # Gain needed for standard plots as well as others. Add now:
     trimmed_values$gain <- as.numeric(gsub(paste0(trimmed_values$channel_name[1], separator), "", trimmed_values$measure))
     # trimmed_values$gain # 40  50  60  70  80  90 100
