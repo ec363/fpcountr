@@ -6,7 +6,7 @@
 \usage{
 parse_magellan(
   data_csv,
-  layout_csv,
+  metadata_csv,
   timeseries = FALSE,
   timestart = "0s",
   interval = 10,
@@ -23,7 +23,7 @@ parse_magellan(
 \arguments{
 \item{data_csv}{path to CSV file from Tecan Spark plate reader}
 
-\item{layout_csv}{path to CSV file containing plate layout information}
+\item{metadata_csv}{path to CSV file containing metadata}
 
 \item{timeseries}{logical. Is the data a timeseries? Defaults to FALSE.}
 
@@ -53,8 +53,8 @@ Replicate info, etc.}
 \item{custom}{Boolean flag indicating whether script should deviate from the
 default of collecting data from columns 2:97. If TRUE, script looks at
 arguments \code{insert_wells_above}, \code{insert_wells_below}, \code{startcol}, \code{endcol}.
-The total number of columns needs to add up to 96 if the \code{layout_csv} file
-includes rows A1-H12 and they must be in the same order as the layout file
+The total number of columns needs to add up to 96 if the \code{metadata_csv} file
+includes rows A1-H12 and they must be in the same order as the metadata file
 because this script joins positionally, not by recorded well value (wells
 aren't exported by default).}
 
@@ -68,8 +68,8 @@ corresponding to data}
 entries to insert before data in custom mode. This can be useful if only a
 portion of the plate was read, meaning the number of rows created by
 \code{startcol}:\code{endcol} does not add up to 96. For example, if the data starts
-at B1, but the plate layout starts at A1, you can set this to 12 to add 12
-empty rows above the data which allows correct joining of data and layout
+at B1, but the metadata starts at A1, you can set this to 12 to add 12
+empty rows above the data which allows correct joining of data and metadata
 tables.}
 
 \item{insert_wells_below}{numeric value corresponding to number of empty
@@ -83,19 +83,19 @@ Parses data exported from a Tecan Spark plate reader using Magellan software.
 Handles standard (endpoint) or timecourse (kinetic) data containing
 absorbance and/or fluorescence readings, but cannot handle spectra, such as
 absorbance scans. Parsing consists of data extraction, data tidying, and data
-joining to relevant 'plate layout' metadata.
+joining to relevant metadata.
 }
 \examples{
 \dontrun{
   parsed_calib_plate <- parse_magellan(
     data_csv = "calibrations/20210104_calibration_data.csv",
-    layout_csv = "calibrations/20210104_calibration_plate_layout.csv",
+    metadata_csv = "calibrations/20210104_calibration_metadata.csv",
     timeseries = FALSE
   )
 
   parsed_data <- parse_magellan(
     data_csv = "data/20210104_data.csv",
-    layout_csv = "data/20210104_data_layout.csv",
+    metadata_csv = "data/20210104_metadata.csv",
     timeseries = TRUE, timestart = "0s", interval = 30, mode = "read_first"
   )
 }

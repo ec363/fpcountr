@@ -14,7 +14,8 @@ process_absorbance_spectrum(
   buffer_used = "water",
   concentration_used = 0,
   temperature_used = 25,
-  outfolder = "."
+  outfolder = ".",
+  csv_only = FALSE
 )
 }
 \arguments{
@@ -44,17 +45,17 @@ and the k-factor of the buffer used. The \code{calc_blanks} method uses the path
 length calculated from the blanks for all wells. Finally, the \code{volume}
 method uses the path length expected from the given volume, using internal
 path length data measured with water via the internal
-\code{fpcountR::get_pathlength()} function. Defaults to \code{calc_blanks}.}
+\code{fpcountr::get_pathlength()} function. Defaults to \code{calc_blanks}.}
 
 \item{buffer_used}{string corresponding to buffer used for assay, for use in
 path length determination. Must be in table used by
-\code{fpcountR::get_kfactor()}. To look at table, use
-\code{fpcountR::view_kfactors()}. Defaults to "water".}
+\code{fpcountr::get_kfactor()}. To look at table, use
+\code{fpcountr::view_kfactors()}. Defaults to "water".}
 
 \item{concentration_used}{numeric value corresponding to concentration of
 buffer, for use in path length determination. Must be in the same units as
-used by table in \code{fpcountR::get_kfactor()}. To look at table, use
-\code{fpcountR::view_kfactors()}. Defaults to 0, which effectively means water.
+used by table in \code{fpcountr::get_kfactor()}. To look at table, use
+\code{fpcountr::view_kfactors()}. Defaults to 0, which effectively means water.
 Needs changing if using different buffer!}
 
 \item{temperature_used}{numeric value corresponding to temperature of assay,
@@ -62,6 +63,9 @@ for use in path length determination. Defaults to 25.}
 
 \item{outfolder}{path to folder where output files should be saved. Defaults
 to current working directory.}
+
+\item{csv_only}{logical. Saves only CSV files as outputs when \code{TRUE}.
+Defaults to \code{FALSE}.}
 }
 \description{
 Processes raw absorbance spectrum data, collected as a dilution series.

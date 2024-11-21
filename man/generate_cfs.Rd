@@ -67,7 +67,7 @@ plotting the gain vs conversion factors. Defaults to "".}
 
 \item{complete_blank}{logical. Optionally adds "0" to the
 \code{concentration_ngul} column for wells identified as blank (\code{protein} =
-"none"). Useful if data layout is missing these values. Defaults to FALSE.}
+"none"). Useful if metadata is missing these values. Defaults to FALSE.}
 
 \item{outfolder}{character string. Path to folder where output files should
 be saved. Defaults to current working directory.}
@@ -81,17 +81,16 @@ proteins. Takes as input a parsed CSV of fluorescence data of a dilution
 series of FPs at one or more gains, that contains both data and metadata
 columns (including: \code{instrument}, \code{plate}, \code{seal}, \code{channel_name},
 \code{channel_ex}, \code{channel_em}, \code{media}, \code{calibrant}, \code{protein}, \code{replicate},
-\code{volume}, \code{molecular_weight_gmol}, \code{concentration_ngul}, \code{dilution},
-\code{rev_dilution}, \code{well}, the columns for the fluorescence data, \code{row},
-\code{column}). A number of arguments allow the tweaking of the original data set.
-Following this, the data is reshaped, normalised, trimmed of saturated
-points, summarised and used to fit a model for the conversion factors from
-arbitrary to absolute units. Optional extras: the \code{sensitivity_plots}
-argument extends this analysis to identify the limits of detection and
-relative sensitivity and dynamic range of each gain. Plots are saved to
-record the processed data at every step, allowing for visual sanity checks
-and troubleshooting. A CSV file with the fitted conversion factors is saved
-(along with the processed data if requested with \code{more_csvs}).
+\code{volume}, \code{mw_gmol1}, \code{concentration_ngul}, \code{well}, the columns for the
+fluorescence data, \code{row}, \code{column}). A number of arguments allow the tweaking
+of the original data set. Following this, the data is reshaped, normalised,
+trimmed of saturated points, summarised and used to fit a model for the
+conversion factors from arbitrary to absolute units. Optional extras: the
+\code{sensitivity_plots} argument extends this analysis to identify the limits of
+detection and relative sensitivity and dynamic range of each gain. Plots are
+saved to record the processed data at every step, allowing for visual sanity
+checks and troubleshooting. A CSV file with the fitted conversion factors is
+saved (along with the processed data if requested with \code{more_csvs}).
 }
 \examples{
 \dontrun{

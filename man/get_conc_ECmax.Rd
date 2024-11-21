@@ -14,7 +14,7 @@ get_conc_ecmax(
   wav_to_use1 = 340,
   wav_to_use2 = 333,
   outfolder,
-  filename
+  csv_only = FALSE
 )
 }
 \arguments{
@@ -53,7 +53,8 @@ correction. Defaults to 333nm.}
 \item{outfolder}{path to folder where output files should be saved. Defaults
 to current working directory.}
 
-\item{filename}{filename of CSV file from fpbase}
+\item{csv_only}{logical. Saves only CSV files as outputs when \code{TRUE}.
+Defaults to \code{FALSE}.}
 }
 \description{
 Get protein's concentration from a dilution series measured with an
@@ -69,7 +70,7 @@ positional (well) information required for exporting predicted concentrations
 at the end of this function. Uses \code{get_fpbase_properties()} to get FPbase EC
 in M-1cm-1 and wavelength, and converts it to an ECmax mass extinction
 coefficient in \verb{(mgml)-1cm-1} using the MW (worked out from \code{protein_seq} and
-\code{fpcountR::get_mw}). Then the function uses the \code{EC_max_mgml} to work out the
+\code{fpcountr::get_mw}). Then the function uses the \code{EC_max_mgml} to work out the
 concentration of protein in each well, using three correction methods.
 Instead of using the normalised data directly, the values used are based on a
 LOESS fit through the absorption spectra to minimise fluctuations due to
@@ -86,7 +87,7 @@ wavelengths.
     protein_slug = "mcherry", protein_seq = protein_seq,
     processed_spectrum_csv = "abs_parsed_processed.csv",
     corr_method = "scatter", wav_to_use1 = 700, wav_to_use2 = 315,
-    outfolder = "protquant_ecmax/mCherry_T5N15pi", filename = "mCherry_properties.csv"
+    outfolder = "protquant_ecmax/mCherry_T5N15pi"
   )
 }
 }

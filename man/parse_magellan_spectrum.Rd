@@ -6,7 +6,7 @@
 \usage{
 parse_magellan_spectrum(
   data_csv,
-  layout_csv,
+  metadata_csv,
   wellstart = "A1",
   wellend = "H12"
 )
@@ -14,7 +14,7 @@ parse_magellan_spectrum(
 \arguments{
 \item{data_csv}{path to CSV file from Tecan Spark plate reader}
 
-\item{layout_csv}{path to CSV file containing plate layout information}
+\item{metadata_csv}{path to CSV file containing metadata}
 
 \item{wellstart}{character string representing first well recorded in data
 file. Defaults to "A1".}
@@ -28,13 +28,13 @@ a data.frame containing the parsed plate reader data
 \description{
 Parses absorbance spectrum data exported from a Tecan Spark plate reader
 using Magellan software. Parsing consists of data extraction, data tidying,
-and data joining to relevant 'plate layout' metadata.
+and data joining to relevant metadata.
 }
 \examples{
 \dontrun{
   parsed_data <- parse_magellan_spectrum(
     data_csv = "data/20210104_data.csv",
-    layout_csv = "data/20210104_data_layout.csv",
+    metadata_csv = "data/20210104_metadata.csv",
     wellstart = "A1", wellend = "H12"
   )
 }

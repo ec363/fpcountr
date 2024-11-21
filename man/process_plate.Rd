@@ -22,7 +22,8 @@ process_plate(
   flu_labels = c(),
   od_coeffs_csv,
   fluor_coeffs_csv,
-  outfolder = "."
+  outfolder = ".",
+  csv_only = FALSE
 )
 }
 \arguments{
@@ -91,6 +92,9 @@ containing predicted conversion factors for the fluorescent channels}
 
 \item{outfolder}{path to folder where output files should be saved. Defaults
 to current working directory.}
+
+\item{csv_only}{logical. Saves only CSV files as outputs when \code{TRUE}.
+Defaults to \code{FALSE}.}
 }
 \value{
 a data.frame with columns for raw plate reader data, normalised data
