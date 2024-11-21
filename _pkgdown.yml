@@ -8,9 +8,7 @@ reference:
   desc: ""
 - contents:
   - process_absorbance_spectrum
-  - get_conc_a280
   - get_conc_ecmax
-  - get_conc_bca
   - generate_cfs
 - title: "Experimental data analysis functions"
   desc: ""
@@ -41,7 +39,16 @@ reference:
   - find_wells_in_row
   - find_wells_in_column
   - find_wells_in_rowcolumn
+- title: "Metadata functions"
+  desc: ""
+- contents:
+  - save_metadata_template
 - title: "Data"
   desc: ""
 - contents:
   - ends_with("_data")
+- title: "Optional calibration functions"
+  desc: "For use with protein concentration determination methods other than the ECmax assay. However, these methods are not recommended in most cases."
+- contents:
+  - get_conc_a280
+  - get_conc_bca
