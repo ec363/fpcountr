@@ -74,6 +74,8 @@
 #'   containing predicted conversion factors for the fluorescent channels
 #' @param outfolder path to folder where output files should be saved. Defaults
 #'   to current working directory.
+#' @param csv_only logical. Saves only CSV files as outputs when `TRUE`.
+#'   Defaults to `FALSE`.
 #'
 #' @return a data.frame with columns for raw plate reader data, normalised data
 #'   and, if do_calibrate = TRUE, calibrated OD and FP data
@@ -131,7 +133,9 @@ process_plate <- function(
     od_coeffs_csv, # microsphere conversion factors for od600, od700
     fluor_coeffs_csv, # FP conversion factors
 
-    outfolder = ".") {
+    outfolder = ".",
+    csv_only = FALSE
+) {
 
   # Get parsed data --------------------------------------------------------------------------------------------------
 
@@ -216,9 +220,11 @@ process_plate <- function(
       plt_od
       # plotname <- gsub(".csv", "_OD1.pdf", basename(data_csv))
       plotname <- gsub(".csv", "_OD_1a_raw.pdf", basename(data_csv)) # plot numbering: no-timecourse plot1a
-      ggplot2::ggsave(file.path(outfolder, plotname),
-                      plot = plt_od,
-                      height = 16, width = 24, units = "cm")
+      if(isFALSE(csv_only)){
+        ggplot2::ggsave(file.path(outfolder, plotname),
+                        plot = plt_od,
+                        height = 16, width = 24, units = "cm")
+      }
 
       # normalised OD
       max_value <- max(od_norm_pr_data$normalised_OD, na.rm = TRUE)
@@ -243,9 +249,11 @@ process_plate <- function(
       plt_od
       # plotname <- gsub(".csv", "_OD2.pdf", basename(data_csv))
       plotname <- gsub(".csv", "_OD_1b_normalised.pdf", basename(data_csv)) # plot numbering: no-timecourse plot1b
-      ggplot2::ggsave(file.path(outfolder, plotname),
-                      plot = plt_od,
-                      height = 16, width = 24, units = "cm")
+      if(isFALSE(csv_only)){
+        ggplot2::ggsave(file.path(outfolder, plotname),
+                        plot = plt_od,
+                        height = 16, width = 24, units = "cm")
+      }
 
     } else if(isTRUE(timecourse)){
 
@@ -269,9 +277,11 @@ process_plate <- function(
       plt_od
       # plotname <- gsub(".csv", "_OD.pdf", basename(data_csv))
       plotname <- gsub(".csv", "_OD_1_raw_normalised.pdf", basename(data_csv)) # plot numbering: timecourse plot1
-      ggplot2::ggsave(file.path(outfolder, plotname),
-                      plot = plt_od,
-                      height = 16, width = 24, units = "cm")
+      if(isFALSE(csv_only)){
+        ggplot2::ggsave(file.path(outfolder, plotname),
+                        plot = plt_od,
+                        height = 16, width = 24, units = "cm")
+      }
     }
 
     # Convert to OD (cm-1) --------------------------------------------------------------------
@@ -330,9 +340,11 @@ process_plate <- function(
       }
       # plotname <- gsub(".csv", "_normODcm1.pdf", basename(data_csv))
       plotname <- gsub(".csv", "_OD_2_pathlength-normalised.pdf", basename(data_csv)) # plot numbering: both plot2
-      ggplot2::ggsave(file.path(outfolder, plotname),
-                      plot = plt_od,
-                      height = 16, width = 24, units = "cm")
+      if(isFALSE(csv_only)){
+        ggplot2::ggsave(file.path(outfolder, plotname),
+                        plot = plt_od,
+                        height = 16, width = 24, units = "cm")
+      }
 
     }
 
@@ -390,9 +402,11 @@ process_plate <- function(
       plt_flu
       # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "1.pdf", sep = ""), basename(data_csv))
       plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_1a_raw.pdf", sep = ""), basename(data_csv)) # plot numbering: no-timecourse plot3a
-      ggplot2::ggsave(file.path(outfolder, plotname),
-                      plot = plt_flu,
-                      height = 16, width = 24, units = "cm")
+      if(isFALSE(csv_only)){
+        ggplot2::ggsave(file.path(outfolder, plotname),
+                        plot = plt_flu,
+                        height = 16, width = 24, units = "cm")
+      }
 
       # heatmap2 - normalised fluor
       max_value <- max(flu_norm_pr_data[[paste0("normalised_", flu_channels[flu_idx])]], na.rm = TRUE)
@@ -420,9 +434,11 @@ process_plate <- function(
       plt_flu
       # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "2.pdf", sep = ""), basename(data_csv))
       plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_1b_normalised.pdf", sep = ""), basename(data_csv)) # plot numbering: no-timecourse plot3b
-      ggplot2::ggsave(file.path(outfolder, plotname),
-                      plot = plt_flu,
-                      height = 16, width = 24, units = "cm")
+      if(isFALSE(csv_only)){
+        ggplot2::ggsave(file.path(outfolder, plotname),
+                        plot = plt_flu,
+                        height = 16, width = 24, units = "cm")
+      }
 
     } else if(isTRUE(timecourse)){
 
@@ -447,9 +463,11 @@ process_plate <- function(
       plt_flu
       # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], ".pdf", sep = ""), basename(data_csv))
       plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_1_raw_normalised.pdf", sep = ""), basename(data_csv)) # plot numbering: timecourse plot3
-      ggplot2::ggsave(file.path(outfolder, plotname),
-                      plot = plt_flu,
-                      height = 16, width = 24, units = "cm")
+      if(isFALSE(csv_only)){
+        ggplot2::ggsave(file.path(outfolder, plotname),
+                        plot = plt_flu,
+                        height = 16, width = 24, units = "cm")
+      }
 
     }
 
@@ -530,9 +548,11 @@ process_plate <- function(
       }
       # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_corrected.pdf", sep = ""), basename(data_csv))
       plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_2_quench-corrected.pdf", sep = ""), basename(data_csv)) # both plot4
-      ggplot2::ggsave(file.path(outfolder, plotname),
-                      plot = plt_flu,
-                      height = 16, width = 24, units = "cm")
+      if(isFALSE(csv_only)){
+        ggplot2::ggsave(file.path(outfolder, plotname),
+                        plot = plt_flu,
+                        height = 16, width = 24, units = "cm")
+      }
 
     } # for each fluorescence channel
 
@@ -609,9 +629,11 @@ process_plate <- function(
       }
       # plotname <- gsub(".csv", "_ODcalib.pdf", basename(data_csv))
       plotname <- gsub(".csv", "_OD_3_calibrated.pdf", basename(data_csv)) # plot numbering: both plot5
-      ggplot2::ggsave(file.path(outfolder, plotname),
-                      plot = plt_od_calib,
-                      height = 16, width = 24, units = "cm")
+      if(isFALSE(csv_only)){
+        ggplot2::ggsave(file.path(outfolder, plotname),
+                        plot = plt_od_calib,
+                        height = 16, width = 24, units = "cm")
+      }
 
     } # od calibration
 
@@ -682,9 +704,11 @@ process_plate <- function(
       }
       # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "calib.pdf", sep = ""), basename(data_csv))
       plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_3_calibrated.pdf", sep = ""), basename(data_csv)) # plot numbering: both plot6
-      ggplot2::ggsave(file.path(outfolder, plotname),
-                      plot = plt_flu_calib,
-                      height = 16, width = 24, units = "cm")
+      if(isFALSE(csv_only)){
+        ggplot2::ggsave(file.path(outfolder, plotname),
+                        plot = plt_flu_calib,
+                        height = 16, width = 24, units = "cm")
+      }
 
       # original: 'as long as the current index is within the few that you've decided to calibrate....'
       # removing this bc here, all fluorescence channels ought to be calibratable!

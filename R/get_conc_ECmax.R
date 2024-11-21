@@ -50,7 +50,8 @@
 #'   correction. Defaults to 333nm.
 #' @param outfolder path to folder where output files should be saved. Defaults
 #'   to current working directory.
-#' @param filename filename of CSV file from fpbase
+#' @param csv_only logical. Saves only CSV files as outputs when `TRUE`.
+#'   Defaults to `FALSE`.
 #'
 #' @export
 #'
@@ -63,7 +64,7 @@
 #'     protein_slug = "mcherry", protein_seq = protein_seq,
 #'     processed_spectrum_csv = "abs_parsed_processed.csv",
 #'     corr_method = "scatter", wav_to_use1 = 700, wav_to_use2 = 315,
-#'     outfolder = "protquant_ecmax/mCherry_T5N15pi", filename = "mCherry_properties.csv"
+#'     outfolder = "protquant_ecmax/mCherry_T5N15pi"
 #'   )
 #' }
 get_conc_ecmax <- function(protein_slug, protein_seq,
@@ -71,7 +72,8 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
                            xrange = c(250,800),
                            corr_method = "none", # "none", "baseline", "scatter"
                            wav_to_use1 = 340, wav_to_use2 = 333,
-                           outfolder, filename
+                           outfolder,
+                           csv_only = FALSE
 ){
 
   # Get data -------------------------------------------------
@@ -130,9 +132,11 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
     )
   plot1
   plotname <- "plot1_abs_spectra_replicates.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 18, height = 18, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 18, height = 18, units = "cm")
+  }
 
   ##
 
@@ -208,7 +212,7 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
   data.to.plot$dilution <- factor(data.to.plot$dilution, levels = rev(newlist)) # reverse the order
 
   # Get ECmax wavelength of your FP for plotting
-  fp_properties <- fpcountr::get_fpbase_properties(slug = protein_slug, verbose = TRUE, outfolder = outfolder, filename = filename)
+  fp_properties <- fpcountr::get_fpbase_properties(slug = protein_slug, verbose = TRUE, outfolder = outfolder)
   fp_properties
   # fp_properties$ex_max # is excitation max
   # fp_properties$ext_coeff # is EC
@@ -252,9 +256,11 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
     )
   plot1
   plotname <- "plot3a_abs_spectra_geomsmooth.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 18, height = 18, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 18, height = 18, units = "cm")
+  }
 
   ##
 
@@ -315,9 +321,11 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
     )
   plot1
   plotname <- "plot3b_abs_spectra_modelcheck.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 18, height = 18, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 18, height = 18, units = "cm")
+  }
 
   ##
 
@@ -410,9 +418,11 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
     )
   plot1
   plotname <- "plot5a_ecmax.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 8, height = 8, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 8, height = 8, units = "cm")
+  }
 
   # Subset data to get rid of negatives:
   df_3_subset <- subset(df_3, df_3$conc_max_std >= 0)
@@ -441,9 +451,11 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
     )
   plot1
   plotname <- "plot5b_ecmax_stdmethod.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 8, height = 8, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 8, height = 8, units = "cm")
+  }
 
   ##
 
@@ -536,9 +548,11 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
     )
   plot1
   plotname <- "plot5c_ecmax_baselinenorm_baselinecheck.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 8, height = 8, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 8, height = 8, units = "cm")
+  }
 
   # Subset data to get rid of negatives:
   df_4_subset <- subset(df_4, df_4$conc_max_corr1 >= 0)
@@ -567,9 +581,11 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
     )
   plot1
   plotname <- "plot5c_ecmax_baselinenorm.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 8, height = 8, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 8, height = 8, units = "cm")
+  }
 
   ##
 
@@ -696,9 +712,11 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
     )
   plot1
   plotname <- "plot5d_ecmax_scatternorm_scattercheck.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 8, height = 8, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 8, height = 8, units = "cm")
+  }
 
   # Subset data to get rid of negatives:
   df_5_subset <- subset(df_5, df_5$conc_max_corr2 >= 0)
@@ -729,9 +747,11 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
     )
   plot1
   plotname <- "plot5d_ecmax_scatternorm.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 8, height = 8, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 8, height = 8, units = "cm")
+  }
 
   ##
 
@@ -880,9 +900,11 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
     )
   plot1
   plotname <- "plot6a_ecmax_models_all.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 12, height = 12, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 12, height = 12, units = "cm")
+  }
 
   plot1 <- ggplot2::ggplot() +
     # data
@@ -907,9 +929,11 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
     )
   plot1
   plotname <- "plot6b_ecmax_models_all_logplot.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 12, height = 12, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 12, height = 12, units = "cm")
+  }
 
   # 7. Export concentration predictions ---------------
 

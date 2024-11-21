@@ -40,6 +40,8 @@
 #'   for use in path length determination. Defaults to 25.
 #' @param outfolder path to folder where output files should be saved. Defaults
 #'   to current working directory.
+#' @param csv_only logical. Saves only CSV files as outputs when `TRUE`.
+#'   Defaults to `FALSE`.
 #'
 #' @export
 #'
@@ -57,16 +59,19 @@
 #'     outfolder = "spectrum"
 #'   )
 #' }
-process_absorbance_spectrum <- function(spectrum_csv,
+process_absorbance_spectrum <- function(
+    spectrum_csv,
 
-                                        subset_rows = FALSE, rows_to_keep = c("C","D"), columns_to_keep = c(1,12),
-                                        xrange = c(200,1000),
+    subset_rows = FALSE, rows_to_keep = c("C","D"), columns_to_keep = c(1,12),
+    xrange = c(200,1000),
 
-                                        # for path length calcs:
-                                        pl_method = "calc_blanks", # options: "calc_each", "calc_blanks", "volume"
-                                        buffer_used = "water", concentration_used = 0, temperature_used = 25,
+    # for path length calcs:
+    pl_method = "calc_blanks", # options: "calc_each", "calc_blanks", "volume"
+    buffer_used = "water", concentration_used = 0, temperature_used = 25,
 
-                                        outfolder = "."){
+    outfolder = ".",
+    csv_only = FALSE
+){
 
   # Get data --------------------------------------------------------------------------------------------------
 
@@ -145,9 +150,11 @@ process_absorbance_spectrum <- function(spectrum_csv,
     )
   plot1
   plotname <- "plot1a_raw.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 12, height = 12, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 12, height = 12, units = "cm")
+  }
 
   # Raw data full spectrum, blanks only
   data.to.plot <- data.to.plot %>%
@@ -168,9 +175,11 @@ process_absorbance_spectrum <- function(spectrum_csv,
                    panel.grid.minor = ggplot2::element_blank())
   plot1
   plotname <- "plot1b_raw_blanks.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 12, height = 12, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 12, height = 12, units = "cm")
+  }
 
   # Raw data 250nm+
   data.to.plot <- raw_values %>%
@@ -313,9 +322,11 @@ process_absorbance_spectrum <- function(spectrum_csv,
       )
     plot1
     plotname <- "plot2a_a9001000.pdf"
-    ggplot2::ggsave(file.path(outfolder, plotname),
-                    plot = plot1,
-                    width = 18, height = 18, units = "cm")
+    if(isFALSE(csv_only)){
+      ggplot2::ggsave(file.path(outfolder, plotname),
+                      plot = plot1,
+                      width = 18, height = 18, units = "cm")
+    }
 
     # path lengths cm
     unique(pl_values$dilution)
@@ -356,9 +367,11 @@ process_absorbance_spectrum <- function(spectrum_csv,
       )
     plot1
     plotname <- "plot2b_pathlengths.pdf"
-    ggplot2::ggsave(file.path(outfolder, plotname),
-                    plot = plot1,
-                    width = 12, height = 12, units = "cm")
+    if(isFALSE(csv_only)){
+      ggplot2::ggsave(file.path(outfolder, plotname),
+                      plot = plot1,
+                      width = 12, height = 12, units = "cm")
+    }
 
   } else {
 
@@ -422,9 +435,11 @@ process_absorbance_spectrum <- function(spectrum_csv,
     )
   plot1
   plotname <- "plot2c_rawcm1.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 18, height = 18, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 18, height = 18, units = "cm")
+  }
 
   ##
 
@@ -487,9 +502,11 @@ process_absorbance_spectrum <- function(spectrum_csv,
     )
   plot1
   plotname <- "plot3_normcm1.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 18, height = 18, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 18, height = 18, units = "cm")
+  }
 
   ##
 
@@ -569,9 +586,11 @@ process_absorbance_spectrum <- function(spectrum_csv,
     )
   plot1
   plotname <- "plot4_mean_normcm1.pdf"
-  ggplot2::ggsave(file.path(outfolder, plotname),
-                  plot = plot1,
-                  width = 18, height = 18, units = "cm")
+  if(isFALSE(csv_only)){
+    ggplot2::ggsave(file.path(outfolder, plotname),
+                    plot = plot1,
+                    width = 18, height = 18, units = "cm")
+  }
 
   ##
 
