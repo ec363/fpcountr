@@ -13,7 +13,7 @@
 #' at the end of this function. Uses `get_fpbase_properties()` to get FPbase EC
 #' in M-1cm-1 and wavelength, and converts it to an ECmax mass extinction
 #' coefficient in `(mgml)-1cm-1` using the MW (worked out from `protein_seq` and
-#' `fpcountR::get_mw`). Then the function uses the `EC_max_mgml` to work out the
+#' `fpcountr::get_mw`). Then the function uses the `EC_max_mgml` to work out the
 #' concentration of protein in each well, using three correction methods.
 #' Instead of using the normalised data directly, the values used are based on a
 #' LOESS fit through the absorption spectra to minimise fluctuations due to

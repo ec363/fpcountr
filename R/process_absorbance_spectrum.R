@@ -26,15 +26,15 @@
 #'   length calculated from the blanks for all wells. Finally, the `volume`
 #'   method uses the path length expected from the given volume, using internal
 #'   path length data measured with water via the internal
-#'   `fpcountR::get_pathlength()` function. Defaults to `calc_blanks`.
+#'   `fpcountr::get_pathlength()` function. Defaults to `calc_blanks`.
 #' @param buffer_used string corresponding to buffer used for assay, for use in
 #'   path length determination. Must be in table used by
-#'   `fpcountR::get_kfactor()`. To look at table, use
-#'   `fpcountR::view_kfactors()`. Defaults to "water".
+#'   `fpcountr::get_kfactor()`. To look at table, use
+#'   `fpcountr::view_kfactors()`. Defaults to "water".
 #' @param concentration_used numeric value corresponding to concentration of
 #'   buffer, for use in path length determination. Must be in the same units as
-#'   used by table in `fpcountR::get_kfactor()`. To look at table, use
-#'   `fpcountR::view_kfactors()`. Defaults to 0, which effectively means water.
+#'   used by table in `fpcountr::get_kfactor()`. To look at table, use
+#'   `fpcountr::view_kfactors()`. Defaults to 0, which effectively means water.
 #'   Needs changing if using different buffer!
 #' @param temperature_used numeric value corresponding to temperature of assay,
 #'   for use in path length determination. Defaults to 25.
