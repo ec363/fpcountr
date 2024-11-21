@@ -219,7 +219,8 @@ process_plate <- function(
         )
       plt_od
       # plotname <- gsub(".csv", "_OD1.pdf", basename(data_csv))
-      plotname <- gsub(".csv", "_OD_1a_raw.pdf", basename(data_csv)) # plot numbering: no-timecourse plot1a
+      # plotname <- gsub(".csv", "_OD_1a_raw.pdf", basename(data_csv)) # plot numbering: no-timecourse plot1a ###
+      plotname <- "OD_1a_raw.pdf"
       if(isFALSE(csv_only)){
         ggplot2::ggsave(file.path(outfolder, plotname),
                         plot = plt_od,
@@ -248,7 +249,8 @@ process_plate <- function(
         )
       plt_od
       # plotname <- gsub(".csv", "_OD2.pdf", basename(data_csv))
-      plotname <- gsub(".csv", "_OD_1b_normalised.pdf", basename(data_csv)) # plot numbering: no-timecourse plot1b
+      # plotname <- gsub(".csv", "_OD_1b_normalised.pdf", basename(data_csv)) # plot numbering: no-timecourse plot1b
+      plotname <- "OD_1b_normalised.pdf"
       if(isFALSE(csv_only)){
         ggplot2::ggsave(file.path(outfolder, plotname),
                         plot = plt_od,
@@ -276,7 +278,8 @@ process_plate <- function(
         )
       plt_od
       # plotname <- gsub(".csv", "_OD.pdf", basename(data_csv))
-      plotname <- gsub(".csv", "_OD_1_raw_normalised.pdf", basename(data_csv)) # plot numbering: timecourse plot1
+      # plotname <- gsub(".csv", "_OD_1_raw_normalised.pdf", basename(data_csv)) # plot numbering: timecourse plot1
+      plotname <- "OD_1_raw_normalised.pdf"
       if(isFALSE(csv_only)){
         ggplot2::ggsave(file.path(outfolder, plotname),
                         plot = plt_od,
@@ -339,7 +342,8 @@ process_plate <- function(
 
       }
       # plotname <- gsub(".csv", "_normODcm1.pdf", basename(data_csv))
-      plotname <- gsub(".csv", "_OD_2_pathlength-normalised.pdf", basename(data_csv)) # plot numbering: both plot2
+      # plotname <- gsub(".csv", "_OD_2_pathlength-normalised.pdf", basename(data_csv)) # plot numbering: both plot2
+      plotname <- "OD_2_pathlength-normalised.pdf"
       if(isFALSE(csv_only)){
         ggplot2::ggsave(file.path(outfolder, plotname),
                         plot = plt_od,
@@ -401,7 +405,8 @@ process_plate <- function(
         )
       plt_flu
       # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "1.pdf", sep = ""), basename(data_csv))
-      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_1a_raw.pdf", sep = ""), basename(data_csv)) # plot numbering: no-timecourse plot3a
+      # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_1a_raw.pdf", sep = ""), basename(data_csv)) # plot numbering: no-timecourse plot3a
+      plotname <- paste0(flu_labels[flu_idx], "_1a_raw.pdf")
       if(isFALSE(csv_only)){
         ggplot2::ggsave(file.path(outfolder, plotname),
                         plot = plt_flu,
@@ -433,7 +438,8 @@ process_plate <- function(
         )
       plt_flu
       # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "2.pdf", sep = ""), basename(data_csv))
-      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_1b_normalised.pdf", sep = ""), basename(data_csv)) # plot numbering: no-timecourse plot3b
+      # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_1b_normalised.pdf", sep = ""), basename(data_csv)) # plot numbering: no-timecourse plot3b
+      plotname <- paste0(flu_labels[flu_idx], "_1b_normalised.pdf")
       if(isFALSE(csv_only)){
         ggplot2::ggsave(file.path(outfolder, plotname),
                         plot = plt_flu,
@@ -462,7 +468,8 @@ process_plate <- function(
         )
       plt_flu
       # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], ".pdf", sep = ""), basename(data_csv))
-      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_1_raw_normalised.pdf", sep = ""), basename(data_csv)) # plot numbering: timecourse plot3
+      # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_1_raw_normalised.pdf", sep = ""), basename(data_csv)) # plot numbering: timecourse plot3
+      plotname <- paste0(flu_labels[flu_idx], "_1_raw_normalised.pdf")
       if(isFALSE(csv_only)){
         ggplot2::ggsave(file.path(outfolder, plotname),
                         plot = plt_flu,
@@ -547,7 +554,8 @@ process_plate <- function(
 
       }
       # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_corrected.pdf", sep = ""), basename(data_csv))
-      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_2_quench-corrected.pdf", sep = ""), basename(data_csv)) # both plot4
+      # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_2_quench-corrected.pdf", sep = ""), basename(data_csv)) # both plot4
+      plotname <- paste0(flu_labels[flu_idx], "_2_quench-corrected.pdf")
       if(isFALSE(csv_only)){
         ggplot2::ggsave(file.path(outfolder, plotname),
                         plot = plt_flu,
@@ -628,7 +636,8 @@ process_plate <- function(
 
       }
       # plotname <- gsub(".csv", "_ODcalib.pdf", basename(data_csv))
-      plotname <- gsub(".csv", "_OD_3_calibrated.pdf", basename(data_csv)) # plot numbering: both plot5
+      # plotname <- gsub(".csv", "_OD_3_calibrated.pdf", basename(data_csv)) # plot numbering: both plot5
+      plotname <- "OD_3_calibrated.pdf"
       if(isFALSE(csv_only)){
         ggplot2::ggsave(file.path(outfolder, plotname),
                         plot = plt_od_calib,
@@ -703,7 +712,8 @@ process_plate <- function(
 
       }
       # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "calib.pdf", sep = ""), basename(data_csv))
-      plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_3_calibrated.pdf", sep = ""), basename(data_csv)) # plot numbering: both plot6
+      # plotname <- gsub(".csv", paste("_", flu_labels[flu_idx], "_3_calibrated.pdf", sep = ""), basename(data_csv)) # plot numbering: both plot6
+      plotname <- paste0(flu_labels[flu_idx], "_3_calibrated.pdf")
       if(isFALSE(csv_only)){
         ggplot2::ggsave(file.path(outfolder, plotname),
                         plot = plt_flu_calib,

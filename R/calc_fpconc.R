@@ -239,7 +239,8 @@ calc_fpconc <- function(data_csv,
         plt_flu
 
       }
-      plotname <- paste0("normalised_", flu_labels[flu_idx], "_concentration.pdf")
+      # plotname <- paste0("normalised_", flu_labels[flu_idx], "_concentration.pdf") ###
+      plotname <- paste0(flu_labels[flu_idx], "_normalised_conc.pdf") # bring plot name in line w process_plate()
       ggplot2::ggsave(file.path(outfolder, plotname),
                       plot = plt_flu,
                       height = 16, width = 24, units = "cm")
@@ -371,7 +372,8 @@ calc_fpconc <- function(data_csv,
         plt_flu_calib
 
       }
-      plotname <- paste0("calibrated_", flu_labels[flu_idx], "_concentration.pdf")
+      # plotname <- paste0("calibrated_", flu_labels[flu_idx], "_concentration.pdf") ###
+      plotname <- paste0(flu_labels[flu_idx], "_calibrated_conc.pdf") # bring plot name in line w process_plate()
       ggplot2::ggsave(file.path(outfolder, plotname),
                       plot = plt_flu_calib,
                       height = 16, width = 24, units = "cm")
