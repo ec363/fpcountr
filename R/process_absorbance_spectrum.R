@@ -496,27 +496,50 @@ process_absorbance_spectrum <- function(spectrum_csv,
   # 4. Summarise (take means) -------------------------------------------------------
 
   # Take mean of duplicate readings for: raw_value, normalised_value, normalised_cm1_value
-  names(norm_values)
+
+  # # v1
+  # names(norm_values)
+  # summ_values <- norm_values %>%
+  #   dplyr::group_by(.data$instrument, .data$plate, .data$seal,
+  #                   # .data$channel_name, .data$channel_ex, .data$channel_em, # removed
+  #                   .data$media, .data$calibrant, .data$protein,
+  #                   # replicate will vary
+  #                   .data$mw_gmol1, .data$concentration_ngul, .data$dilution, .data$rev_dilution, .data$volume,
+  #                   # well, row, column will vary
+  #                   .data$measure,
+  #                   ## raw_value # TAKING MEAN
+  #                   .data$kfactor_1cm,
+  #                   # .data$kfactor_well, .data$pathlength_each, # will vary
+  #                   # .data$pathlength_blanks, # remove as removing pathlength_each
+  #                   # .data$pathlength_volume, # remove as removing pathlength_each
+  #                   .data$pathlength_method,
+  #                   # .data$pathlength, # might vary
+  #                   ## raw_cm1_value, # TAKING MEAN
+  #                   .data$raw_cm1_blanks,
+  #                   ## normalised_cm1_value # TAKING MEAN
+  #                   .drop = FALSE) %>%
+  #   dplyr::summarise(dplyr::across(dplyr::ends_with("_value"), ~mean(.x, na.rm = TRUE)))
+  # summ_values
+
+  # v2
   summ_values <- norm_values %>%
-    dplyr::group_by(.data$instrument, .data$plate, .data$seal,
-                    # .data$channel_name, .data$channel_ex, .data$channel_em, # removed
-                    .data$media, .data$calibrant, .data$protein,
-                    # replicate will vary
-                    .data$mw_gmol1, .data$concentration_ngul, .data$dilution, .data$rev_dilution, .data$volume,
-                    # well, row, column will vary
-                    .data$measure,
-                    ## raw_value # TAKING MEAN
-                    .data$kfactor_1cm,
-                    # .data$kfactor_well, .data$pathlength_each, # will vary
-                    # .data$pathlength_blanks, # remove as removing pathlength_each
-                    # .data$pathlength_volume, # remove as removing pathlength_each
-                    .data$pathlength_method,
-                    # .data$pathlength, # might vary
-                    ## raw_cm1_value, # TAKING MEAN
-                    .data$raw_cm1_blanks,
-                    ## normalised_cm1_value # TAKING MEAN
-                    .drop = FALSE) %>%
-    dplyr::summarise(dplyr::across(dplyr::ends_with("_value"), ~mean(.x, na.rm = TRUE)))
+
+    # For each dilution and wavelength
+    dplyr::group_by(.data$dilution, .data$measure,
+                    .drop = FALSE) %>% # don't remove groups w no values
+    # Take mean of raw and normalised (cm-1) values
+    dplyr::mutate(raw_value = mean(.data$raw_value, na.rm = TRUE)) %>%
+    dplyr::mutate(raw_cm1_value = mean(.data$raw_cm1_value, na.rm = TRUE)) %>%
+    dplyr::mutate(normalised_cm1_value = mean(.data$normalised_cm1_value, na.rm = TRUE)) %>%
+    dplyr::ungroup() %>%
+
+    # Tidy
+    dplyr::select(-c(.data$replicate, .data$well, .data$row, .data$column,
+                     .data$kfactor_1cm, .data$kfactor_well,
+                     .data$pathlength_each, .data$pathlength_blanks, .data$pathlength_volume, .data$pathlength,
+                     .data$raw_cm1_blanks)) %>%
+    dplyr::distinct() %>% # remove duplicate rows
+    dplyr::arrange(dplyr::desc(.data$dilution)) # arrange by dilution, starting from 1
   summ_values
 
   # Normalised cm_1 250nm+
