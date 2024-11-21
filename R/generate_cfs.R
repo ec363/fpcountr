@@ -8,17 +8,16 @@
 #' series of FPs at one or more gains, that contains both data and metadata
 #' columns (including: `instrument`, `plate`, `seal`, `channel_name`,
 #' `channel_ex`, `channel_em`, `media`, `calibrant`, `protein`, `replicate`,
-#' `volume`, `molecular_weight_gmol`, `concentration_ngul`, `dilution`,
-#' `rev_dilution`, `well`, the columns for the fluorescence data, `row`,
-#' `column`). A number of arguments allow the tweaking of the original data set.
-#' Following this, the data is reshaped, normalised, trimmed of saturated
-#' points, summarised and used to fit a model for the conversion factors from
-#' arbitrary to absolute units. Optional extras: the `sensitivity_plots`
-#' argument extends this analysis to identify the limits of detection and
-#' relative sensitivity and dynamic range of each gain. Plots are saved to
-#' record the processed data at every step, allowing for visual sanity checks
-#' and troubleshooting. A CSV file with the fitted conversion factors is saved
-#' (along with the processed data if requested with `more_csvs`).
+#' `volume`, `mw_gmol1`, `concentration_ngul`, `well`, the columns for the
+#' fluorescence data, `row`, `column`). A number of arguments allow the tweaking
+#' of the original data set. Following this, the data is reshaped, normalised,
+#' trimmed of saturated points, summarised and used to fit a model for the
+#' conversion factors from arbitrary to absolute units. Optional extras: the
+#' `sensitivity_plots` argument extends this analysis to identify the limits of
+#' detection and relative sensitivity and dynamic range of each gain. Plots are
+#' saved to record the processed data at every step, allowing for visual sanity
+#' checks and troubleshooting. A CSV file with the fitted conversion factors is
+#' saved (along with the processed data if requested with `more_csvs`).
 #'
 #' @param calibration_csv character string. Path of the calibration data CSV
 #'   file.
@@ -53,7 +52,7 @@
 #'   plotting the gain vs conversion factors. Defaults to "".
 #' @param complete_blank logical. Optionally adds "0" to the
 #'   `concentration_ngul` column for wells identified as blank (`protein` =
-#'   "none"). Useful if data layout is missing these values. Defaults to FALSE.
+#'   "none"). Useful if metadata is missing these values. Defaults to FALSE.
 #' @param outfolder character string. Path to folder where output files should
 #'   be saved. Defaults to current working directory.
 #'
@@ -282,7 +281,7 @@ generate_cfs <- function(calibration_csv,
     concentrations
 
     fold_dilution <- concentrations[3] / concentrations[2]
-    # function is flexible to fold dilution bc works this out from the plate_layout
+    # function is flexible to fold dilution bc works this out from the metadata
     fold_dilution
 
     high_saturation_threshold <- fold_dilution * 0.75 # saturation defined as 0.75*dilution factor
@@ -787,8 +786,8 @@ generate_cfs <- function(calibration_csv,
       fit_values
 
     } else {
-      message("Entries provided for the 'channel name' column in the data layout csv are not contained within the 'measure' column in the data csv.
-              This can happen when the 'channel name' column in the data layout is not adjusted between different scans,
+      message("Entries provided for the 'channel name' column in the metadata csv are not contained within the 'measure' column in the data csv.
+              This can happen when the 'channel name' column in the metadata is not adjusted between different scans,
               or if the naming schemes for the channel names provided in the plate reader methods change, from eg 'GFP' to 'green' or 'greenamber'.")
       fit_values$gain <- NA
       fit_values <- fit_values %>%

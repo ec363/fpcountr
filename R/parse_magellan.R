@@ -4,10 +4,10 @@
 #' Handles standard (endpoint) or timecourse (kinetic) data containing
 #' absorbance and/or fluorescence readings, but cannot handle spectra, such as
 #' absorbance scans. Parsing consists of data extraction, data tidying, and data
-#' joining to relevant 'plate layout' metadata.
+#' joining to relevant metadata.
 #'
 #' @param data_csv path to CSV file from Tecan Spark plate reader
-#' @param layout_csv path to CSV file containing plate layout information
+#' @param metadata_csv path to CSV file containing metadata
 #' @param timeseries logical. Is the data a timeseries? Defaults to FALSE.
 #' @param timestart string indicating the timepoint specified in column1 of the
 #'   export file corresponding to the first row of data. "0s" by default.
@@ -30,8 +30,8 @@
 #' @param custom Boolean flag indicating whether script should deviate from the
 #'   default of collecting data from columns 2:97. If TRUE, script looks at
 #'   arguments `insert_wells_above`, `insert_wells_below`, `startcol`, `endcol`.
-#'   The total number of columns needs to add up to 96 if the `layout_csv` file
-#'   includes rows A1-H12 and they must be in the same order as the layout file
+#'   The total number of columns needs to add up to 96 if the `metadata_csv` file
+#'   includes rows A1-H12 and they must be in the same order as the metadata file
 #'   because this script joins positionally, not by recorded well value (wells
 #'   aren't exported by default).
 #' @param startcol numeric value corresponding to first column of `data_csv`
@@ -42,8 +42,8 @@
 #'   entries to insert before data in custom mode. This can be useful if only a
 #'   portion of the plate was read, meaning the number of rows created by
 #'   `startcol`:`endcol` does not add up to 96. For example, if the data starts
-#'   at B1, but the plate layout starts at A1, you can set this to 12 to add 12
-#'   empty rows above the data which allows correct joining of data and layout
+#'   at B1, but the metadata starts at A1, you can set this to 12 to add 12
+#'   empty rows above the data which allows correct joining of data and metadata
 #'   tables.
 #' @param insert_wells_below numeric value corresponding to number of empty
 #'   entries to insert after data in custom mode.
@@ -57,17 +57,17 @@
 #' \dontrun{
 #'   parsed_calib_plate <- parse_magellan(
 #'     data_csv = "calibrations/20210104_calibration_data.csv",
-#'     layout_csv = "calibrations/20210104_calibration_plate_layout.csv",
+#'     metadata_csv = "calibrations/20210104_calibration_metadata.csv",
 #'     timeseries = FALSE
 #'   )
 #'
 #'   parsed_data <- parse_magellan(
 #'     data_csv = "data/20210104_data.csv",
-#'     layout_csv = "data/20210104_data_layout.csv",
+#'     metadata_csv = "data/20210104_metadata.csv",
 #'     timeseries = TRUE, timestart = "0s", interval = 30, mode = "read_first"
 #'   )
 #' }
-parse_magellan <- function(data_csv, layout_csv, timeseries = FALSE,
+parse_magellan <- function(data_csv, metadata_csv, timeseries = FALSE,
                            timestart = "0s",
                            interval = 10, # minutes.
                            mode = "read_first", # mode can only be "read_first" or "incubate_first"
@@ -81,7 +81,7 @@ parse_magellan <- function(data_csv, layout_csv, timeseries = FALSE,
   data <- utils::read.csv(data_csv, sep = ",", blank.lines.skip = TRUE,
                           header = FALSE, stringsAsFactors = FALSE)
 
-  plate_layout <- utils::read.csv(layout_csv)
+  metadata <- utils::read.csv(metadata_csv)
 
   # TimeSeries TRUE ----------------------------------------------------------
 
@@ -175,8 +175,8 @@ parse_magellan <- function(data_csv, layout_csv, timeseries = FALSE,
 
       }
 
-      ## Bind data with plate layout:
-      combined_block <- cbind(plate_layout, new_block)
+      ## Bind data with metadata:
+      combined_block <- cbind(metadata, new_block)
 
       ## Add block_name (eg. OD600) as new 'measure' column
       combined_block$measure <- block_name
@@ -248,14 +248,14 @@ parse_magellan <- function(data_csv, layout_csv, timeseries = FALSE,
         names(datablock)[1] <- "value"
         postblock <- tibble::tibble(value = rep(NA, insert_wells_below)) ## add specified number of rows below the data
 
-        new_block <- rbind(preblock, datablock, postblock) ## rowbind these to make 96 rows, one for each well of the data_layout
+        new_block <- rbind(preblock, datablock, postblock) ## rowbind these to make 96 rows, one for each well of the metadata
 
       }
 
       new_block$value <- as.numeric(new_block$value) ## required for fluorescence calibrations that include "Overflow" wells
 
-      ## Bind data with plate layout:
-      combined_block <- cbind(plate_layout, new_block)
+      ## Bind data with metadata:
+      combined_block <- cbind(metadata, new_block)
 
       ## Add block_name (eg OD600) as new 'measure' column
       combined_block$measure <- block_name

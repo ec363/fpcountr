@@ -2,10 +2,10 @@
 #'
 #' Parses absorbance spectrum data exported from a Tecan Spark plate reader
 #' using Magellan software. Parsing consists of data extraction, data tidying,
-#' and data joining to relevant 'plate layout' metadata.
+#' and data joining to relevant metadata.
 #'
 #' @param data_csv path to CSV file from Tecan Spark plate reader
-#' @param layout_csv path to CSV file containing plate layout information
+#' @param metadata_csv path to CSV file containing metadata
 #' @param wellstart character string representing first well recorded in data
 #'   file. Defaults to "A1".
 #' @param wellend character string representing last well recorded in data file.
@@ -20,18 +20,18 @@
 #' \dontrun{
 #'   parsed_data <- parse_magellan_spectrum(
 #'     data_csv = "data/20210104_data.csv",
-#'     layout_csv = "data/20210104_data_layout.csv",
+#'     metadata_csv = "data/20210104_metadata.csv",
 #'     wellstart = "A1", wellend = "H12"
 #'   )
 #' }
-parse_magellan_spectrum <- function(data_csv, layout_csv,
+parse_magellan_spectrum <- function(data_csv, metadata_csv,
                                     wellstart = "A1", wellend = "H12"
 ) {
 
   data <- utils::read.table(data_csv, sep = ",", blank.lines.skip = TRUE,
                             header = FALSE, stringsAsFactors = FALSE)
 
-  plate_layout <- utils::read.csv(layout_csv)
+  metadata <- utils::read.csv(metadata_csv)
 
   # Spectrum data ----------------------------------------------------------
 
@@ -59,8 +59,8 @@ parse_magellan_spectrum <- function(data_csv, layout_csv,
   names(data_joined) <- data[2,1:ncol(data)]
   names(data_joined)[1] <- "well"
 
-  ## Join plate_layout to data
-  joined_data <- dplyr::left_join(x = plate_layout, y = data_joined, by = "well")
+  ## Join metadata to data
+  joined_data <- dplyr::left_join(x = metadata, y = data_joined, by = "well")
 
   # rearrange data ----------------------------------------------------------
   joined_data$row <- substr(x = joined_data$well, start = 1, stop = 1)
