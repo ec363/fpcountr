@@ -1,2 +1,6 @@
 *.html
 *.R
+
+fp_quantification/
+conversion_factors/
+experiment_analysis/

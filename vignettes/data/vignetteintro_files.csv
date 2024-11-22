@@ -1,0 +1,7 @@
+﻿file,contents
+example_absorbance.csv,**absorbance spectrum** of a dilution series of **mTagBFP2**
+example_absorbance_meta.csv,metadata for the above
+example_fluorescence.csv,**blue fluorescence data** at a range of gains for the dilution series of **mTagBFP2**
+example_fluorescence_meta.csv,metadata for the above
+example_experiment.csv,"**plate reader experiment**, using two **mTagBFP2** vectors with different origins of replication, induced across a range of inducer concentrations and tracked for 16 hours"
+example_experiment_meta.csv,metadata for the above

@@ -1,0 +1,21 @@
+﻿function_name,metadata_variables_expected,required_for
+parse_magellan(),well,generating 'row' and 'column' variables
+generate_cfs(),instrument,reproducibility
+,plate,reproducibility
+,seal,reproducibility
+,channel_name,verifying cfs file matches channel used
+,,extracting gain
+,channel_ex,reproducibility
+,channel_em,reproducibility
+,media,reproducibility
+,calibrant,verifying unique calibrants
+,,adding calibrant names to cfs files
+,protein,removing unused wells
+,,finding blank wells
+,mw_gmol1,calculating molecule number
+,concentration_ngul,calculating molecule number
+,,calculating dilution ratios
+,replicate,identifying saturated values
+,volume,calculating molecule number
+,well,finding measurement columns
+,row,finding measurement columns

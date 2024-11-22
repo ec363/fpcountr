@@ -1,0 +1,32 @@
+﻿function_name,metadata_variables_expected,required_for
+parse_magellan_spectrum(),well,generating 'row' and 'column' variables
+process_absorbance_spectrum(),instrument,reproducibility
+,plate,reproducibility
+,seal,reproducibility
+,media,reproducibility
+,calibrant,checking number of calibrants
+,protein,removing unused wells
+,,finding blank wells
+,dilution,separating plots
+,,identifying blanks
+,,plotting as x axis
+,replicate,colouring plots
+,volume,finding path lengths
+,well,finding measurement columns
+,,path length calculations
+,row,finding measurement columns
+,,finding rows to keep
+,column,finding columns to keep
+get_conc_ecmax(),instrument,reproducibility
+,,grouping
+,plate,reproducibility
+,seal,reproducibility
+,media,reproducibility
+,,grouping
+,calibrant,grouping
+,protein,finding blank wells
+,,grouping
+,dilution,calculating concentration
+,,plotting
+,,grouping
+,well,removing wells

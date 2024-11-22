@@ -1,0 +1,200 @@
+---
+title: "Path Lengths"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Path Lengths}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+<style type="text/css">
+code.r{ /* Code block */
+    font-size: 11px;
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 13px;
+}
+</style>
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Path length determination is a key step in working out protein concentrations from absorbance data with `process_absorbance_spectrum()`.
+
+As absorbance depends on the path length, and microplate readers necessitate that absorbance readings are carried out from bottom to top, the path length of the sample is not fixed as it is in a cuvette or Nanodrop. Instead, it depends on a number of other factors, such as the volume used, the composition of the buffer, and the temperature.
+
+Consider this code from the 'Getting Started' vignette: the path length correction method `pl_method`, along with three helper parameters (`buffer_used`, `concentration_used` and `temperature_used`) need to be specified for path length estimation.
+
+```{r, eval=FALSE}
+# Process spectra
+processed_data_spectrum <- process_absorbance_spectrum(
+  
+  # basics
+  spectrum_csv = "data/example_absorbance_parsed.csv",
+  subset_rows = TRUE, rows_to_keep = c("A","B"), columns_to_keep = c(1:12),
+  xrange = c(250,1000),
+  
+  # path length calcs
+  pl_method = "calc_blanks",
+  buffer_used = "TBS", concentration_used = 0.005, temperature_used = 30,
+  
+  # saving
+  outfolder = "fp_quantification"
+)
+```
+
+<br>
+
+## Estimating Path Length
+
+<br>
+
+There are 2 methods for estimating path length in `fpcountr`. The first relies on measurements within the absorbance data, and the second relies on the sample's volume.
+
+<br>
+
+### (1) Estimating Path Length Using Infrared Wavelengths (K-Factors)
+
+The path length of a sample in a well may be estimated from its absorbance readings in the infrared range, and the k-factor of the same buffer at the same temperature. 
+
+The k-factor of an aqueous buffer is the observed difference between its absorbance at 975 nm and its absorbance at 900 nm.
+
+The path length of a sample may be estimated by taking the ratio of the _measured k-factor in the sample_ vs the _known k-factor of the same buffer at 1cm path length_. Therefore, in order to calculate path lengths, we need:
+
+1. _known k-factor of the same buffer at 1cm path length_: a reference dataset on k-factors of a range of buffers
+2. _measured k-factor in the sample_: data on sample absorbance at 900-975nm, information about the identity of the buffer used, its concentration, and the temperature of the assay
+
+<br>
+
+#### Reference k-factors dataset
+
+`fpcountr` uses reference datasets from Thermo Fisher.
+
+The first is a dataset of k-factors of a range of buffers:
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE}
+
+data_to_display <- fpcountr::kfactors_buffers_data
+data_to_display |>
+  gt::gt() |>
+  # TABLE HEADER
+  # header style
+  gt::tab_style(
+    locations = gt::cells_column_labels(),
+    style = list(
+      gt::cell_text(size = "small"),
+      gt::cell_text(weight = "bold")
+    )
+  ) |>
+  # TABLE BODY
+  # font smaller
+  gt::tab_style(
+    locations = gt::cells_body(
+      columns = tidyselect::everything()
+    ),
+    style = list(
+      gt::cell_text(size = "small")
+    )
+  )
+
+```
+
+Notice that not all buffers are represented and we need to pick the closest match. For our calibrations, we used a buffer consisting of 5 mM Tris and 15 mM NaCl, so we chose `buffer_used = "TBS"` and `concentration_used = 0.005` (M).
+
+The second lists how the k-factor changes with temperature:
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE}
+
+data_to_display <- fpcountr::kfactors_temperature_data
+data_to_display |>
+  gt::gt() |>
+  # TABLE HEADER
+  # header style
+  gt::tab_style(
+    locations = gt::cells_column_labels(),
+    style = list(
+      gt::cell_text(size = "small"),
+      gt::cell_text(weight = "bold")
+    )
+  ) |>
+  # TABLE BODY
+  # font smaller
+  gt::tab_style(
+    locations = gt::cells_body(
+      columns = tidyselect::everything()
+    ),
+    style = list(
+      gt::cell_text(size = "small")
+    )
+  )
+
+```
+
+Run the `view_kfactors()` function (as is) to get these datasets printed in the console. Use them to help decide what to add for `buffer_used` and what units to use for `concentration_used`.
+
+<!-- Finally, you get some general information: -->
+
+```{r eval=FALSE, echo=FALSE}
+# message("\nThe k-factor of water (A975-A900 at 1cm) at ~25oC is 0.172.")
+# message("Increasing the temperature has a small effect: 30oC = 3% increase to 0.176.")
+# message("The volume of water is minimally effected by temperature, so path lengths calculated at 25oC should apply to other temperatures.")
+# 
+# message("\nMost aqueous buffers with low salt will be ~ 0.170 and can therefore be approximated to the k-factor of pure water.")
+# message("eg.")
+# message("153mM (0.9%) NaCl = 0.168, TE = 0.169, 50mM TBS = 0.166")
+# message("1M Tris-HCl = 0.157, 2M H2SO4 = 0.154")
+# 
+# message("\nOther solvents, like DMSO, EtOH and MeOH have a bigger effect.")
+# message("eg.")
+# message("10% DMSO = 0.148")
+# message("20% EtOH = 0.092, 20% MeOH = 0.100")
+# message("100% EtOH and MeOH have negative k-factors, and k-factors with these solvents are no longer reliable methods for calculating path lengths.")
+```
+
+<br>
+
+#### When to use `"calc_each"` vs `"calc_blanks"`
+
+To request path length calculation via this method you have two options:
+
+- Use `pl_method = "calc_each"` to estimate pathlength of each well individually.
+- Use `pl_method = "calc_blanks"` to estimate pathlength of all wells from an average of the blank wells. This is usually recommended.
+
+<br>
+
+### (2) Estimating Path Length Using Sample Volume
+
+To request path length estimation via the volume, use `pl_method = "volume"`.
+
+The volume method calculates path length using a reference experiment in which a microplate was filled with specified volumes of water (50-300 ul), and the path lengths of each were measured and fitted to a linear model.
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE}
+
+df <- fpcountr::pathlength_water_data
+
+df <- df |>
+  dplyr::group_by(volume) |>
+  dplyr::mutate(mean = mean(pathlength, na.rm = TRUE)) |>
+  dplyr::mutate(sd = sd(pathlength, na.rm = TRUE) )
+
+model <- stats::lm(mean ~ volume, data = df)
+
+data_to_display <- df
+ggplot2::ggplot(data_to_display) +
+  ggplot2::geom_point(ggplot2::aes(x = volume, y = pathlength, colour = expt)) +
+  # ggplot2::geom_errorbar(ggplot2::aes(x = volume, ymin = mean-sd, ymax = mean+sd, colour = expt)) +
+  ggplot2::geom_line(ggplot2::aes(x = .data$volume,
+                                  y = stats::predict(model, df))) +
+  ggplot2::scale_x_continuous("volume (ul)", limits=c(0,NA)) +
+  ggplot2::scale_y_continuous("pathlength (cm)", limits=c(0,NA)) +
+  ggplot2::scale_colour_manual(values = c("black", "black", "black")) +
+  ggplot2::theme_bw() +
+  ggplot2::theme(
+    aspect.ratio = 1,
+    panel.grid = ggplot2::element_blank(),
+    legend.position = "none"
+  )
+```
+

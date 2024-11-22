@@ -1,0 +1,5 @@
+﻿function_name,metadata_variables_expected,required_for
+parse_magellan(),well,generating 'row' and 'column' variables
+process_plate(),volume,converting 'OD' to 'OD (cm-1)'
+,row,plotting data in 'microplate' format
+,column,plotting data in 'microplate' format
