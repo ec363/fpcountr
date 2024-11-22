@@ -34,5 +34,6 @@ Imports:
     utils,
     viridis
 Suggests: 
+    gt,
     knitr,
     rmarkdown
