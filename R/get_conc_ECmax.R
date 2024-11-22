@@ -143,40 +143,6 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
   # 2. Averaged data -------------------------------------------------
 
   # Take mean of duplicate readings for: raw_value, normalised_value, normalised_cm1_value
-
-  # v1 ###
-  # names(spectrum_data_subset)
-  # summ_data <- spectrum_data_subset %>%
-  #   dplyr::group_by(.data$instrument, .data$plate, .data$seal,
-  #                   # .data$channel_name, .data$channel_ex, .data$channel_em, # removed
-  #                   .data$media, .data$calibrant, .data$protein,
-  #                   # replicate will vary
-  #
-  #                   # .data$mw_gmol1, .data$concentration_ngul,
-  #                   .data$dilution,
-  #                   # .data$rev_dilution,
-  #
-  #                   # well, row, column will vary
-  #                   .data$measure,
-  #
-  #                   ## raw_value # TAKING MEAN
-  #                   .data$kfactor_1cm,
-  #                   # .data$kfactor_well, .data$pathlength_each, # will vary
-  #                   # .data$pathlength_blanks, # remove as removing pathlength_each
-  #                   .data$volume,
-  #                   # .data$pathlength_volume, # remove as removing pathlength_each
-  #                   .data$pathlength_method,
-  #                   # .data$pathlength, # might vary
-  #                   ## raw_cm1_value, # TAKING MEAN
-  #                   .data$raw_cm1_blanks,
-  #                   ## normalised_cm1_value # TAKING MEAN
-  #
-  #                   .drop = FALSE) %>%
-  #   dplyr::summarise(dplyr::across(dplyr::ends_with("_value"), ~mean(.x, na.rm = TRUE)))
-  # names(summ_data)
-  # summ_data # half the rows bc going from duplicates to averaged rows
-
-  # v2
   names(spectrum_data_subset)
   summ_data <- spectrum_data_subset %>%
 

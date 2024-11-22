@@ -503,48 +503,8 @@ generate_cfs <- function(calibration_csv,
 
   # 4. Summarise  -------------------------------------------------------
 
-  # v1 ###
-  # # calculate mean of n replicates, for raw_values and normalised_values columns, for non_sat_values and all_values dfs
-  # # a. summ_values_nonsat uses non_sat_values and therefore does not include saturated values.
-  # summ_values_nonsat <- non_sat_values %>%
-  #   dplyr::group_by(.data$instrument, .data$plate, .data$seal,
-  #                   .data$channel_name, .data$channel_ex, .data$channel_em,
-  #                   .data$media, .data$calibrant, .data$protein,
-  #
-  #                   .data$mw_gmol1, .data$concentration_ngul, .data$dilution, .data$rev_dilution, .data$volume,
-  #                   .data$mass_ng, .data$moles, .data$molecules,
-  #                   .data$dilution_ratio, .data$max_concentration,
-  #
-  #                   # Putting these in order for skimming by eye. Group by Gain first, then conc second.
-  #                   .data$measure, .data$dilution_idx, # dilution_idx will vary
-  #                   # replicate, well, row, column will vary
-  #                   .data$raw_blanks, .data$norm_blanks, .data$norm_blanks_sd,
-  #                   .drop = FALSE) %>%
-  #   dplyr::summarise(dplyr::across(dplyr::ends_with("_value"), ~mean(.x, na.rm = TRUE)))
-  # summ_values_nonsat
-  #
-  # # b. summ_values_all uses all_values and therefore includes both sat/non_sat points
-  # summ_values_all <- all_values %>%
-  #   dplyr::group_by(.data$instrument, .data$plate, .data$seal,
-  #                   .data$channel_name, .data$channel_ex, .data$channel_em,
-  #                   .data$media, .data$calibrant, .data$protein,
-  #
-  #                   .data$mw_gmol1, .data$concentration_ngul, .data$dilution, .data$rev_dilution, .data$volume,
-  #                   .data$mass_ng, .data$moles, .data$molecules,
-  #                   .data$dilution_ratio, .data$max_concentration,
-  #
-  #                   # Putting these in order for skimming by eye. Group by Gain first, then conc second.
-  #                   .data$measure, .data$dilution_idx, # dilution_idx will vary
-  #                   # .data$molecules, # molecules specified by molecules_var
-  #                   # replicate, well, row, column will vary
-  #                   .data$raw_blanks, .data$norm_blanks, .data$norm_blanks_sd,
-  #                   .drop = FALSE) %>%
-  #   dplyr::summarise(dplyr::across(dplyr::ends_with("_value"), ~mean(.x, na.rm = TRUE)))
-  # summ_values_all
-
-  # v2
-  # # calculate mean of n replicates, for raw_values and normalised_values columns, for non_sat_values and all_values dfs
-  # # a. summ_values_nonsat uses non_sat_values and therefore does not include saturated values.
+  # calculate mean of n replicates, for raw_values and normalised_values columns, for non_sat_values and all_values dfs
+  # a. summ_values_nonsat uses non_sat_values and therefore does not include saturated values.
   summ_values_nonsat <- non_sat_values %>%
 
     # For each dilution and wavelength
@@ -730,25 +690,11 @@ generate_cfs <- function(calibration_csv,
                               channel_name = temp_meas_calib_values$channel_name[1],
                               channel_ex = temp_meas_calib_values$channel_ex[1],
                               channel_em = temp_meas_calib_values$channel_em[1],
-
                               media = temp_meas_calib_values$media[1],
+
                               calibrant = calib, # calib is the current element in calibrant for loop
-                              # protein = temp_meas_calib_values$protein[1], # redundant ###
-
-                              # mw_gmol1 = temp_meas_calib_values$mw_gmol1[1], # not essential
-                              # conc, diln, rev_dilution will vary
-                              # volume = temp_meas_calib_values$volume[1], # not essential
-                              # mass, moles, molecules will vary
-
                               measure = meas, # meas is the current element in measure (eg GFP040) for loop
 
-                              # diln ratio, maxconc, not relevant
-                              # dilnidx will vary
-
-                              # raw_blanks = temp_meas_calib_values$raw_blanks[1], # not needed
-                              # norm_blanks = temp_meas_calib_values$norm_blanks[1], # not needed
-                              # norm_blanks_sd = temp_meas_calib_values$norm_blanks_sd[1], # not needed
-                              # raw_value, normalised_value will vary
                               cf = res$par[1], beta = res$par[2],
                               residuals = residual
         )
@@ -765,8 +711,7 @@ generate_cfs <- function(calibration_csv,
     # add cf and beta columns to the right of long_values tibble:
     trimmed_values <- dplyr::full_join(trimmed_values, fit_values)
     # put the blanks back
-    # trimmed_values <- rbind(trimmed_values_blanks, trimmed_values) ###
-    trimmed_values <- dplyr::bind_rows(trimmed_values_blanks, trimmed_values) # avoid error due to trimmed_values_blanks missing fit_values' columns
+    trimmed_values <- dplyr::bind_rows(trimmed_values_blanks, trimmed_values) # avoid rbind error due to trimmed_values_blanks missing fit_values' columns
     # Gain needed for standard plots as well as others. Add now:
     trimmed_values$gain <- as.numeric(gsub(paste0(trimmed_values$channel_name[1], separator), "", trimmed_values$measure))
     # trimmed_values$gain # 40  50  60  70  80  90 100
@@ -841,23 +786,8 @@ generate_cfs <- function(calibration_csv,
 
                             media = temp_trimmed_values$media[1],
                             calibrant = temp_trimmed_values$calibrant[2], # [2] might help if a BSA/none gets in there
-                            # protein = temp_trimmed_values$protein[3], # 1 gets you "none" # redundant ###
-
-                            # mw_gmol1 = temp_trimmed_values$mw_gmol1[3], # not essential
-                            # row1 is blank, row2+ is protein, row3+ needed if a BSA left in
-                            # conc, diln, revdiln will vary
-                            # volume = temp_trimmed_values$volume[1], # not essential
-                            # mass, moles, molecules will vary
-                            # diln ratio, max conc not relevant
-                            # dilnidx will vary
-
                             measure = meas, # meas is the current element in measure (eg GFP040) for loop
                             gain = temp_trimmed_values$gain[1],
-
-                            # raw_blanks = temp_trimmed_values$raw_blanks[2], # not essential # needed if BSA gets left in
-                            # norm_blanks = temp_trimmed_values$norm_blanks[1], # not essential
-                            # norm_blanks_sd = temp_trimmed_values$norm_blanks_sd[2], # needed if BSA gets left in # not essential
-                            # raw_value, norm_value will vary
 
                             # new columns:
                             min_normflu = temp_trimmed_values$min_normflu[2],

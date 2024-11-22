@@ -196,8 +196,6 @@ flu_norm <- function(pr_data, neg_well, blank_well, flu_name, af_model, data_csv
       ggplot2::theme(aspect.ratio = 1)
   }
 
-  # plotname <- gsub(".csv", paste("_norm-curve_", flu_name, ".pdf", sep = ""), basename(data_csv)) # changed: plot location
-  # plotname <- gsub(".csv", paste("_", flu_name, "_autofluorescence-normalisation-curve.pdf", sep = ""), basename(data_csv))
   plotname <- paste0(flu_name, "_autofluorescence_normalisation_curve.pdf")
   ggplot2::ggsave(file.path(outfolder, plotname),
                   plot = plt,
