@@ -391,7 +391,7 @@ proteinconcs <- get_conc_ecmax(
   protein_seq = "MVHHHHHHGSGVSKGEELIKENMHMKLYMEGTVDNHHFKCTSEGEGKPYEGTQTMRIKVVEGGPLPFAFDILATSFLYGSKTFINHTQGIPDFFKQSFPEGFTWERVTTYEDGGVLTATQDTSLQDGCLIYNVKIRGVNFTSNGPVMQKKTLGWEAFTETLYPADGGLEGRNDMALKLVGGSHLIANAKTTYRSKKPAKNLKMPGVYYVDYRLERIKEANNETYVEQHEVAVARYCDLPSKLGHKLN",
   processed_spectrum_csv = "fp_quantification/example_absorbance_parsed_processed.csv",
   # wells_to_remove = c(),
-  corr_method = "scatter", wav_to_use1 = 500, wav_to_use2 = 315,
+  corr_method = "scatter", wav_to_use1 = 500, wav_to_use2 = 450,
   outfolder = "fp_quantification/concentration",
 )
 ```
@@ -405,7 +405,7 @@ proteinconcs <- get_conc_ecmax(
   protein_seq = "MVHHHHHHGSGVSKGEELIKENMHMKLYMEGTVDNHHFKCTSEGEGKPYEGTQTMRIKVVEGGPLPFAFDILATSFLYGSKTFINHTQGIPDFFKQSFPEGFTWERVTTYEDGGVLTATQDTSLQDGCLIYNVKIRGVNFTSNGPVMQKKTLGWEAFTETLYPADGGLEGRNDMALKLVGGSHLIANAKTTYRSKKPAKNLKMPGVYYVDYRLERIKEANNETYVEQHEVAVARYCDLPSKLGHKLN",
   processed_spectrum_csv = "fp_quantification/example_absorbance_parsed_processed.csv",
   # wells_to_remove = c(),
-  corr_method = "scatter", wav_to_use1 = 500, wav_to_use2 = 315,
+  corr_method = "scatter", wav_to_use1 = 500, wav_to_use2 = 450,
   outfolder = "fp_quantification/concentration",
   csv_only = TRUE
 )
@@ -507,11 +507,15 @@ data_to_display |>
   # gt::tab_options(container.height = gt::px(350)) # this is approx 10 rows: the header + 9 rows
 ```
 
-The example data should give 4.8 ng/ul for the top concentration.
+The example data should give 6.8 ng/ul for the top concentration.
+
+Plot3a that illustrates the model fitting to the spectra and identification of the excitation maximum of mTagBFP2:
 
 <p align="center">
   <img src="../man/figures/getconc_plot3a_abs_spectra_geomsmooth.png" width="600" />
 </p>
+
+Plot6b that compares the linear fit of the concentrations across normalisation techniques:
 
 <p align="center">
   <img src="../man/figures/getconc_plot6b_ecmax_models_all_logplot.png" width="500" />
@@ -1299,7 +1303,7 @@ data_to_display |>
   # gt::tab_options(container.height = gt::px(350)) # this is approx 10 rows: the header + 9 rows
 ```
 
-At the final timepoint, we can see that the abundance of mTagBFP2 in these samples was in the range of 40,000 to over 200,000 molecules per cell.
+At the final timepoint, we can see that the abundance of mTagBFP2 in these samples was in the range of 50,000 to over 300,000 molecules per cell.
 
 <br>
 
@@ -1425,7 +1429,7 @@ data_to_display |>
   # gt::tab_options(container.height = gt::px(350)) # this is approx 10 rows: the header + 9 rows
 ```
 
-Concentration values are estimated at 8.5 - 52 uM.
+Concentration values are estimated at 10-70 uM.
 
 <br>
 
@@ -1435,7 +1439,7 @@ Concentration values are estimated at 8.5 - 52 uM.
 
 <br>
 
-These files can then be used to analyse data in absolute quantities...
+These files can then be used to analyse data in absolute quantities... Note that arbitrary values (left hand axis) tell us nothing about mTagBFP2 abundance or its likely effect on the cell, since the values are biologically meaningless. Absolute values (right hand axis) however, allow us to compare mTagBFP2 levels to the cellular context. For example, our vector effectively overproduces proteins to levels higher than the most abundant native protein (EF-Tu), or up to 20% of the proteome.
 
 ```{r eval=TRUE, echo=FALSE, warning=FALSE}
 
@@ -1455,34 +1459,38 @@ data.to.plot <- data.to.plot |>
   dplyr::ungroup()
 
 # plot 2 axes for arbitrary and absolute values
-scale = 350000/24000
-# scale # 14.66
-# percent_of_all_proteins <- 500000/2.36e6 https://book.bionumbers.org/how-many-proteins-are-in-a-cell/
-# percent_of_all_proteins # 21%
-# if 500,000 = 21%, what is ef-tu at 6% total?
-# 0.06*2.36e6
-# 141,600 proteins/cell
+scale = 500000/24000 # 20.83
+# % of proteins that is 500,000? # 500000/2.36e6 # 21% # https://book.bionumbers.org/how-many-proteins-are-in-a-cell/
+# if 500,000 = 21%, what is ef-tu at 6% total? # 0.06*2.36e6 # 141,600 proteins/cell
 plot1 <- ggplot2::ggplot(data.to.plot |>
                            dplyr::filter(time_h == 10)) +
   
-  # arbitrary values:
-  # ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = blueblue/OD700), size = 0.5, colour = "#7ABF26") + # 0 - 30,000
+  # # test only:
+  # # arbitrary values:
+  # # ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = blueblue/OD700), size = 0.5, colour = "#7ABF26") + # 0 - 30,000
   # ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = (normalised_blueblue/normalised_OD_cm1), colour = "raw"), size = 0.5) + # 0-24,000
-  # absolutes:
-  ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = calibratedmTagBFP2_perCell/scale #, colour = "absolute"
-                                   ), size = 0.5) + # 0-350,000
+  # # absolutes:
+  # ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = calibratedmTagBFP2_perCell, colour = "absolute"), size = 0.5) + # 0-500,000
+  
+  # absolutes with scaling:
+  ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = calibratedmTagBFP2_perCell/scale), size = 0.5) + # 0-500,000
   ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = mean/scale), shape = 1, size = 2) +
   # ggplot2::geom_errorbar(ggplot2::aes(x = ara_pc, ymin = mean-sd, ymax=mean+sd), size = 0.5) +
+  
   ggplot2::scale_x_discrete("arabinose (%)") +
+  
+  # # test only:
+  # ggplot2::scale_y_continuous() +
+  
   ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis(~.*scale, name = "molecules/cell")) +
   ggplot2::ylab("arbitrary units") +
+  
   ggplot2::theme_bw() +
   ggplot2::theme(
     aspect.ratio = 0.5,
     panel.grid = ggplot2::element_blank(),
     axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5),
     
-    # axis.line.y.right = ggplot2::element_line(color = "#D63C79"),
     axis.ticks.y.right = ggplot2::element_line(color = "#D63C79"),
     axis.text.y.right = ggplot2::element_text(color = "#D63C79"),
     axis.title.y.right = ggplot2::element_text(color = "#D63C79")
@@ -1495,6 +1503,7 @@ plot1 <- ggplot2::ggplot(data.to.plot |>
   ggplot2::annotate("text", label = "500,000 molecules per cell (20% proteome)", x = 3, y = 480000/scale, colour = "#D63C79") +
   ggplot2::ggtitle('Abundance of mTagBFP2 and relationship to the E. coli proteome') # produced in DH10B from a SEVA vector set
 plot1
+
 
 ```
 
