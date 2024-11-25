@@ -1439,7 +1439,7 @@ Concentration values are estimated at 10-70 uM.
 
 <br>
 
-These files can then be used to analyse data in absolute quantities... Note that arbitrary values (left hand axis) tell us nothing about mTagBFP2 abundance or its likely effect on the cell, since the values are biologically meaningless. Absolute values (right hand axis) however, allow us to compare mTagBFP2 levels to the cellular context. For example, our vector effectively overproduces proteins to levels higher than the most abundant native protein (EF-Tu), or up to 20% of the proteome.
+These files can then be used to analyse data in absolute quantities... Note that arbitrary values suggest nothing about mTagBFP2 abundance or its likely effect on the cell, since the values are biologically meaningless. Absolute values, however, allow us to compare mTagBFP2 levels to the cellular context. For example, at high arabinose concentrations, our vector effectively overproduces proteins to levels higher than the most abundant native proteins in an _E. coli_ cell, or up to 20% of its proteome.
 
 ```{r eval=TRUE, echo=FALSE, warning=FALSE}
 
@@ -1458,32 +1458,96 @@ data.to.plot <- data.to.plot |>
   dplyr::mutate(sd = sd(calibratedmTagBFP2_perCell, na.rm = TRUE)) |>
   dplyr::ungroup()
 
-# plot 2 axes for arbitrary and absolute values
-scale = 500000/24000 # 20.83
-# % of proteins that is 500,000? # 500000/2.36e6 # 21% # https://book.bionumbers.org/how-many-proteins-are-in-a-cell/
-# if 500,000 = 21%, what is ef-tu at 6% total? # 0.06*2.36e6 # 141,600 proteins/cell
+# raw values - find mean and sd
+data.to.plot <- data.to.plot |>
+  dplyr::group_by(ara_pc, time) |>
+  dplyr::mutate(arbitrary_perCell = normalised_blueblue/normalised_OD_cm1) |>
+  dplyr::mutate(mean_arbitrary_perCell = mean(arbitrary_perCell, na.rm = TRUE)) |>
+  dplyr::mutate(sd_arbitrary_perCell = sd(arbitrary_perCell, na.rm = TRUE)) |>
+  dplyr::ungroup()
+
+# # original plot - plot 2 axes for arbitrary and absolute values
+# scale = 500000/24000 # 20.83
+# # % of proteins that is 500,000? # 500000/2.36e6 # 21% # https://book.bionumbers.org/how-many-proteins-are-in-a-cell/
+# # if 500,000 = 21%, what is ef-tu at 6% total? # 0.06*2.36e6 # 141,600 proteins/cell
+# plot1 <- ggplot2::ggplot(data.to.plot |>
+#                            dplyr::filter(time_h == 10)) +
+#   
+#   # # test only:
+#   # # arbitrary values:
+#   # # ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = blueblue/OD700), size = 0.5, colour = "#7ABF26") + # 0 - 30,000
+#   # ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = (normalised_blueblue/normalised_OD_cm1), colour = "raw"), size = 0.5) + # 0-24,000
+#   # # absolutes:
+#   # ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = calibratedmTagBFP2_perCell, colour = "absolute"), size = 0.5) + # 0-500,000
+#   
+#   # absolutes with scaling:
+#   ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = calibratedmTagBFP2_perCell/scale), size = 0.5) + # 0-500,000
+#   ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = mean/scale), shape = 1, size = 2) +
+#   # ggplot2::geom_errorbar(ggplot2::aes(x = ara_pc, ymin = mean-sd, ymax=mean+sd), size = 0.5) +
+#   
+#   ggplot2::scale_x_discrete("arabinose (%)") +
+#   
+#   # # test only:
+#   # ggplot2::scale_y_continuous() +
+#   
+#   ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis(~.*scale, name = "molecules/cell")) +
+#   ggplot2::ylab("arbitrary units") +
+#   
+#   ggplot2::theme_bw() +
+#   ggplot2::theme(
+#     aspect.ratio = 0.5,
+#     panel.grid = ggplot2::element_blank(),
+#     axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5),
+#     
+#     axis.ticks.y.right = ggplot2::element_line(color = "#D63C79"),
+#     axis.text.y.right = ggplot2::element_text(color = "#D63C79"),
+#     axis.title.y.right = ggplot2::element_text(color = "#D63C79")
+#   ) +
+#   ggplot2::annotate("rect", xmin = 0, xmax = Inf, ymin = 100/scale, ymax = 2000/scale, fill = "#D63C79", alpha = 0.2) +
+#   ggplot2::annotate("text", label = "median protein abundance", x = 8.5, y = 2000/scale, colour = "#D63C79") +
+#   ggplot2::geom_hline(yintercept = 141600/scale, colour = "#D63C79", linetype = "dashed") +
+#   ggplot2::annotate("text", label = "abundance of EF-Tu", x = 2, y = 160000/scale, colour = "#D63C79") +
+#   ggplot2::geom_hline(yintercept = 500000/scale, colour = "#D63C79", linetype = "dashed") +
+#   ggplot2::annotate("text", label = "500,000 molecules per cell (20% proteome)", x = 3, y = 480000/scale, colour = "#D63C79") +
+#   ggplot2::ggtitle('Abundance of mTagBFP2 and relationship to the E. coli proteome') # produced in DH10B from a SEVA vector set
+# plot1
+
+# clearer version = 2 plots
+# plot1 - arbitrary
 plot1 <- ggplot2::ggplot(data.to.plot |>
                            dplyr::filter(time_h == 10)) +
-  
-  # # test only:
-  # # arbitrary values:
-  # # ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = blueblue/OD700), size = 0.5, colour = "#7ABF26") + # 0 - 30,000
-  # ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = (normalised_blueblue/normalised_OD_cm1), colour = "raw"), size = 0.5) + # 0-24,000
-  # # absolutes:
-  # ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = calibratedmTagBFP2_perCell, colour = "absolute"), size = 0.5) + # 0-500,000
+  # arbitrary values:
+  ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = arbitrary_perCell), size = 0.5) + # 0-24,000
+  ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = mean_arbitrary_perCell), shape = 1, size = 2) +
+  ggplot2::geom_errorbar(ggplot2::aes(x = ara_pc, ymin = mean_arbitrary_perCell-sd_arbitrary_perCell, 
+                                      ymax=mean_arbitrary_perCell+sd_arbitrary_perCell), size = 0.1, width = 0.1) +
+  ggplot2::scale_x_discrete("arabinose (%)") +
+  ggplot2::scale_y_continuous() +
+  ggplot2::ylab("mTagBFP2 abundance\n(arbitrary units)") +
+  ggplot2::theme_bw() +
+  ggplot2::theme(
+    aspect.ratio = 0.5,
+    panel.grid = ggplot2::element_blank(),
+    axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5)
+  ) +
+  ggplot2::annotate("text", label = "[without absolute units\nwe can't put the results into context]", x = 8.5, y = 10000, colour = "#D63C79") +
+  ggplot2::ggtitle('Abundance of mTagBFP2 in arbitrary units')
+plot1
+
+# plot2 - absolute
+# % of proteins that is 500,000? # 500000/2.36e6 # 21% # https://book.bionumbers.org/how-many-proteins-are-in-a-cell/
+# if 500,000 = 21%, what is ef-tu at 6% total? # 0.06*2.36e6 # 141,600 proteins/cell
+plot2 <- ggplot2::ggplot(data.to.plot |>
+                           dplyr::filter(time_h == 10)) +
   
   # absolutes with scaling:
-  ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = calibratedmTagBFP2_perCell/scale), size = 0.5) + # 0-500,000
-  ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = mean/scale), shape = 1, size = 2) +
-  # ggplot2::geom_errorbar(ggplot2::aes(x = ara_pc, ymin = mean-sd, ymax=mean+sd), size = 0.5) +
+  ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = calibratedmTagBFP2_perCell), size = 0.5) + # 0-500,000
+  ggplot2::geom_point(ggplot2::aes(x = ara_pc, y = mean), shape = 1, size = 2) +
+  ggplot2::geom_errorbar(ggplot2::aes(x = ara_pc, ymin = mean-sd, ymax=mean+sd), size = 0.1, width = 0.1) +
   
   ggplot2::scale_x_discrete("arabinose (%)") +
-  
-  # # test only:
-  # ggplot2::scale_y_continuous() +
-  
-  ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis(~.*scale, name = "molecules/cell")) +
-  ggplot2::ylab("arbitrary units") +
+  ggplot2::scale_y_continuous() +
+  ggplot2::ylab("mTagBFP2 abundance\n(molecules/cell)") +
   
   ggplot2::theme_bw() +
   ggplot2::theme(
@@ -1491,20 +1555,18 @@ plot1 <- ggplot2::ggplot(data.to.plot |>
     panel.grid = ggplot2::element_blank(),
     axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5),
     
-    axis.ticks.y.right = ggplot2::element_line(color = "#D63C79"),
-    axis.text.y.right = ggplot2::element_text(color = "#D63C79"),
-    axis.title.y.right = ggplot2::element_text(color = "#D63C79")
+    axis.ticks.y = ggplot2::element_line(color = "#D63C79"),
+    axis.text.y = ggplot2::element_text(color = "#D63C79"),
+    axis.title.y = ggplot2::element_text(color = "#D63C79")
   ) +
-  ggplot2::annotate("rect", xmin = 0, xmax = Inf, ymin = 100/scale, ymax = 2000/scale, fill = "#D63C79", alpha = 0.2) +
-  ggplot2::annotate("text", label = "median protein abundance", x = 8.5, y = 2000/scale, colour = "#D63C79") +
-  ggplot2::geom_hline(yintercept = 141600/scale, colour = "#D63C79", linetype = "dashed") +
-  ggplot2::annotate("text", label = "abundance of EF-Tu", x = 2, y = 160000/scale, colour = "#D63C79") +
-  ggplot2::geom_hline(yintercept = 500000/scale, colour = "#D63C79", linetype = "dashed") +
-  ggplot2::annotate("text", label = "500,000 molecules per cell (20% proteome)", x = 3, y = 480000/scale, colour = "#D63C79") +
-  ggplot2::ggtitle('Abundance of mTagBFP2 and relationship to the E. coli proteome') # produced in DH10B from a SEVA vector set
-plot1
-
-
+  ggplot2::annotate("rect", xmin = 0, xmax = Inf, ymin = 100, ymax = 2000, fill = "#D63C79", alpha = 0.2) +
+  ggplot2::annotate("text", label = "median protein abundance", x = 8.5, y = 2000, colour = "#D63C79") +
+  ggplot2::geom_hline(yintercept = 141600, colour = "#D63C79", linetype = "dashed") +
+  ggplot2::annotate("text", label = "most abundant proteins", x = 2, y = 160000, colour = "#D63C79") +
+  ggplot2::geom_hline(yintercept = 500000, colour = "#D63C79", linetype = "dashed") +
+  ggplot2::annotate("text", label = "500,000 molecules per cell (20% proteome)", x = 3, y = 480000, colour = "#D63C79") +
+  ggplot2::ggtitle('Abundance of mTagBFP2 in absolute units') # produced in DH10B from a SEVA vector set
+plot2
 ```
 
 <br>
