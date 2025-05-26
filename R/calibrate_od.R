@@ -31,7 +31,8 @@ calibrate_od <- function(pr_data, od_name, instr, conversion_factors_csv) {
   # instrument # od_name like OD700
   od_cfs <- conversion_factors %>%
     dplyr::filter(.data$instrument == instr) %>%
-    dplyr::filter(.data$measure == od_name)
+    # dplyr::filter(.data$measure == od_name)
+    dplyr::filter(tolower(.data$measure) == tolower(od_name)) # case insensitive
   od_cfs
 
   # Error checking
