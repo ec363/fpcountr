@@ -142,6 +142,16 @@ process_plate <- function(
   pr_data <- utils::read.csv(data_csv, check.names = FALSE)
   pr_data
 
+  # Run Checks ---------------------------------------------------------------------------------
+
+  # Check that the timecourse variable is correct
+  if(isTRUE(timecourse) & (!"time" %in% names(pr_data))){
+    message("Error: Timecourse data must include a column labelled 'time'.
+            If this is timecourse data, check that the data was parsed correctly.
+            If this is not timecourse data, set 'timecourse' to FALSE.")
+    return()
+  }
+
   # Rename flu channels if requested ---------------------------------------------------------------------------------
 
   if(!is.null(flu_channels_rename)){
@@ -183,6 +193,22 @@ process_plate <- function(
   } else {
 
     # proceed with OD processing...
+
+    # check if od_name is present in data...
+    if(od_name %in% names(pr_data)){
+      # great
+    } else {
+      # if not, try case insensitive version...
+      if(tolower(od_name) %in% tolower(names(pr_data))){
+        # great! but overwrite od_name to refer to correct column
+        od_name_idx <- which(tolower(names(pr_data)) == tolower(od_name))
+        od_name <- names(pr_data)[od_name_idx]
+      } else {
+        # if od_name is missing in upper and lowercase, throw error and return
+        message(paste0("Error: od_name = '", od_name, "' is missing from the data."))
+        return()
+      }
+    }
 
     # Normalise OD (with external od_norm function) --------------------------------------------------------------------
 
