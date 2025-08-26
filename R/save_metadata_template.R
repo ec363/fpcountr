@@ -80,5 +80,5 @@ save_metadata_template <- function(
   } else {
     message("Saving minimal template in current folder...")
   }
-  utils::write.csv(template_df, file.path(outfolder, filename))
+  utils::write.csv(template_df, file.path(outfolder, filename), row.names = FALSE)
 }
