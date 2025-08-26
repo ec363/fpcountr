@@ -188,7 +188,7 @@ process_plate <- function(
     # skip OD processing...
 
     # rename data
-    od_norm_pr_data <- pr_data # otherwise done at od_norm() step # NB. this won't have normalised_OD or normalised_OD_cm1 columns
+    od_norm_pr_data <- pr_data # otherwise done at norm_od() step # NB. this won't have normalised_OD or normalised_OD_cm1 columns
 
   } else {
 
@@ -210,9 +210,9 @@ process_plate <- function(
       }
     }
 
-    # Normalise OD (with external od_norm function) --------------------------------------------------------------------
+    # Normalise OD (with external norm_od function) --------------------------------------------------------------------
 
-    od_norm_pr_data <- fpcountr::od_norm(pr_data, blank_well, od_name, timecourse = timecourse)
+    od_norm_pr_data <- fpcountr::norm_od(pr_data, blank_well, od_name, timecourse = timecourse)
     # adds one extra column - normalised_OD. for each timepoint, normalises OD to mean of blank wells
 
     # Plot OD data in plate format
@@ -392,7 +392,7 @@ process_plate <- function(
       af_model <- NULL
     }
 
-    flu_norm_pr_data <- fpcountr::flu_norm(pr_data = flu_norm_pr_data, neg_well = neg_well, blank_well = blank_well,
+    flu_norm_pr_data <- fpcountr::norm_flu(pr_data = flu_norm_pr_data, neg_well = neg_well, blank_well = blank_well,
                                            flu_name = flu_channels[flu_idx], af_model = af_model, data_csv = data_csv,
                                            timecourse = timecourse, outfolder = outfolder)
     # adds one column per FP of (eg) normalised_[GFP] to the table
