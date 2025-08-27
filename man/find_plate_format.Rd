@@ -4,10 +4,12 @@
 \alias{find_plate_format}
 \title{Find row and column configuration of a given plate type}
 \usage{
-find_plate_format(plate_type)
+find_plate_format(plate_type, quiet = FALSE)
 }
 \arguments{
 \item{plate_type}{type of plate. numeric, i.e. \code{96} for 96-well plate.}
+
+\item{quiet}{logical. Should function print warning if plate size is unusual?}
 }
 \description{
 Internal function.

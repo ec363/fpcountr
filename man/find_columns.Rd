@@ -4,10 +4,12 @@
 \alias{find_columns}
 \title{Find columns of a given plate type}
 \usage{
-find_columns(plate_type = 96)
+find_columns(plate_type = 96, quiet = FALSE)
 }
 \arguments{
 \item{plate_type}{type of plate. numeric, i.e. \code{96} for 96-well plate.}
+
+\item{quiet}{logical. Should function print warning if plate size is unusual?}
 }
 \description{
 Internal function.

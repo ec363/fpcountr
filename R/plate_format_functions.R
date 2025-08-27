@@ -15,11 +15,11 @@
 find_wells <- function(plate_type = 96){
 
   # find number of rows and columns
-  plate_format <- find_plate_format(plate_type = plate_type)
+  plate_format <- find_plate_format(plate_type = plate_type, quiet = FALSE)
 
   # work out row names and column numbers from plate format
-  rows <- find_rows(plate_type = plate_type)
-  columns <- find_columns(plate_type = plate_type)
+  rows <- find_rows(plate_type = plate_type, quiet = TRUE) # prevent plate type warning duplication
+  columns <- find_columns(plate_type = plate_type, quiet = TRUE) # prevent plate type warning duplication
 
   # find combinations of rows and columns, i.e. well names
   df <- expand.grid(row = rows, column = columns)
@@ -38,13 +38,16 @@ find_wells <- function(plate_type = 96){
 #' Internal function.
 #'
 #' @param plate_type type of plate. numeric, i.e. `96` for 96-well plate.
+#' @param quiet logical. Should function print warning if plate size is unusual?
 #' @keywords internal
-find_plate_format <- function(plate_type) {
+find_plate_format <- function(plate_type, quiet = FALSE) {
 
   ## Print warning if plate type is unusual
-  usual_types <- c(6,12,24,48,96,384)
-  if(!plate_type %in% usual_types){
-    message("Warning: plate type specified is not a standard size. Check outputs carefully.")
+  if(isFALSE(quiet)){
+    usual_types <- c(6,12,24,48,96,384)
+    if(!plate_type %in% usual_types){
+      message("Warning: plate type specified is not a standard size. Check outputs carefully.")
+    }
   }
 
   ## Rows and columns are specified by a pair of numbers whose product is n, with the closest in value to one another
@@ -66,12 +69,13 @@ find_plate_format <- function(plate_type) {
 #' Internal function.
 #'
 #' @param plate_type type of plate. numeric, i.e. `96` for 96-well plate.
+#' @param quiet logical. Should function print warning if plate size is unusual?
 #' @keywords internal
 #' @export
-find_rows <- function(plate_type = 96){
+find_rows <- function(plate_type = 96, quiet = FALSE){
 
   # find number of rows
-  plate_format <- find_plate_format(plate_type = plate_type)
+  plate_format <- find_plate_format(plate_type = plate_type, quiet = quiet)
   row_number <- plate_format[1]
 
   # find row names
@@ -85,12 +89,13 @@ find_rows <- function(plate_type = 96){
 #' Internal function.
 #'
 #' @param plate_type type of plate. numeric, i.e. `96` for 96-well plate.
+#' @param quiet logical. Should function print warning if plate size is unusual?
 #' @keywords internal
 #' @export
-find_columns <- function(plate_type = 96){
+find_columns <- function(plate_type = 96, quiet = FALSE){
 
   # find number of rows
-  plate_format <- find_plate_format(plate_type = plate_type)
+  plate_format <- find_plate_format(plate_type = plate_type, quiet = quiet)
   column_number <- plate_format[2]
 
   # find column numbers
