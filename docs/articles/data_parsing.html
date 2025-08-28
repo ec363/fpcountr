@@ -1871,11 +1871,14 @@ for timecourse data.</li>
 </h3>
 <p><br></p>
 <div class="section level4">
-<h4 id="using-tecan-spark-plate-readers-running-magellan-software">Using Tecan Spark plate readers running Magellan software<a class="anchor" aria-label="anchor" href="#using-tecan-spark-plate-readers-running-magellan-software"></a>
+<h4 id="using-tecan-spark-plate-readers">Using Tecan Spark plate readers<a class="anchor" aria-label="anchor" href="#using-tecan-spark-plate-readers"></a>
 </h4>
 <p>As <code>fpcountr</code> was developed in a laboratory that used
-Tecan Spark instruments, we have bundled two functions that can parse
-data exported from the Spark/Magellan platform into the package.</p>
+Tecan Spark instruments, we have bundled functions into the package that
+can parse data exported from Spark plate readers. You will need
+different parsing functions depending on whether you are using their
+Magellan software or their SparkControl software.</p>
+<p><strong>Magellan software parsers</strong></p>
 <p><code><a href="../reference/parse_magellan.html">parse_magellan()</a></code> handles standard/endpoint and
 timecourse/kinetic data. To parse a data file, the minimum information
 you need is the location of your data and metadata files, and
@@ -1971,13 +1974,37 @@ be used to parse spectrum data. It works similarly.</p>
 <p>It is worth sanity checking outputs to make sure that the data has
 been extracted correctly, and adjusting the customisation parameters if
 it isn’t.</p>
+<p><strong>SparkControl software parsers</strong></p>
+<p>Analogous functions exist also for the SparkControl software exports.
+<code><a href="../reference/parse_sparkcontrol.html">parse_sparkcontrol()</a></code> handles standard/endpoint and
+timecourse/kinetic data:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_sparkcontrol.html">parse_sparkcontrol</a></span><span class="op">(</span></span>
+<span>  data_csv <span class="op">=</span> <span class="st">"path/to/data.csv"</span>,</span>
+<span>  metadata_csv <span class="op">=</span> <span class="st">"path/to/metadata.csv"</span>,</span>
+<span>  timeseries <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_sparkcontrol.html">parse_sparkcontrol</a></span><span class="op">(</span></span>
+<span>  data_csv <span class="op">=</span> <span class="st">"path/to/data.csv"</span>,</span>
+<span>  metadata_csv <span class="op">=</span> <span class="st">"path/to/metadata.csv"</span>,</span>
+<span>  timeseries <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>and <code><a href="../reference/parse_sparkcontrol_spectrum.html">parse_sparkcontrol_spectrum()</a></code> handles spectrum
+data:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">parsed_data_spectrum</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_sparkcontrol_spectrum.html">parse_sparkcontrol_spectrum</a></span><span class="op">(</span></span>
+<span>  data_csv <span class="op">=</span> <span class="st">"path/to/data.csv"</span>,</span>
+<span>  metadata_csv <span class="op">=</span> <span class="st">"path/to/metadata.csv"</span>,</span>
+<span>  wellstart <span class="op">=</span> <span class="st">"A1"</span>, wellend <span class="op">=</span> <span class="st">"H12"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><br></p>
 </div>
 <div class="section level4">
 <h4 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h4>
 <p><br></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ec363.github.io/fpcountr/">fpcountr</a></span><span class="op">)</span></span></code></pre></div>
 <p><strong>1. Absorbance spectrum data for a calibration of
 mTagBFP2</strong></p>
@@ -2567,7 +2594,7 @@ mTagBFP2</strong></p>
 </table>
 </div>
 <p>Code:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_magellan_spectrum.html">parse_magellan_spectrum</a></span><span class="op">(</span></span>
 <span>  data_csv <span class="op">=</span> <span class="st">"data/example_absorbance.csv"</span>,</span>
 <span>  metadata_csv <span class="op">=</span> <span class="st">"data/example_absorbance_meta.csv"</span>,</span>
@@ -3963,7 +3990,7 @@ mTagBFP2</strong></p>
 </table>
 </div>
 <p>Code:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_magellan.html">parse_magellan</a></span><span class="op">(</span></span>
 <span>  data_csv <span class="op">=</span> <span class="st">"data/example_fluorescence.csv"</span>,</span>
 <span>  metadata_csv <span class="op">=</span> <span class="st">"data/example_fluorescence_meta.csv"</span>,</span>
@@ -5324,7 +5351,7 @@ mTagBFP2</strong></p>
 </table>
 </div>
 <p>Code:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_magellan.html">parse_magellan</a></span><span class="op">(</span></span>
 <span>  data_csv <span class="op">=</span> <span class="st">"data/example_experiment.csv"</span>,</span>
 <span>  metadata_csv <span class="op">=</span> <span class="st">"data/example_experiment_meta.csv"</span>,</span>
@@ -5982,12 +6009,10 @@ mTagBFP2</strong></p>
 <div class="section level4">
 <h4 id="using-other-plate-readers">Using other plate readers<a class="anchor" aria-label="anchor" href="#using-other-plate-readers"></a>
 </h4>
-<p>The above functions use clues from Magellan’s standardised data
-formats to extract the data from raw files correctly, and therefore will
-not work for data from other plate readers or file types.</p>
-<p>For other plate readers, including Tecan Spark plate readers running
-SparkControl software (which exports data in a different format), we
-recommend two options:</p>
+<p>The above functions use clues from the Tecan Spark software’s
+standardised data formats to extract the data from raw files correctly,
+and therefore will not work for data from other plate readers.</p>
+<p>For other plate readers, we recommend two options:</p>
 <p><strong>Writing your own functions</strong></p>
 <p>For more advanced users or when working with a large number of
 similar data files, writing your own functions will be the best option

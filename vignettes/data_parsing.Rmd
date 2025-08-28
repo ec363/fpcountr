@@ -702,9 +702,9 @@ data_to_display |>
 
 #### Using other plate readers
 
-The above functions use clues from Magellan's standardised data formats to extract the data from raw files correctly, and therefore will not work for data from other plate readers or file types.
+The above functions use clues from the Tecan Spark software's standardised data formats to extract the data from raw files correctly, and therefore will not work for data from other plate readers.
 
-For other plate readers, including Tecan Spark plate readers running SparkControl software (which exports data in a different format), we recommend two options:
+For other plate readers, we recommend two options:
 
 **Writing your own functions**
 
