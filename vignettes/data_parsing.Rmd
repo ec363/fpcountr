@@ -303,9 +303,11 @@ save_metadata_template(
 
 <br>
 
-#### Using Tecan Spark plate readers running Magellan software
+#### Using Tecan Spark plate readers
 
-As `fpcountr` was developed in a laboratory that used Tecan Spark instruments, we have bundled two functions that can parse data exported from the Spark/Magellan platform into the package.
+As `fpcountr` was developed in a laboratory that used Tecan Spark instruments, we have bundled functions into the package that can parse data exported from Spark plate readers. You will need different parsing functions depending on whether you are using their Magellan software or their SparkControl software.
+
+**Magellan software parsers**
 
 `parse_magellan()` handles standard/endpoint and timecourse/kinetic data. To parse a data file, the minimum information you need is the location of your data and metadata files, and whether/not your data is a timeseries (i.e. timecourse/kinetic data). For fluorescence data from endpoint/standard assays, such as calibrations, you might use:
 
@@ -390,6 +392,34 @@ parsed_data_spectrum <- parse_magellan_spectrum(
 ```
 
 It is worth sanity checking outputs to make sure that the data has been extracted correctly, and adjusting the customisation parameters if it isn't.
+
+**SparkControl software parsers**
+
+Analogous functions exist also for the SparkControl software exports. `parse_sparkcontrol()` handles standard/endpoint and timecourse/kinetic data:
+
+```{r, eval=FALSE}
+parsed_data <- parse_sparkcontrol(
+  data_csv = "path/to/data.csv",
+  metadata_csv = "path/to/metadata.csv",
+  timeseries = FALSE
+)
+
+parsed_data <- parse_sparkcontrol(
+  data_csv = "path/to/data.csv",
+  metadata_csv = "path/to/metadata.csv",
+  timeseries = TRUE
+)
+```
+
+and `parse_sparkcontrol_spectrum()` handles spectrum data:
+
+```{r, eval=FALSE}
+parsed_data_spectrum <- parse_sparkcontrol_spectrum(
+  data_csv = "path/to/data.csv",
+  metadata_csv = "path/to/metadata.csv",
+  wellstart = "A1", wellend = "H12"
+)
+```
 
 <br>
 
