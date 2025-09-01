@@ -38,7 +38,7 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
   # Set reference value: water at 25oC according to kfactors_temperature_data = 0.172
   reference_kfactor <- kfactors_temperature_data %>%
     dplyr::filter(.data$temperature == 25) %>%
-    dplyr::select(.data$kfactor) %>%
+    dplyr::select("kfactor") %>%
     as.numeric
   reference_kfactor # should be 0.172
 
@@ -64,7 +64,7 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
       # For water, concentration value is ignored
       if(buffer_used == "water"){
         buffer_fc_to_use <- subset_data %>%
-          dplyr::select(.data$fold_change) %>%
+          dplyr::select("fold_change") %>%
           as.numeric()
         buffer_fc_to_use
       } else {
@@ -72,7 +72,7 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
         # For others:
         buffer_fc_to_use <- subset_data %>%
           dplyr::filter(.data$concentration == concentration_used) %>%
-          dplyr::select(.data$fold_change) %>%
+          dplyr::select("fold_change") %>%
           as.numeric()
         buffer_fc_to_use
       }
@@ -157,7 +157,7 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
 
     # Find fold change
     temperature_fc_to_use <- subset_data2 %>%
-      dplyr::select(.data$fold_change) %>%
+      dplyr::select("fold_change") %>%
       as.numeric()
     temperature_fc_to_use
 

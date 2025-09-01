@@ -200,10 +200,10 @@ parse_magellan <- function(data_csv, metadata_csv, timeseries = FALSE,
       dplyr::mutate(value = as.numeric(.data$value))
     # create separate column for each of the measures/readings
     wide_data <- long_data %>%
-      tidyr::pivot_wider(names_from = .data$measure, values_from = .data$value) %>%
+      tidyr::pivot_wider(names_from = "measure", values_from = "value") %>%
       dplyr::mutate(row = substr(x = .data$well, start = 1, stop = 1)) %>% # extract first element of well. this is row.
       dplyr::mutate(column = as.numeric(substr(x = .data$well, start = 2, stop = nchar(.data$well)))) %>% # extract column number.
-      dplyr::arrange(dplyr::across(c(.data$time, .data$row, .data$column))) # sort rows by time > row > column
+      dplyr::arrange(dplyr::across(c("time", "row", "column"))) # sort rows by time > row > column
 
     # write parsed data to csv ------------------------------------------------
     out_name <- gsub(".csv", "_parsed.csv", data_csv)
@@ -270,10 +270,10 @@ parse_magellan <- function(data_csv, metadata_csv, timeseries = FALSE,
 
     # create separate column for each of the measures/readings
     wide_data <- all_data %>%
-      tidyr::pivot_wider(names_from = .data$measure, values_from = .data$value) %>%
+      tidyr::pivot_wider(names_from = "measure", values_from = "value") %>%
       dplyr::mutate(row = substr(x = .data$well, start = 1, stop = 1)) %>% # extract first element of well. this is row.
       dplyr::mutate(column = as.numeric(substr(x = .data$well, start = 2, stop = nchar(.data$well)))) %>% # extract column number.
-      dplyr::arrange(dplyr::across(c(.data$row, .data$column))) # sort rows by row > column
+      dplyr::arrange(dplyr::across(c("row", "column"))) # sort rows by row > column
 
     # write parsed data to csv ------------------------------------------------
     out_name <- gsub(".csv", "_parsed.csv", data_csv)

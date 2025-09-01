@@ -40,7 +40,7 @@ get_mw <- function(protein){
     num_aa <- length(which(amino_acids == new_aa)) # count AA
     mass_aa <- aa_mass_data %>% # get mass of AA
       dplyr::filter(.data$X1.letter.code == new_aa) %>%
-      dplyr::select(.data$average) %>%
+      dplyr::select("average") %>%
       as.numeric()
     added_mass <- num_aa*mass_aa # find total mass of all of those AAs
 
