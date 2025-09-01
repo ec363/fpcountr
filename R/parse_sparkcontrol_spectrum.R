@@ -74,9 +74,9 @@ parse_sparkcontrol_spectrum <- function(data_csv, metadata_csv, wellstart = "A1"
   # rearrange data ----------------------------------------------------------
 
   # add row and data columns at the end
-  joined_data <- joined_data |>
-    dplyr::mutate(row = substr(x = .data$well, start = 1, stop = 1)) |> # extract first element of well. this is row.
-    dplyr::mutate(column = as.numeric(substr(x = .data$well, start = 2, stop = nchar(.data$well)))) |> # extract column number.
+  joined_data <- joined_data %>%
+    dplyr::mutate(row = substr(x = .data$well, start = 1, stop = 1)) %>% # extract first element of well. this is row.
+    dplyr::mutate(column = as.numeric(substr(x = .data$well, start = 2, stop = nchar(.data$well)))) %>% # extract column number.
     dplyr::arrange(dplyr::across(c(.data$row, .data$column))) # sort rows by row > column
 
   # write parsed data to csv ------------------------------------------------

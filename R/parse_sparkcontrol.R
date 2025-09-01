@@ -81,17 +81,17 @@ parse_sparkcontrol <- function(data_csv, metadata_csv, timeseries = FALSE) {
       # rename time column
       colnames(new_block)[1] <- "time" # new - rename time column
       # convert time to minutes, round to nearest minute # new
-      new_block <- new_block |>
-        dplyr::mutate(time = as.numeric(.data$time)) |> # change to numeric else division fails
+      new_block <- new_block %>%
+        dplyr::mutate(time = as.numeric(.data$time)) %>% # change to numeric else division fails
         dplyr::mutate(time = round(.data$time/60, 1))
       # new_block[1:6,c(1:10)] # check
 
       ## create wells column
       # pivot table to create 'wells' column, which is needed to do the join w the metadata
-      new_block <- new_block |>
+      new_block <- new_block %>%
         tidyr::pivot_longer(cols = c(2:ncol(new_block)),
                             names_to = "well",
-                            values_to = "value") |>
+                            values_to = "value") %>%
         dplyr::mutate(value = as.numeric(.data$value)) # ensure all data columns are numeric
       # new_block[1:6,] # check
 
@@ -112,10 +112,10 @@ parse_sparkcontrol <- function(data_csv, metadata_csv, timeseries = FALSE) {
     # rearrange data ----------------------------------------------------------
 
     ## create separate column for each of the measures/readings
-    wide_data <- all_data |>
-      tidyr::pivot_wider(names_from = .data$measure, values_from = .data$value) |> # pivot to create new columns for each reading/measure
-      dplyr::mutate(row = substr(x = .data$well, start = 1, stop = 1)) |> # extract first element of well. this is row.
-      dplyr::mutate(column = as.numeric(substr(x = .data$well, start = 2, stop = nchar(.data$well)))) |> # extract column number.
+    wide_data <- all_data %>%
+      tidyr::pivot_wider(names_from = .data$measure, values_from = .data$value) %>% # pivot to create new columns for each reading/measure
+      dplyr::mutate(row = substr(x = .data$well, start = 1, stop = 1)) %>% # extract first element of well. this is row.
+      dplyr::mutate(column = as.numeric(substr(x = .data$well, start = 2, stop = nchar(.data$well)))) %>% # extract column number.
       dplyr::arrange(dplyr::across(c(.data$row, .data$column))) # sort rows by row > column
 
     # write parsed data to csv ------------------------------------------------
@@ -149,7 +149,7 @@ parse_sparkcontrol <- function(data_csv, metadata_csv, timeseries = FALSE) {
 
       ## grab the data
       new_block <- data[block_start_idx[i]:(block_start_idx[i]+7), 2:13] # get data - 8x12
-      new_block <- new_block |>
+      new_block <- new_block %>%
         dplyr::mutate(dplyr::across(tidyselect::everything(), as.numeric)) # make sure data is all numeric
       new_block
 
@@ -159,10 +159,10 @@ parse_sparkcontrol <- function(data_csv, metadata_csv, timeseries = FALSE) {
       colnames(new_block) <- c(1:12)
       new_block
       # convert matrix to dataframe with rownames preserved
-      new_block <- new_block |>
-        tibble::rownames_to_column(var = "row") |>
-        tidyr::pivot_longer(cols = -row, names_to = "column", values_to = "value") |>
-        dplyr::mutate(well = paste0(.data$row, .data$column)) |>
+      new_block <- new_block %>%
+        tibble::rownames_to_column(var = "row") %>%
+        tidyr::pivot_longer(cols = -row, names_to = "column", values_to = "value") %>%
+        dplyr::mutate(well = paste0(.data$row, .data$column)) %>%
         dplyr::select(.data$well, .data$value)
       new_block
 
@@ -179,10 +179,10 @@ parse_sparkcontrol <- function(data_csv, metadata_csv, timeseries = FALSE) {
     # rearrange data ----------------------------------------------------------
 
     # create separate column for each of the measures/readings
-    wide_data <- all_data |>
-      tidyr::pivot_wider(names_from = .data$measure, values_from = .data$value) |> # pivot to create new columns for each reading/measure
-      dplyr::mutate(row = substr(x = .data$well, start = 1, stop = 1)) |> # extract first element of well. this is row.
-      dplyr::mutate(column = as.numeric(substr(x = .data$well, start = 2, stop = nchar(.data$well)))) |> # extract column number.
+    wide_data <- all_data %>%
+      tidyr::pivot_wider(names_from = .data$measure, values_from = .data$value) %>% # pivot to create new columns for each reading/measure
+      dplyr::mutate(row = substr(x = .data$well, start = 1, stop = 1)) %>% # extract first element of well. this is row.
+      dplyr::mutate(column = as.numeric(substr(x = .data$well, start = 2, stop = nchar(.data$well)))) %>% # extract column number.
       dplyr::arrange(dplyr::across(c(.data$row, .data$column))) # sort rows by row > column
 
     # write parsed data to csv ------------------------------------------------
