@@ -76,25 +76,22 @@
     <loc>https://ec363.github.io/fpcountr/reference/find_wells_in_rowcolumn.html</loc>
   </url>
   <url>
-    <loc>https://ec363.github.io/fpcountr/reference/flu_norm.html</loc>
-  </url>
-  <url>
     <loc>https://ec363.github.io/fpcountr/reference/fpbase_data.html</loc>
   </url>
   <url>
     <loc>https://ec363.github.io/fpcountr/reference/generate_cfs.html</loc>
   </url>
   <url>
-    <loc>https://ec363.github.io/fpcountr/reference/get_conc_A280.html</loc>
-  </url>
-  <url>
-    <loc>https://ec363.github.io/fpcountr/reference/get_conc_ECmax.html</loc>
+    <loc>https://ec363.github.io/fpcountr/reference/get_conc_a280.html</loc>
   </url>
   <url>
     <loc>https://ec363.github.io/fpcountr/reference/get_conc_bca.html</loc>
   </url>
   <url>
-    <loc>https://ec363.github.io/fpcountr/reference/get_extcoeff_A280.html</loc>
+    <loc>https://ec363.github.io/fpcountr/reference/get_conc_ecmax.html</loc>
+  </url>
+  <url>
+    <loc>https://ec363.github.io/fpcountr/reference/get_extcoeff_a280.html</loc>
   </url>
   <url>
     <loc>https://ec363.github.io/fpcountr/reference/get_fpbase_properties.html</loc>
@@ -109,9 +106,6 @@
     <loc>https://ec363.github.io/fpcountr/reference/get_pathlength.html</loc>
   </url>
   <url>
-    <loc>https://ec363.github.io/fpcountr/reference/get_properties.html</loc>
-  </url>
-  <url>
     <loc>https://ec363.github.io/fpcountr/reference/index.html</loc>
   </url>
   <url>
@@ -121,19 +115,10 @@
     <loc>https://ec363.github.io/fpcountr/reference/kfactors_temperature_data.html</loc>
   </url>
   <url>
-    <loc>https://ec363.github.io/fpcountr/reference/magellan_parse.html</loc>
-  </url>
-  <url>
-    <loc>https://ec363.github.io/fpcountr/reference/magellan_spectrum_parse.html</loc>
-  </url>
-  <url>
     <loc>https://ec363.github.io/fpcountr/reference/norm_flu.html</loc>
   </url>
   <url>
     <loc>https://ec363.github.io/fpcountr/reference/norm_od.html</loc>
-  </url>
-  <url>
-    <loc>https://ec363.github.io/fpcountr/reference/od_norm.html</loc>
   </url>
   <url>
     <loc>https://ec363.github.io/fpcountr/reference/parse_magellan.html</loc>
@@ -149,9 +134,6 @@
   </url>
   <url>
     <loc>https://ec363.github.io/fpcountr/reference/pathlength_water_data.html</loc>
-  </url>
-  <url>
-    <loc>https://ec363.github.io/fpcountr/reference/plot_absorbance_spectrum.html</loc>
   </url>
   <url>
     <loc>https://ec363.github.io/fpcountr/reference/process_absorbance_spectrum.html</loc>
