@@ -8665,6 +8665,11 @@ measurements at low and high gain.</p>
 <code class="sourceCode R"><span><span class="va">processed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/process_plate.html">process_plate</a></span><span class="op">(</span></span>
 <span>  data_csv <span class="op">=</span> <span class="st">"data/example_experiment_parsed.csv"</span>,</span>
 <span>  blank_well <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A11"</span>, <span class="st">"B11"</span>, <span class="st">"C11"</span>, <span class="st">"D11"</span>, <span class="st">"E11"</span>, <span class="st">"F11"</span>, <span class="st">"G11"</span>, <span class="st">"H11"</span><span class="op">)</span>,</span>
+<span>  </span>
+<span>  <span class="co"># timecourse</span></span>
+<span>  timecourse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  </span>
+<span>  <span class="co"># od</span></span>
 <span>  od_name <span class="op">=</span> <span class="st">"OD700"</span>,</span>
 <span>  </span>
 <span>  <span class="co"># fluorescence labels</span></span>
@@ -8703,7 +8708,13 @@ measurements at low and high gain.</p>
 <code>blank_well</code> - location of wells containing only growth
 media</li>
 <li>
-<code>od_name</code> - name of column containing OD values</li>
+<code>timecourse</code> - whether data is timecourse/kinetic data
+(requires a ‘time’ column) or not (TRUE/FALSE). See ‘Experiments II’
+vignette.</li>
+<li>
+<code>od_name</code> - name of column containing OD values. If no OD
+or cell number measurements were taken, use
+<code>od_name = NULL</code>.</li>
 </ul>
 <p>Fluorescence channel names:</p>
 <ul>
@@ -9452,6 +9463,7 @@ cell.</p>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pc_data_mTagBFP2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_fppercell.html">calc_fppercell</a></span><span class="op">(</span></span>
 <span>  data_csv <span class="op">=</span> <span class="st">"experiment_analysis/example_experiment_parsed_processed.csv"</span>,</span>
+<span>  timecourse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  flu_channels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blueblue"</span><span class="op">)</span>,</span>
 <span>  flu_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mTagBFP2"</span><span class="op">)</span>,</span>
 <span>  remove_wells <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A11"</span>, <span class="st">"B11"</span>, <span class="st">"C11"</span>, <span class="st">"D11"</span>, <span class="st">"E11"</span>, <span class="st">"F11"</span>, <span class="st">"G11"</span>, <span class="st">"H11"</span>, <span class="co"># media</span></span>
@@ -9465,6 +9477,10 @@ cell.</p>
 <ul>
 <li>
 <code>data_csv</code> - file path of the absorbance data file</li>
+<li>
+<code>timecourse</code> - whether data is timecourse/kinetic data
+(requires a ‘time’ column) or not (TRUE/FALSE). See ‘Experiments II’
+vignette.</li>
 <li>
 <code>flu_channels</code> - column names in your data that represent
 the fluorescence channel(s)</li>
@@ -10094,6 +10110,7 @@ concentration. This is somewhat similar in structure to the above.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">molar_data_mTagBFP2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_fpconc.html">calc_fpconc</a></span><span class="op">(</span></span>
 <span>  data_csv <span class="op">=</span> <span class="st">"experiment_analysis/example_experiment_parsed_processed.csv"</span>,</span>
+<span>  timecourse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  flu_channels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blueblue"</span><span class="op">)</span>,</span>
 <span>  flu_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mTagBFP2"</span><span class="op">)</span>,</span>
 <span>  remove_wells <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A11"</span>, <span class="st">"B11"</span>, <span class="st">"C11"</span>, <span class="st">"D11"</span>, <span class="st">"E11"</span>, <span class="st">"F11"</span>, <span class="st">"G11"</span>, <span class="st">"H11"</span>, <span class="co"># media</span></span>
@@ -10117,6 +10134,10 @@ concentration. This is somewhat similar in structure to the above.</p>
 <ul>
 <li>
 <code>data_csv</code> - file path of the absorbance data file</li>
+<li>
+<code>timecourse</code> - whether data is timecourse/kinetic data
+(requires a ‘time’ column) or not (TRUE/FALSE). See ‘Experiments II’
+vignette.</li>
 <li>
 <code>flu_channels</code> - column names in your data that represent
 the fluorescence channel(s)</li>

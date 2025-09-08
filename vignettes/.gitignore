@@ -1,6 +1,18 @@
 *.html
 *.R
 
+conversion_factors/example_fluorescence_meta_joined.csv
+conversion_factors/example_fluorescence_parsed_cfs_flu1.pdf
+conversion_factors/example_fluorescence_parsed_cfs_flu2.pdf
+conversion_factors/example_fluorescence_parsed_cfs_flu3.pdf
+conversion_factors/example_fluorescence_parsed_cfs_flu4.pdf
+conversion_factors/example_fluorescence_parsed_cfs.csv
+
+experiment_analysis/blueblue_autofluorescence_normalisation_curve.pdf
+experiment_analysis/example_experiment_parsed_processed_conc.csv
+experiment_analysis/example_experiment_parsed_processed_percell.csv
+experiment_analysis/mTagBFP2_calibrated_conc.pdf
+experiment_analysis/mTagBFP2_calibrated_percell.pdf
+experiment_analysis2/mTagBFP2_calibrated_percell.pdf
+
 fp_quantification/
-conversion_factors/
-experiment_analysis/

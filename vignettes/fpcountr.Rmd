@@ -983,6 +983,11 @@ Process the experimental data using `process_plate()`.
 processed_data <- process_plate(
   data_csv = "data/example_experiment_parsed.csv",
   blank_well = c("A11", "B11", "C11", "D11", "E11", "F11", "G11", "H11"),
+  
+  # timecourse
+  timecourse = TRUE,
+  
+  # od
   od_name = "OD700",
   
   # fluorescence labels
@@ -1019,6 +1024,11 @@ processed_data <- process_plate(
 processed_data <- process_plate(
   data_csv = "data/example_experiment_parsed.csv",
   blank_well = c("A11", "B11", "C11", "D11", "E11", "F11", "G11", "H11"),
+  
+  # timecourse
+  timecourse = TRUE,
+  
+  # od
   od_name = "OD700",
   
   # fluorescence labels
@@ -1055,7 +1065,8 @@ Arguments required:
 
 - `data_csv` - file path of the absorbance data file
 - `blank_well` - location of wells containing only growth media
-- `od_name` - name of column containing OD values
+- `timecourse` - whether data is timecourse/kinetic data (requires a 'time' column) or not (TRUE/FALSE). See 'Experiments II' vignette.
+- `od_name` - name of column containing OD values. If no OD or cell number measurements were taken, use `od_name = NULL`.
 
 Fluorescence channel names:
 
@@ -1202,6 +1213,7 @@ Calibration (red=calibrated):
 ```{r, eval=TRUE}
 pc_data_mTagBFP2 <- calc_fppercell(
   data_csv = "experiment_analysis/example_experiment_parsed_processed.csv",
+  timecourse = TRUE,
   flu_channels = c("blueblue"),
   flu_labels = c("mTagBFP2"),
   remove_wells = c("A11", "B11", "C11", "D11", "E11", "F11", "G11", "H11", # media
@@ -1216,6 +1228,7 @@ pc_data_mTagBFP2 <- calc_fppercell(
 Arguments required:
 
 - `data_csv` - file path of the absorbance data file
+- `timecourse` - whether data is timecourse/kinetic data (requires a 'time' column) or not (TRUE/FALSE). See 'Experiments II' vignette.
 - `flu_channels` - column names in your data that represent the fluorescence channel(s)
 - `flu_labels` - what to label fluorescence axes in plots
 - `remove_wells` - list of wells to leave out of analysis, e.g. if they contained media or were empty
@@ -1320,6 +1333,7 @@ At the final timepoint, we can see that the abundance of mTagBFP2 in these sampl
 ```{r, eval=TRUE}
 molar_data_mTagBFP2 <- calc_fpconc(
   data_csv = "experiment_analysis/example_experiment_parsed_processed.csv",
+  timecourse = TRUE,
   flu_channels = c("blueblue"),
   flu_labels = c("mTagBFP2"),
   remove_wells = c("A11", "B11", "C11", "D11", "E11", "F11", "G11", "H11", # media
@@ -1339,6 +1353,7 @@ molar_data_mTagBFP2 <- calc_fpconc(
 Arguments required:
 
 - `data_csv` - file path of the absorbance data file
+- `timecourse` - whether data is timecourse/kinetic data (requires a 'time' column) or not (TRUE/FALSE). See 'Experiments II' vignette.
 - `flu_channels` - column names in your data that represent the fluorescence channel(s)
 - `flu_labels` - what to label fluorescence axes in plots
 - `remove_wells` - list of wells to leave out of analysis, e.g. if they contained media or were empty

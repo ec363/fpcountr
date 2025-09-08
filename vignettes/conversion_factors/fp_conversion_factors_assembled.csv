@@ -1,0 +1,10 @@
+"instrument","plate","channel_name","media","calibrant","measure","gain","cf","beta"
+"spark1","clear","blueblue","T5N15_pi","mTagBFP2","blueblue040",40,4.32511791295836e-12,1.75649846634769e-11
+"spark1","clear","blueblue","T5N15_pi","mTagBFP2","blueblue050",50,2.30770381726325e-11,2.50311304675415e-11
+"spark1","clear","blueblue","T5N15_pi","mTagBFP2","blueblue060",60,9.06762695312501e-11,-2.5338134765625e-11
+"spark1","clear","blueblue","T5N15_pi","mTagBFP2","blueblue070",70,2.86684764605015e-10,4.37262361682951e-11
+"spark1","clear","blueblue","T5N15_pi","mTagBFP2","blueblue080",80,6.94841073304414e-10,1.05701479762793e-10
+"spark1","clear","blueblue","T5N15_pi","mTagBFP2","blueblue090",90,1.58221009485525e-09,3.16463503211999e-10
+"spark1","clear","blueblue","T5N15_pi","mTagBFP2","blueblue100",100,3.33537919044494e-09,6.19926328659057e-10
+"spark1","clear","blueblue","T5N15_pi","mTagBFP2","blueblue110",110,6.4995782868564e-09,1.21788268104196e-09
+"spark1","clear","blueblue","T5N15_pi","mTagBFP2","blueblue120",120,1.17032604173198e-08,2.17883941154927e-09
