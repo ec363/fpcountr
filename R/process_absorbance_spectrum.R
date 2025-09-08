@@ -513,32 +513,6 @@ process_absorbance_spectrum <- function(
   # 4. Summarise (take means) -------------------------------------------------------
 
   # Take mean of duplicate readings for: raw_value, normalised_value, normalised_cm1_value
-
-  # # v1
-  # names(norm_values)
-  # summ_values <- norm_values %>%
-  #   dplyr::group_by(.data$instrument, .data$plate, .data$seal,
-  #                   # .data$channel_name, .data$channel_ex, .data$channel_em, # removed
-  #                   .data$media, .data$calibrant, .data$protein,
-  #                   # replicate will vary
-  #                   .data$mw_gmol1, .data$concentration_ngul, .data$dilution, .data$rev_dilution, .data$volume,
-  #                   # well, row, column will vary
-  #                   .data$measure,
-  #                   ## raw_value # TAKING MEAN
-  #                   .data$kfactor_1cm,
-  #                   # .data$kfactor_well, .data$pathlength_each, # will vary
-  #                   # .data$pathlength_blanks, # remove as removing pathlength_each
-  #                   # .data$pathlength_volume, # remove as removing pathlength_each
-  #                   .data$pathlength_method,
-  #                   # .data$pathlength, # might vary
-  #                   ## raw_cm1_value, # TAKING MEAN
-  #                   .data$raw_cm1_blanks,
-  #                   ## normalised_cm1_value # TAKING MEAN
-  #                   .drop = FALSE) %>%
-  #   dplyr::summarise(dplyr::across(dplyr::ends_with("_value"), ~mean(.x, na.rm = TRUE)))
-  # summ_values
-
-  # v2
   summ_values <- norm_values %>%
 
     # For each dilution and wavelength
