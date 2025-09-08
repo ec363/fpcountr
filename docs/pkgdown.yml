@@ -5,10 +5,11 @@ articles:
   data_parsing: data_parsing.html
   expts_i_timecourse_cell: expts_i_timecourse_cell.html
   expts_ii_endpoint: expts_ii_endpoint.html
+  expts_iii_cell_free: expts_iii_cell_free.html
   fpcountr: fpcountr.html
   path_lengths: path_lengths.html
   plate_formatting_functions: plate_formatting_functions.html
-last_built: 2025-09-08T09:59Z
+last_built: 2025-09-08T10:12Z
 urls:
   reference: https://ec363.github.io/fpcountr/reference
   article: https://ec363.github.io/fpcountr/articles
