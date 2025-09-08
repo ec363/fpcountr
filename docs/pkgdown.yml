@@ -3,10 +3,11 @@ pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   data_parsing: data_parsing.html
+  expts_i_timecourse_cell: expts_i_timecourse_cell.html
   fpcountr: fpcountr.html
   path_lengths: path_lengths.html
   plate_formatting_functions: plate_formatting_functions.html
-last_built: 2025-09-08T08:50Z
+last_built: 2025-09-08T09:00Z
 urls:
   reference: https://ec363.github.io/fpcountr/reference
   article: https://ec363.github.io/fpcountr/articles

@@ -1,0 +1,44 @@
+---
+title: "Experiments I: Timecourse Cellular Fluorescence"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Experiments I: Timecourse Cellular Fluorescence}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+<style type="text/css">
+code.r{ /* Code block */
+    font-size: 11px;
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 13px;
+}
+</style>
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<p align="center">
+  <img src="../man/figures/gh_overview2.png" width="720" />
+</p>
+
+FPCountR can be used to process and analyse fluorescence data of many types from any plate reader. While calibrated fluorescence measurements are recommended, calibration is optional. These 'Experiment' vignettes describe the broad types of data for which FPCountR is functional.
+
+1. Timecourse cellular fluorescence
+2. Endpoint cellular fluorescence
+3. Cell-free fluorescence
+
+---
+
+## Timecourse cellular fluorescence
+
+<p align="center">
+  <img src="../man/figures/exptanalysisoverview_1.png" width="720" />
+</p>
+
+Analysing (1) Timecourse cellular fluorescence data is covered in full in the 'Getting Started' vignette: see 'Example Code' -> 'Processing data from E. coli fluorescent protein expression experiments'.
+
+For (2) Endpoint and (3) Cell-free data, see vignettes 'Experiment II-III'.
