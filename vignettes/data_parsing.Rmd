@@ -25,11 +25,11 @@ The first step in any data analysis workflow is converting raw data produced by 
 
 <p align="center">
 
-<img src="../man/figures/gh_overview.png" width="720"/>
+<img src="../man/figures/gh_overview1.png" width="720"/>
 
 </p>
 
-Data parsing functions read raw data to (1) extract data from the raw data file (removing unnecessary information), (2) tidy data into a so-called 'tidy data'\* format and (3) join data to appropriate metadata necessary for their analysis (such as information about the details of the samples in each well, the identity of the plate reader used, etc.).
+Data parsing functions read raw data to: (1) extract data from the raw data file (removing unnecessary information), (2) tidy data into a so-called 'tidy data'\* format and (3) join data to appropriate metadata necessary for their analysis (such as information about the details of the samples in each well, the identity of the plate reader used, etc.).
 
 \**Tidy data is of the form where every column is a variable, every row is an observation, and every cell contains a single value.*
 
