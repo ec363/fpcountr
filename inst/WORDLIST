@@ -1,5 +1,6 @@
 ANMR
 BCA
+CMD
 Commun
 Daltons
 ECmax
@@ -31,6 +32,7 @@ Raitio
 SparkControl
 Tecan
 Thermo
+Timecourse
 Tris
 Volkmer
 WebPlotDigitizer
@@ -46,6 +48,7 @@ fluordata
 fluorophore
 fluorophores
 fpbase
+heatmaps
 io
 loess
 mCherry
