@@ -135,9 +135,10 @@ processed_data <- process_plate(
 )
 ```
 
-```{r, eval=TRUE, echo=FALSE, warning=FALSE}
+```{r, eval=FALSE, echo=FALSE, warning=FALSE}
 
 # AS ABOVE BUT WITH CSV_ONLY = TRUE AND NEW OUTFOLDER
+# eventually include as eval=TRUE
 
 processed_data <- process_plate(
   data_csv = "data/example_experiment2_parsed.csv",
@@ -190,11 +191,11 @@ processed_data[14:24,c(3,6,8,14:20)] # view a fragment of the dataframe
 
 ```{r, eval=TRUE, echo=FALSE, warning=FALSE}
 
-# v1 from chunk above
-data_to_display <- processed_data[14:24,c(3,6,8,14:20)]
-# # v2 from file
-# processed_data <- read.csv("experiment_analysis2/example_experiment2_parsed_processed.csv")
+# # v1 from chunk above
 # data_to_display <- processed_data[14:24,c(3,6,8,14:20)]
+# v2 from file
+processed_data <- read.csv("experiment_analysis2/example_experiment2_parsed_processed.csv")
+data_to_display <- processed_data[14:24,c(3,6,8,14:20)]
 
 data_to_display |>
   gt::gt() |>
@@ -284,9 +285,10 @@ pc_data_mTagBFP2 <- calc_fppercell(
 )
 ```
 
-```{r, eval=TRUE, echo=FALSE}
+```{r, eval=FALSE, echo=FALSE}
 
 # AS ABOVE BUT TWEAKED OUTFOLDER
+# eventually include as eval=TRUE
 
 pc_data_mTagBFP2 <- calc_fppercell(
   data_csv = "experiment_analysis2/example_experiment2_parsed_processed.csv",
@@ -317,13 +319,13 @@ data_to_display[c(13:15,19:21,25:27,31:33),]
 
 ```{r, eval=TRUE, echo=FALSE, warning=FALSE}
 
-# v1 from chunk above
-data_to_display <- pc_data_mTagBFP2 |>
-  dplyr::select(plasmid, ara_pc, OD700, calibrated_OD, blueblue, calibrated_mTagBFP2, calibratedmTagBFP2_perCell)
-# # v2 from file
-# pc_data_mTagBFP2 <- read.csv("experiment_analysis2/example_experiment2_parsed_processed_percell.csv")
+# # v1 from chunk above
 # data_to_display <- pc_data_mTagBFP2 |>
 #   dplyr::select(plasmid, ara_pc, OD700, calibrated_OD, blueblue, calibrated_mTagBFP2, calibratedmTagBFP2_perCell)
+# v2 from file
+pc_data_mTagBFP2 <- read.csv("experiment_analysis2/example_experiment2_parsed_processed_percell.csv")
+data_to_display <- pc_data_mTagBFP2 |>
+  dplyr::select(plasmid, ara_pc, OD700, calibrated_OD, blueblue, calibrated_mTagBFP2, calibratedmTagBFP2_perCell)
 
 data_to_display <- data_to_display[c(13:15,19:21,25:27,31:33),]
 data_to_display |>
