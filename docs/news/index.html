@@ -59,6 +59,70 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.0" id="fpcountr-v100">fpcountr v1.0.0<a class="anchor" aria-label="anchor" href="#fpcountr-v100"></a></h2>
+<div class="section level4">
+<h4 id="new-functionality-1-0-0">New functionality<a class="anchor" aria-label="anchor" href="#new-functionality-1-0-0"></a></h4>
+<ul><li>Added ability to process single timepoint data to <code><a href="../reference/process_plate.html">process_plate()</a></code>, <code><a href="../reference/calc_fppercell.html">calc_fppercell()</a></code> and <code><a href="../reference/calc_fpconc.html">calc_fpconc()</a></code> with <code>timecourse = FALSE</code> argument. These produce 96-well heatmap plots in place of timecourse plots.</li>
+<li>Added ability to process fluorescence data without OD (cell free fluorescence data) to <code><a href="../reference/process_plate.html">process_plate()</a></code>. This is triggered by <code>od_name = NULL</code>.</li>
+<li>Added parsers for Tecan Spark plate reader running SparkControl software: <code><a href="../reference/parse_sparkcontrol.html">parse_sparkcontrol()</a></code> for standard/endpoint or timecourse/kinetic data, and <code><a href="../reference/parse_sparkcontrol_spectrum.html">parse_sparkcontrol_spectrum()</a></code> for spectrum data.</li>
+<li>Added new plate formatting functions: <code><a href="../reference/find_wells.html">find_wells()</a></code>, <code><a href="../reference/find_wells_in_row.html">find_wells_in_row()</a></code>, <code><a href="../reference/find_wells_in_column.html">find_wells_in_column()</a></code> and <code><a href="../reference/find_wells_in_rowcolumn.html">find_wells_in_rowcolumn()</a></code>. These enable plate reader experiment analysis using plates of any size from 6- to 384-well sizes. The functions can also be used as helpers as a shorthand for referring to all wells in a given row, e.g. for specifying blank or empty wells in <code><a href="../reference/process_plate.html">process_plate()</a></code>, <code><a href="../reference/calc_fppercell.html">calc_fppercell()</a></code> or <code><a href="../reference/calc_fpconc.html">calc_fpconc()</a></code>. They also help behind the scenes to fit plots produced by <code><a href="../reference/process_plate.html">process_plate()</a></code>, <code><a href="../reference/calc_fppercell.html">calc_fppercell()</a></code> and <code><a href="../reference/calc_fpconc.html">calc_fpconc()</a></code> to the plate size automatically.</li>
+<li>Added new function to generate metadata template files, <code><a href="../reference/save_metadata_template.html">save_metadata_template()</a></code>.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="updated-functions-1-0-0">Updated functions<a class="anchor" aria-label="anchor" href="#updated-functions-1-0-0"></a></h4>
+<ul><li>Standardised function names by:
+<ul><li>adopting verb-first function names, i.e. <code>parse_[instrument_software_name]()</code>, e.g. <code>magellan_parse()</code> -&gt; <code><a href="../reference/parse_magellan.html">parse_magellan()</a></code>, <code>magellan_spectrum_parse()</code> -&gt; <code><a href="../reference/parse_magellan_spectrum.html">parse_magellan_spectrum()</a></code>
+</li>
+<li>clarifying others e.g. <code>get_properties()</code> -&gt; <code><a href="../reference/get_fpbase_properties.html">get_fpbase_properties()</a></code>, <code>plot_absorbance_spectrum()</code> -&gt; <code><a href="../reference/process_absorbance_spectrum.html">process_absorbance_spectrum()</a></code>
+</li>
+<li>standardising them as all lowercase e.g. <code>get_conc_A280()</code> -&gt; <code><a href="../reference/get_conc_a280.html">get_conc_a280()</a></code>, <code>get_conc_ECmax()</code> -&gt; <code><a href="../reference/get_conc_ecmax.html">get_conc_ecmax()</a></code>.</li>
+</ul></li>
+<li>Standardised argument names: <code>layout_csv</code> updated to <code>metadata_csv</code> in parsers and <code><a href="../reference/generate_cfs.html">generate_cfs()</a></code>.</li>
+<li>Standardised saved file names from <code><a href="../reference/process_plate.html">process_plate()</a></code>, <code><a href="../reference/calc_fppercell.html">calc_fppercell()</a></code> and <code><a href="../reference/calc_fpconc.html">calc_fpconc()</a></code>.</li>
+<li>Standardised plot styles in <code><a href="../reference/process_plate.html">process_plate()</a></code> and <code><a href="../reference/calc_fppercell.html">calc_fppercell()</a></code>.</li>
+<li>Corrected plot labels in <code><a href="../reference/process_plate.html">process_plate()</a></code>.</li>
+<li>Removed hardcoded requirement in certain functions (<code><a href="../reference/process_absorbance_spectrum.html">process_absorbance_spectrum()</a></code>, <code><a href="../reference/get_conc_ecmax.html">get_conc_ecmax()</a></code>, <code><a href="../reference/generate_cfs.html">generate_cfs()</a></code>) for specific column names.</li>
+<li>Removed the ability of any function to silently save files. Most functions will now only save files if <code>outfolder</code> is specified as a valid path. Parsers only save files if <code>save_file</code> is set to <code>TRUE</code>.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="breaking-changes-1-0-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-0-0"></a></h4>
+<ul><li>Parsing functions now only save files if <code>save_file</code> is set to <code>TRUE</code>. Without this, they just return the parsed data as a dataframe.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="new-and-updated-vignettes-1-0-0">New and updated vignettes<a class="anchor" aria-label="anchor" href="#new-and-updated-vignettes-1-0-0"></a></h4>
+<ul><li>The <strong>Get Started</strong> vignette has been updated for clarity. Every relevant function and argument is now explained in the plate reader data parsing-calibration-quantification workflow, along with the details of all output CSV files. Updated plots at the end to clarify information gained from calibration. Code updated to improve concentration estimation in example.</li>
+<li>
+<strong>Data Parsing and Metadata</strong> vignette explains what the data parsing functions do, and the metadata they expect. It also shows you other ways to parse your data if the package functions don’t cover your plate reader.</li>
+<li>
+<strong>Path Lengths</strong> vignette describes why path length determination is important for calculating absolute concentrations from absorbance data, and the options for path length calculation within <code>plot_absorbance_spectrum()</code>.</li>
+<li>
+<strong>Experiments I: Timecourse cellular data</strong> describes how to use the experimental data processing functions (<code>process_data()</code> etc.) for data collected from microbial growth-linked fluorescent protein expression.</li>
+<li>
+<strong>Experiments II: Endpoint data</strong> describes how to use the experimental data processing functions (<code>process_data()</code> etc.) for data collected at a single timepoint, and the different types of plots it produces.</li>
+<li>
+<strong>Experiments III: Cell-free data</strong> describes how to use the experimental data processing functions (<code>process_data()</code> etc.) for fluorescence data collected without OD readings (e.g. for cell-free translation or purified FP quantification).</li>
+<li>
+<strong>Plate formatting functions</strong> vignette describes the use of functions such as <code><a href="../reference/find_wells_in_column.html">find_wells_in_column()</a></code>.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="updated-documentation-1-0-0">Updated documentation<a class="anchor" aria-label="anchor" href="#updated-documentation-1-0-0"></a></h4>
+<ul><li>Updated package Title and Description.</li>
+<li>Updated README.</li>
+<li>Added CITATION file.</li>
+<li>Updated function documentation.</li>
+<li>Updated website to Bootstrap 5, and to include new functions in Reference list.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="minor-bug-fixes-and-improvements-1-0-0">Minor bug fixes and improvements<a class="anchor" aria-label="anchor" href="#minor-bug-fixes-and-improvements-1-0-0"></a></h4>
+<ul><li>Numerous minor bug fixes.</li>
+<li>The OD name is now case insensitive in <code><a href="../reference/process_plate.html">process_plate()</a></code>.</li>
+<li>Improved error checks in <code><a href="../reference/process_plate.html">process_plate()</a></code>, <code>get_properties()</code> and <code>get_conc_ECmax()</code>.</li>
+<li>Fixed function examples in <code><a href="../reference/process_plate.html">process_plate()</a></code> and <code><a href="../reference/calc_fppercell.html">calc_fppercell()</a></code>.</li>
+<li>Updated <code><a href="../reference/parse_magellan.html">parse_magellan()</a></code> to follow tidyverse style code.</li>
+<li>Compressed image files on website to reduce package size.</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="fpcountr-v020">fpcountr v0.2.0<a class="anchor" aria-label="anchor" href="#fpcountr-v020"></a></h2>
 <ul><li>Improvements to functionality:
 <ul><li>
