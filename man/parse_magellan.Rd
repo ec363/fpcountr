@@ -17,7 +17,8 @@ parse_magellan(
   startcol = 2,
   endcol = 97,
   insert_wells_above = 0,
-  insert_wells_below = 0
+  insert_wells_below = 0,
+  save_file = FALSE
 )
 }
 \arguments{
@@ -74,6 +75,8 @@ tables.}
 
 \item{insert_wells_below}{numeric value corresponding to number of empty
 entries to insert after data in custom mode.}
+
+\item{save_file}{logical. Would you like to save the parsed file as a CSV?}
 }
 \value{
 a data.frame containing the parsed plate reader data
@@ -90,13 +93,14 @@ joining to relevant metadata.
   parsed_calib_plate <- parse_magellan(
     data_csv = "calibrations/20210104_calibration_data.csv",
     metadata_csv = "calibrations/20210104_calibration_metadata.csv",
-    timeseries = FALSE
+    timeseries = FALSE, save_file = TRUE
   )
 
   parsed_data <- parse_magellan(
     data_csv = "data/20210104_data.csv",
     metadata_csv = "data/20210104_metadata.csv",
-    timeseries = TRUE, timestart = "0s", interval = 30, mode = "read_first"
+    timeseries = TRUE, timestart = "0s", interval = 30, mode = "read_first",
+    save_file = TRUE
   )
 }
 }

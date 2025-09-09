@@ -4,7 +4,7 @@
 \alias{save_metadata_template}
 \title{Save a template metadata file}
 \usage{
-save_metadata_template(data_type, plate_type = 96, outfolder = ".")
+save_metadata_template(data_type, plate_type = 96, outfolder = "")
 }
 \arguments{
 \item{data_type}{type of data, from absorbance spectrum data for calibrations
@@ -13,8 +13,7 @@ experimental data ("exptdata").}
 
 \item{plate_type}{type of plate. numeric, i.e. \code{96} for 96-well plate.}
 
-\item{outfolder}{path to folder where output files should be saved. Defaults
-to current working directory}
+\item{outfolder}{path to folder where output files should be saved.}
 }
 \description{
 Save a CSV file containing the minimum columns required by the functions that

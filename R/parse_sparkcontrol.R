@@ -10,6 +10,7 @@
 #' @param data_csv path to CSV file from Tecan Spark plate reader
 #' @param metadata_csv path to CSV file containing metadata
 #' @param timeseries logical. Is the data a timeseries? Defaults to FALSE.
+#' @param save_file logical. Would you like to save the parsed file as a CSV?
 #'
 #' @return a data.frame containing the parsed plate reader data
 #' @export
@@ -21,16 +22,16 @@
 #'   parsed_calib_plate <- parse_sparkcontrol(
 #'     data_csv = "calibrations/20210104_calibration_data.csv",
 #'     metadata_csv = "calibrations/20210104_calibration_metadata.csv",
-#'     timeseries = FALSE
+#'     timeseries = FALSE, save_file = TRUE
 #'   )
 #'
 #'   parsed_data <- parse_sparkcontrol(
 #'     data_csv = "data/20210104_data.csv",
 #'     metadata_csv = "data/20210104_metadata.csv",
-#'     timeseries = TRUE
+#'     timeseries = TRUE, save_file = TRUE
 #'   )
 #' }
-parse_sparkcontrol <- function(data_csv, metadata_csv, timeseries = FALSE) {
+parse_sparkcontrol <- function(data_csv, metadata_csv, timeseries = FALSE, save_file = FALSE) {
 
   data <- utils::read.table(data_csv, sep = ",", blank.lines.skip = TRUE,
                             header = FALSE, stringsAsFactors = FALSE)
@@ -119,8 +120,10 @@ parse_sparkcontrol <- function(data_csv, metadata_csv, timeseries = FALSE) {
       dplyr::arrange(dplyr::across(c(.data$row, .data$column))) # sort rows by row > column
 
     # write parsed data to csv ------------------------------------------------
-    out_name <- gsub(".csv", "_parsed.csv", data_csv)
-    utils::write.csv(x = wide_data, file = out_name, row.names = FALSE)
+    if(save_file){
+      out_name <- gsub(".csv", "_parsed.csv", data_csv)
+      utils::write.csv(x = wide_data, file = out_name, row.names = FALSE)
+    }
 
     return(wide_data)
   } # timeseries true
@@ -186,8 +189,10 @@ parse_sparkcontrol <- function(data_csv, metadata_csv, timeseries = FALSE) {
       dplyr::arrange(dplyr::across(c(.data$row, .data$column))) # sort rows by row > column
 
     # write parsed data to csv ------------------------------------------------
-    out_name <- gsub(".csv", "_parsed.csv", data_csv)
-    utils::write.csv(x = wide_data, file = out_name, row.names = FALSE)
+    if(save_file){
+      out_name <- gsub(".csv", "_parsed.csv", data_csv)
+      utils::write.csv(x = wide_data, file = out_name, row.names = FALSE)
+    }
 
     return(wide_data)
   } # timeseries false

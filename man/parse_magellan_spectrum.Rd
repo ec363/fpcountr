@@ -8,7 +8,8 @@ parse_magellan_spectrum(
   data_csv,
   metadata_csv,
   wellstart = "A1",
-  wellend = "H12"
+  wellend = "H12",
+  save_file = FALSE
 )
 }
 \arguments{
@@ -21,6 +22,8 @@ file. Defaults to "A1".}
 
 \item{wellend}{character string representing last well recorded in data file.
 Defaults to "H12".}
+
+\item{save_file}{logical. Would you like to save the parsed file as a CSV?}
 }
 \value{
 a data.frame containing the parsed plate reader data
@@ -35,7 +38,8 @@ and data joining to relevant metadata.
   parsed_data <- parse_magellan_spectrum(
     data_csv = "data/20210104_data.csv",
     metadata_csv = "data/20210104_metadata.csv",
-    wellstart = "A1", wellend = "H12"
+    wellstart = "A1", wellend = "H12",
+    save_file = TRUE
   )
 }
 }

@@ -10,6 +10,7 @@
 #'   file. Defaults to "A1".
 #' @param wellend character string representing last well recorded in data file.
 #'   Defaults to "H12".
+#' @param save_file logical. Would you like to save the parsed file as a CSV?
 #'
 #' @return a data.frame containing the parsed plate reader data
 #' @export
@@ -21,11 +22,13 @@
 #'   parsed_data <- parse_magellan_spectrum(
 #'     data_csv = "data/20210104_data.csv",
 #'     metadata_csv = "data/20210104_metadata.csv",
-#'     wellstart = "A1", wellend = "H12"
+#'     wellstart = "A1", wellend = "H12",
+#'     save_file = TRUE
 #'   )
 #' }
 parse_magellan_spectrum <- function(data_csv, metadata_csv,
-                                    wellstart = "A1", wellend = "H12"
+                                    wellstart = "A1", wellend = "H12",
+                                    save_file = FALSE
 ) {
 
   data <- utils::read.table(data_csv, sep = ",", blank.lines.skip = TRUE,
@@ -71,8 +74,10 @@ parse_magellan_spectrum <- function(data_csv, metadata_csv,
   joined_data
 
   # write parsed data to csv ------------------------------------------------
-  out_name <- gsub(".csv", "_parsed.csv", data_csv)
-  utils::write.csv(x = joined_data, file = out_name, row.names = FALSE)
+  if(save_file){
+    out_name <- gsub(".csv", "_parsed.csv", data_csv)
+    utils::write.csv(x = joined_data, file = out_name, row.names = FALSE)
+  }
 
   return(joined_data)
 

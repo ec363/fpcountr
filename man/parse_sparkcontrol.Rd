@@ -4,7 +4,12 @@
 \alias{parse_sparkcontrol}
 \title{Parse Tecan Spark/SparkControl data from endpoint and kinetic assays}
 \usage{
-parse_sparkcontrol(data_csv, metadata_csv, timeseries = FALSE)
+parse_sparkcontrol(
+  data_csv,
+  metadata_csv,
+  timeseries = FALSE,
+  save_file = FALSE
+)
 }
 \arguments{
 \item{data_csv}{path to CSV file from Tecan Spark plate reader}
@@ -12,6 +17,8 @@ parse_sparkcontrol(data_csv, metadata_csv, timeseries = FALSE)
 \item{metadata_csv}{path to CSV file containing metadata}
 
 \item{timeseries}{logical. Is the data a timeseries? Defaults to FALSE.}
+
+\item{save_file}{logical. Would you like to save the parsed file as a CSV?}
 }
 \value{
 a data.frame containing the parsed plate reader data
@@ -29,13 +36,13 @@ function.
   parsed_calib_plate <- parse_sparkcontrol(
     data_csv = "calibrations/20210104_calibration_data.csv",
     metadata_csv = "calibrations/20210104_calibration_metadata.csv",
-    timeseries = FALSE
+    timeseries = FALSE, save_file = TRUE
   )
 
   parsed_data <- parse_sparkcontrol(
     data_csv = "data/20210104_data.csv",
     metadata_csv = "data/20210104_metadata.csv",
-    timeseries = TRUE
+    timeseries = TRUE, save_file = TRUE
   )
 }
 }

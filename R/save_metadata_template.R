@@ -12,8 +12,7 @@
 #'   ("absspectrum"), fluorescence data for calibrations ("fluordata") and
 #'   experimental data ("exptdata").
 #' @param plate_type type of plate. numeric, i.e. `96` for 96-well plate.
-#' @param outfolder path to folder where output files should be saved. Defaults
-#'   to current working directory
+#' @param outfolder path to folder where output files should be saved.
 #'
 #' @importFrom dplyr %>%
 #'
@@ -25,8 +24,18 @@
 save_metadata_template <- function(
     data_type, # absspectrum, fluordata, exptdata
     plate_type = 96,
-    outfolder = "."
+    outfolder = ""
 ){
+
+  # input checks
+  if(!(data_type %in% c("absspectrum", "fluordata", "exptdata"))){
+    message('Error: Please specify a valid data_type: "absspectrum", "fluordata" or "exptdata".')
+    return()
+  }
+  if(!dir.exists(outfolder)){
+    message("Error: Please specify a valid path for the location 'outfolder' where the file should be saved.")
+    return()
+  }
 
   message("Loading minimal template for chosen data type...")
   message("Plate type set to: ", plate_type, "-well plate...")
@@ -73,12 +82,12 @@ save_metadata_template <- function(
   template_df$well <- wells_list # add wells
 
   # save df
-  if(outfolder != "."){
-    # make folder if it doesn't exist already
-    ifelse(test = !dir.exists(file.path(outfolder)), yes = dir.create(file.path(outfolder)), no = FALSE)
-    message("Saving minimal template in folder: ", outfolder, " ...")
-  } else {
-    message("Saving minimal template in current folder...")
-  }
+  # if(outfolder != "."){
+  #   # make folder if it doesn't exist already
+  #   ifelse(test = !dir.exists(file.path(outfolder)), yes = dir.create(file.path(outfolder)), no = FALSE)
+  #   message("Saving minimal template in folder: ", outfolder, " ...")
+  # } else {
+  #   message("Saving minimal template in current folder...")
+  # }
   utils::write.csv(template_df, file.path(outfolder, filename), row.names = FALSE)
 }

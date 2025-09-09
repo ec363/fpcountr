@@ -47,6 +47,7 @@
 #'   tables.
 #' @param insert_wells_below numeric value corresponding to number of empty
 #'   entries to insert after data in custom mode.
+#' @param save_file logical. Would you like to save the parsed file as a CSV?
 #'
 #' @return a data.frame containing the parsed plate reader data
 #' @export
@@ -58,13 +59,14 @@
 #'   parsed_calib_plate <- parse_magellan(
 #'     data_csv = "calibrations/20210104_calibration_data.csv",
 #'     metadata_csv = "calibrations/20210104_calibration_metadata.csv",
-#'     timeseries = FALSE
+#'     timeseries = FALSE, save_file = TRUE
 #'   )
 #'
 #'   parsed_data <- parse_magellan(
 #'     data_csv = "data/20210104_data.csv",
 #'     metadata_csv = "data/20210104_metadata.csv",
-#'     timeseries = TRUE, timestart = "0s", interval = 30, mode = "read_first"
+#'     timeseries = TRUE, timestart = "0s", interval = 30, mode = "read_first",
+#'     save_file = TRUE
 #'   )
 #' }
 parse_magellan <- function(data_csv, metadata_csv, timeseries = FALSE,
@@ -73,7 +75,8 @@ parse_magellan <- function(data_csv, metadata_csv, timeseries = FALSE,
                            mode = "read_first", # mode can only be "read_first" or "incubate_first"
                            metadata_above = 0,
                            metadata_below = 0,
-                           custom = FALSE, startcol = 2, endcol = 97, insert_wells_above = 0, insert_wells_below = 0
+                           custom = FALSE, startcol = 2, endcol = 97, insert_wells_above = 0, insert_wells_below = 0,
+                           save_file = FALSE
 ) {
 
   # Get data ----------------------------------------------------------
@@ -206,8 +209,10 @@ parse_magellan <- function(data_csv, metadata_csv, timeseries = FALSE,
       dplyr::arrange(dplyr::across(c("time", "row", "column"))) # sort rows by time > row > column
 
     # write parsed data to csv ------------------------------------------------
-    out_name <- gsub(".csv", "_parsed.csv", data_csv)
-    utils::write.csv(x = wide_data, file = out_name, row.names = FALSE)
+    if(save_file){
+      out_name <- gsub(".csv", "_parsed.csv", data_csv)
+      utils::write.csv(x = wide_data, file = out_name, row.names = FALSE)
+    }
 
     return(wide_data)
   }
@@ -276,8 +281,10 @@ parse_magellan <- function(data_csv, metadata_csv, timeseries = FALSE,
       dplyr::arrange(dplyr::across(c("row", "column"))) # sort rows by row > column
 
     # write parsed data to csv ------------------------------------------------
-    out_name <- gsub(".csv", "_parsed.csv", data_csv)
-    utils::write.csv(x = wide_data, file = out_name, row.names = FALSE)
+    if(save_file){
+      out_name <- gsub(".csv", "_parsed.csv", data_csv)
+      utils::write.csv(x = wide_data, file = out_name, row.names = FALSE)
+    }
 
     return(wide_data)
   }
