@@ -13,7 +13,7 @@ get_conc_ecmax(
   corr_method = "none",
   wav_to_use1 = 340,
   wav_to_use2 = 333,
-  outfolder,
+  outfolder = "",
   csv_only = FALSE
 )
 }
@@ -50,8 +50,7 @@ correction. Defaults to 340nm.}
 \item{wav_to_use2}{numerical value of wavelength (nm) to use for \code{scatter}
 correction. Defaults to 333nm.}
 
-\item{outfolder}{path to folder where output files should be saved. Defaults
-to current working directory.}
+\item{outfolder}{path to folder where output files should be saved.}
 
 \item{csv_only}{logical. Saves only CSV files as outputs when \code{TRUE}.
 Defaults to \code{FALSE}.}

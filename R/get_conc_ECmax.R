@@ -48,8 +48,7 @@
 #'   correction. Defaults to 340nm.
 #' @param wav_to_use2 numerical value of wavelength (nm) to use for `scatter`
 #'   correction. Defaults to 333nm.
-#' @param outfolder path to folder where output files should be saved. Defaults
-#'   to current working directory.
+#' @param outfolder path to folder where output files should be saved.
 #' @param csv_only logical. Saves only CSV files as outputs when `TRUE`.
 #'   Defaults to `FALSE`.
 #'
@@ -72,7 +71,7 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
                            xrange = c(250,800),
                            corr_method = "none", # "none", "baseline", "scatter"
                            wav_to_use1 = 340, wav_to_use2 = 333,
-                           outfolder,
+                           outfolder = "",
                            csv_only = FALSE
 ){
 
@@ -98,6 +97,13 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
   }
 
   # Location for saved outputs -------------------------------------------------
+
+  # check if parent directory exists
+  parent_folder <- dirname(outfolder)
+  if(!dir.exists(parent_folder)){
+    message("Error: Please specify a valid path for the location 'outfolder' where files should be saved.")
+    return()
+  }
 
   # make folder if it doesn't exist already
   ifelse(test = !dir.exists(file.path(outfolder)), yes = dir.create(file.path(outfolder)), no = FALSE)

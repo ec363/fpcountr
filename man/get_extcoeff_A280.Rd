@@ -12,8 +12,8 @@ get_extcoeff_a280(
   protein_name = "-",
   buffer = "-",
   mol_weight = NULL,
-  save = TRUE,
-  outfolder = "."
+  save_file = FALSE,
+  outfolder = ""
 )
 }
 \arguments{
@@ -33,10 +33,9 @@ get_extcoeff_a280(
 specified the function gives extinction coefficients for 1\% (10mg/ml) and
 0.1\% (1mg/ml) solutions too.}
 
-\item{save}{logical. Should function save CSV file of output?}
+\item{save_file}{logical. Should function save CSV file of output?}
 
-\item{outfolder}{path to folder where output files should be saved. Defaults
-to current working directory.}
+\item{outfolder}{path to folder where output files should be saved.}
 }
 \description{
 Work out the theoretical molar extinction coefficient of a protein at 280nm

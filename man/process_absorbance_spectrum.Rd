@@ -14,7 +14,7 @@ process_absorbance_spectrum(
   buffer_used = "water",
   concentration_used = 0,
   temperature_used = 25,
-  outfolder = ".",
+  outfolder = "",
   csv_only = FALSE
 )
 }
@@ -61,8 +61,7 @@ Needs changing if using different buffer!}
 \item{temperature_used}{numeric value corresponding to temperature of assay,
 for use in path length determination. Defaults to 25.}
 
-\item{outfolder}{path to folder where output files should be saved. Defaults
-to current working directory.}
+\item{outfolder}{path to folder where output files should be saved.}
 
 \item{csv_only}{logical. Saves only CSV files as outputs when \code{TRUE}.
 Defaults to \code{FALSE}.}

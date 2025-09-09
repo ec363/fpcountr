@@ -14,9 +14,8 @@
 #' @param mol_weight numerical value for molecular weight (g/mol). Optional. If
 #'   specified the function gives extinction coefficients for 1% (10mg/ml) and
 #'   0.1% (1mg/ml) solutions too.
-#' @param save logical. Should function save CSV file of output?
-#' @param outfolder path to folder where output files should be saved. Defaults
-#'   to current working directory.
+#' @param save_file logical. Should function save CSV file of output?
+#' @param outfolder path to folder where output files should be saved.
 #'
 #' @export
 #'
@@ -24,7 +23,7 @@
 get_extcoeff_a280 <- function(protein, # "AAAWYCAAA"
                               disulphides = FALSE, showWarnings = TRUE, showMessages = TRUE,
                               protein_name = "-", buffer = "-", mol_weight = NULL,
-                              save = TRUE, outfolder = "."
+                              save_file = FALSE, outfolder = ""
                               ){
 
   # Get AAs ----------------------------------
@@ -81,7 +80,13 @@ get_extcoeff_a280 <- function(protein, # "AAAWYCAAA"
   EC280_table
 
   # Save table ----------------------------------
-  if(save){
+  if(save_file){
+
+    if(!dir.exists(outfolder)){
+      message("Error: Please specify a valid path for the location 'outfolder' where the file should be saved.")
+      message("File not saved..")
+    }
+
     csvname <- paste0("extcoeff_A280_", protein_name, ".csv")
     utils::write.csv(x = EC280_table, file = file.path(outfolder, csvname), row.names = FALSE)
   }

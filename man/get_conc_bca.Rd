@@ -11,7 +11,7 @@ get_conc_bca(
   buffer,
   protein_seq,
   option = "highest",
-  outfolder = "."
+  outfolder = ""
 )
 }
 \arguments{
@@ -41,8 +41,7 @@ determine the concentration of the other dilutions. The alternative, "fit",
 fits a \code{y=mx} linear model and uses that for the concentration
 determination.}
 
-\item{outfolder}{path to the folder where output files should be saved.
-Defaults to the current working directory.}
+\item{outfolder}{path to the folder where output files should be saved.}
 }
 \description{
 Get protein's concentration from a dilution series measured with the

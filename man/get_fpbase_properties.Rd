@@ -8,7 +8,7 @@ get_fpbase_properties(
   slug,
   verbose = TRUE,
   save_file = FALSE,
-  outfolder = ".",
+  outfolder = "",
   filename = "fp_properties.csv"
 )
 }
@@ -26,8 +26,7 @@ to check its progress? Defaults to TRUE.}
 \item{save_file}{logical. Should the function save the output as a CSV file?
 Defaults to FALSE.}
 
-\item{outfolder}{path to folder where output files should be saved. Defaults
-to current working directory.}
+\item{outfolder}{path to folder where output files should be saved.}
 
 \item{filename}{How to name the output CSV file. Requires \code{.csv} at the end.
 Defaults to \code{fp_properties.csv}.}

@@ -18,7 +18,7 @@ generate_cfs(
   rows_to_keep = c("C", "D"),
   separator = "",
   complete_blank = FALSE,
-  outfolder = "."
+  outfolder = ""
 )
 }
 \arguments{
@@ -70,7 +70,7 @@ plotting the gain vs conversion factors. Defaults to "".}
 "none"). Useful if metadata is missing these values. Defaults to FALSE.}
 
 \item{outfolder}{character string. Path to folder where output files should
-be saved. Defaults to current working directory.}
+be saved.}
 }
 \description{
 Generate conversion factors for fluorescent protein (FP) calibrations.

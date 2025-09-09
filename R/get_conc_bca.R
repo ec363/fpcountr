@@ -36,7 +36,6 @@
 #'   fits a `y=mx` linear model and uses that for the concentration
 #'   determination.
 #' @param outfolder path to the folder where output files should be saved.
-#'   Defaults to the current working directory.
 #'
 #' @export
 #' @importFrom dplyr %>%
@@ -53,7 +52,7 @@
 get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
                          calibr, buffer, protein_seq,
                          option = "highest", # "highest" or "fit"
-                         outfolder = "."){
+                         outfolder = ""){
 
   # Get data ---------------------------------------------------------------------------------------------------
 
@@ -90,6 +89,13 @@ get_conc_bca <- function(microbca_data_csv, a562_baseline_csv = NULL,
   }
 
   # Location for saved outputs ---------------------------------------------------------------------------------
+
+  # check if parent directory exists
+  parent_folder <- dirname(outfolder)
+  if(!dir.exists(parent_folder)){
+    message("Error: Please specify a valid path for the location 'outfolder' where files should be saved.")
+    return()
+  }
 
   # make folder if it doesn't exist already
   ifelse(test = !dir.exists(file.path(outfolder)), yes = dir.create(file.path(outfolder)), no = FALSE)

@@ -54,7 +54,7 @@
 #'   `concentration_ngul` column for wells identified as blank (`protein` =
 #'   "none"). Useful if metadata is missing these values. Defaults to FALSE.
 #' @param outfolder character string. Path to folder where output files should
-#'   be saved. Defaults to current working directory.
+#'   be saved.
 #'
 #' @export
 #' @importFrom dplyr %>%
@@ -78,13 +78,20 @@ generate_cfs <- function(calibration_csv,
                          subset_rows = FALSE, rows_to_keep = c("C","D"),
                          separator = "",
                          complete_blank = FALSE,
-                         outfolder = ".") {
+                         outfolder = "") {
 
   # 0. Get data and prep data -------------------------------------------------
 
   calibration_data <- utils::read.csv(calibration_csv, header = TRUE, check.names = FALSE)
 
   # Location for saved outputs -------------------------------------------------
+
+  # check if parent directory exists
+  parent_folder <- dirname(outfolder)
+  if(!dir.exists(parent_folder)){
+    message("Error: Please specify a valid path for the location 'outfolder' where files should be saved.")
+    return()
+  }
 
   # make folder if it doesn't exist already
   ifelse(test = !dir.exists(file.path(outfolder)), yes = dir.create(file.path(outfolder)), no = FALSE)

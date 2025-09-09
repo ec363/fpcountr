@@ -13,8 +13,7 @@
 #'   to check its progress? Defaults to TRUE.
 #' @param save_file logical. Should the function save the output as a CSV file?
 #'   Defaults to FALSE.
-#' @param outfolder path to folder where output files should be saved. Defaults
-#'   to current working directory.
+#' @param outfolder path to folder where output files should be saved.
 #' @param filename How to name the output CSV file. Requires `.csv` at the end.
 #'   Defaults to `fp_properties.csv`.
 #'
@@ -24,12 +23,23 @@
 #' @importFrom rlang .data :=
 #'
 #' @examples get_fpbase_properties("mcherry")
-get_fpbase_properties <- function(slug, verbose = TRUE, save_file = FALSE, outfolder = ".", filename = "fp_properties.csv"){
+get_fpbase_properties <- function(slug, verbose = TRUE, save_file = FALSE, outfolder = "", filename = "fp_properties.csv"){
 
   # Location for saved outputs ---------------------------------------------------------------------------------------------------
 
-  # make folder if it doesn't exist already
-  ifelse(test = !dir.exists(file.path(outfolder)), yes = dir.create(file.path(outfolder)), no = FALSE)
+  if(save_file){
+
+    # check if parent directory exists
+    parent_folder <- dirname(outfolder)
+    if(!dir.exists(parent_folder)){
+      message("Error: Please specify a valid path for the location 'outfolder' where files should be saved.")
+      return()
+    }
+
+    # make folder if it doesn't exist already
+    ifelse(test = !dir.exists(file.path(outfolder)), yes = dir.create(file.path(outfolder)), no = FALSE)
+
+  }
 
   ## Get FP properties -----------------------------------------------------------------------------------------------------------
 
@@ -116,7 +126,7 @@ get_fpbase_properties <- function(slug, verbose = TRUE, save_file = FALSE, outfo
 
   # Save and return ------------------------------
 
-  if(isTRUE(save_file)){
+  if(save_file){
     utils::write.csv(fp_properties, file.path(outfolder, filename), row.names = FALSE)
   }
 

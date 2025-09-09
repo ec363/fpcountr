@@ -16,7 +16,7 @@ get_conc_a280(
   corr_method = "none",
   wav_to_use1 = 340,
   wav_to_use2 = 333,
-  outfolder
+  outfolder = ""
 )
 }
 \arguments{
@@ -58,8 +58,7 @@ correction. Defaults to 340nm.}
 \item{wav_to_use2}{numerical value of wavelength (nm) to use for \code{scatter}
 correction. Defaults to 333nm.}
 
-\item{outfolder}{path to folder where output files should be saved. Defaults
-to current working directory.}
+\item{outfolder}{path to folder where output files should be saved.}
 }
 \description{
 Get protein's concentration from a dilution series measured with an

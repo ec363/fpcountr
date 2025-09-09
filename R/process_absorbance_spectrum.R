@@ -38,8 +38,7 @@
 #'   Needs changing if using different buffer!
 #' @param temperature_used numeric value corresponding to temperature of assay,
 #'   for use in path length determination. Defaults to 25.
-#' @param outfolder path to folder where output files should be saved. Defaults
-#'   to current working directory.
+#' @param outfolder path to folder where output files should be saved.
 #' @param csv_only logical. Saves only CSV files as outputs when `TRUE`.
 #'   Defaults to `FALSE`.
 #'
@@ -69,7 +68,7 @@ process_absorbance_spectrum <- function(
     pl_method = "calc_blanks", # options: "calc_each", "calc_blanks", "volume"
     buffer_used = "water", concentration_used = 0, temperature_used = 25,
 
-    outfolder = ".",
+    outfolder = "",
     csv_only = FALSE
 ){
 
@@ -78,6 +77,13 @@ process_absorbance_spectrum <- function(
   spectrum_data <- utils::read.csv(spectrum_csv, header = TRUE, check.names = FALSE)
 
   # Location for saved outputs --------------------------------------------------------------------------------------------------
+
+  # check if parent directory exists
+  parent_folder <- dirname(outfolder)
+  if(!dir.exists(parent_folder)){
+    message("Error: Please specify a valid path for the location 'outfolder' where files should be saved.")
+    return()
+  }
 
   # make folder if it doesn't exist already
   ifelse(test = !dir.exists(file.path(outfolder)), yes = dir.create(file.path(outfolder)), no = FALSE)
