@@ -37,3 +37,4 @@ Suggests:
     gt,
     knitr,
     rmarkdown
+BugReports: https://github.com/ec363/fpcountr/issues
