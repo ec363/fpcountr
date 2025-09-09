@@ -16,7 +16,7 @@ calc_fpconc(
   odmeasure = NULL,
   odmeasure_conversion = NULL,
   plate_type = 96,
-  outfolder = "."
+  outfolder = ""
 )
 }
 \arguments{
@@ -57,8 +57,7 @@ conversion) and 0.79 for OD700.}
 \item{plate_type}{type of plate. numeric, i.e. '96' for 96-well plate.
 Defines the rows and columns used for plotting figures. Defaults to '96'.}
 
-\item{outfolder}{path to folder where output files should be saved. Defaults
-to current working directory.}
+\item{outfolder}{path to folder where output files should be saved.}
 }
 \value{
 a data.frame with columns for each FP/cell calculation
@@ -78,6 +77,7 @@ conc_data_mCherry <- calc_fpconc(
   remove_wells = c("A11"),
   get_rfu_vol = TRUE, get_mol_vol = TRUE,
   od_specific_total_volume = 3.6, odmeasure = "OD700", odmeasure_conversion = 0.79,
-  outfolder = file.path("plots"))
+  outfolder = "plots"
+)
 }
 }

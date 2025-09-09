@@ -72,8 +72,7 @@
 #'   conversion factors for optical density
 #' @param fluor_coeffs_csv if do_calibrate = TRUE, path of the CSV file
 #'   containing predicted conversion factors for the fluorescent channels
-#' @param outfolder path to folder where output files should be saved. Defaults
-#'   to current working directory.
+#' @param outfolder path to folder where output files should be saved.
 #' @param csv_only logical. Saves only CSV files as outputs when `TRUE`.
 #'   Defaults to `FALSE`.
 #'
@@ -93,7 +92,7 @@
 #'     do_calibrate = TRUE, instr = "spark1",
 #'     flu_slugs = c("mcherry"), flu_gains = c(80), flu_labels = c("mcherry"),
 #'     od_coeffs_csv = "od_coeffs.csv", fluor_coeffs_csv = "flu_coeffs.csv",
-#'     outfolder = file.path("data_processed")
+#'     outfolder = "data_processed"
 #'   )
 #' }
 process_plate <- function(
@@ -133,7 +132,7 @@ process_plate <- function(
     od_coeffs_csv, # microsphere conversion factors for od600, od700
     fluor_coeffs_csv, # FP conversion factors
 
-    outfolder = ".",
+    outfolder = "",
     csv_only = FALSE
 ) {
 
@@ -177,6 +176,13 @@ process_plate <- function(
   }
 
   # Location for saved plots -----------------------------------------------------------------------------------------
+
+  # check if parent directory exists
+  parent_folder <- dirname(outfolder)
+  if(!dir.exists(parent_folder)){
+    message("Error: Please specify a valid path for the location 'outfolder' where files should be saved.")
+    return()
+  }
 
   # make folder if it doesn't exist already
   ifelse(test = !dir.exists(file.path(outfolder)), yes = dir.create(file.path(outfolder)), no = FALSE)

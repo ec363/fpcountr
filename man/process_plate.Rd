@@ -22,7 +22,7 @@ process_plate(
   flu_labels = c(),
   od_coeffs_csv,
   fluor_coeffs_csv,
-  outfolder = ".",
+  outfolder = "",
   csv_only = FALSE
 )
 }
@@ -90,8 +90,7 @@ conversion factors for optical density}
 \item{fluor_coeffs_csv}{if do_calibrate = TRUE, path of the CSV file
 containing predicted conversion factors for the fluorescent channels}
 
-\item{outfolder}{path to folder where output files should be saved. Defaults
-to current working directory.}
+\item{outfolder}{path to folder where output files should be saved.}
 
 \item{csv_only}{logical. Saves only CSV files as outputs when \code{TRUE}.
 Defaults to \code{FALSE}.}
@@ -138,7 +137,7 @@ gain, and \code{flu_labels} to specify how the relevant plots should be labelled
     do_calibrate = TRUE, instr = "spark1",
     flu_slugs = c("mcherry"), flu_gains = c(80), flu_labels = c("mcherry"),
     od_coeffs_csv = "od_coeffs.csv", fluor_coeffs_csv = "flu_coeffs.csv",
-    outfolder = file.path("data_processed")
+    outfolder = "data_processed"
   )
 }
 }

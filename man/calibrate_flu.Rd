@@ -11,20 +11,28 @@ calibrate_flu(
   flu_gain,
   flu_slug,
   flu_label,
-  do_quench_correction = do_quench_correction,
+  do_quench_correction,
   conversion_factors_csv
 )
 }
 \arguments{
 \item{pr_data}{a data.frame of parsed plate reader data}
 
-\item{flu_instr}{instrument name}
+\item{flu_instr}{character string to represent instrument}
 
-\item{flu_channel}{fluorescent channel name}
+\item{flu_channel}{the column names for the fluorescence data}
 
-\item{flu_gain}{gain}
+\item{flu_gain}{gain of the fluorescence channel}
 
 \item{flu_slug}{name of fluorescent protein in FPbase slug format}
+
+\item{flu_label}{the column names to be given to
+the calibration. May be identical to flu_slug or flu_channel, but
+recommended is to make it obvious which FP is being calibrated, e.g.
+"mCherry", as channel names may be non-specifically named e.g. "red1red1".}
+
+\item{do_quench_correction}{logical. Should function correct for anticipated
+quenching of fluorescence, depending on the cell density?}
 
 \item{conversion_factors_csv}{path of the CSV file
 containing predicted conversion factors for the fluorescent channels}

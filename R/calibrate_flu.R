@@ -9,10 +9,16 @@
 #' conversion factors are missing.
 #'
 #' @param pr_data a data.frame of parsed plate reader data
-#' @param flu_instr instrument name
-#' @param flu_channel fluorescent channel name
-#' @param flu_gain gain
+#' @param flu_instr character string to represent instrument
+#' @param flu_channel the column names for the fluorescence data
+#' @param flu_gain gain of the fluorescence channel
 #' @param flu_slug name of fluorescent protein in FPbase slug format
+#' @param flu_label the column names to be given to
+#'   the calibration. May be identical to flu_slug or flu_channel, but
+#'   recommended is to make it obvious which FP is being calibrated, e.g.
+#'   "mCherry", as channel names may be non-specifically named e.g. "red1red1".
+#' @param do_quench_correction logical. Should function correct for anticipated
+#'   quenching of fluorescence, depending on the cell density?
 #' @param conversion_factors_csv path of the CSV file
 #'   containing predicted conversion factors for the fluorescent channels
 #'
@@ -31,7 +37,7 @@ calibrate_flu <- function(pr_data,
                           flu_slug,
                           flu_label,
 
-                          do_quench_correction = do_quench_correction,
+                          do_quench_correction,
 
                           conversion_factors_csv
 ) {
@@ -128,10 +134,6 @@ calibrate_flu <- function(pr_data,
         panel.grid.minor = ggplot2::element_blank()
       )
     plt_gain
-    # plotname = paste0(flu_label, "_gain_plot.pdf")
-    # ggplot2::ggsave(filename = plotname,
-    #                 plot = plt_gain,
-    #                 height = 10, width = 10, units = "cm")
 
   } # if flu_gain is in conversion table
 

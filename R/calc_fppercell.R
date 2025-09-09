@@ -22,8 +22,7 @@
 #'   units/relative OD (molecules/cell).
 #' @param plate_type type of plate. numeric, i.e. '96' for 96-well plate.
 #'   Defines the rows and columns used for plotting figures. Defaults to '96'.
-#' @param outfolder path to folder where output files should be saved. Defaults
-#'   to current working directory.
+#' @param outfolder path to folder where output files should be saved.
 #'
 #' @return a data.frame with columns for each FP/cell calculation
 #' @export
@@ -37,7 +36,7 @@
 #'     flu_channels = c("red1red1"), flu_labels = c("mCherry"),
 #'     remove_wells = c("A11"),
 #'     get_rfu_od = TRUE, get_mol_cell = TRUE,
-#'     outfolder = file.path("plots")
+#'     outfolder = "plots"
 #'   )
 #' }
 calc_fppercell <- function(data_csv,
@@ -48,7 +47,7 @@ calc_fppercell <- function(data_csv,
                            get_rfu_od = TRUE, # get_rfu_pems = FALSE, # pointless
                            get_mol_cell = FALSE, # used to be get_mefl_pems
                            plate_type = 96,
-                           outfolder = "."){
+                           outfolder = ""){
 
   # Get parsed data -------------------------------------------------
 
@@ -73,6 +72,13 @@ calc_fppercell <- function(data_csv,
   }
 
   # Location for saved plots -------------------------------------------------
+
+  # check if parent directory exists
+  parent_folder <- dirname(outfolder)
+  if(!dir.exists(parent_folder)){
+    message("Error: Please specify a valid path for the location 'outfolder' where files should be saved.")
+    return()
+  }
 
   # make folder if it doesn't exist already
   ifelse(test = !dir.exists(file.path(outfolder)), yes = dir.create(file.path(outfolder)), no = FALSE)

@@ -13,7 +13,7 @@ calc_fppercell(
   get_rfu_od = TRUE,
   get_mol_cell = FALSE,
   plate_type = 96,
-  outfolder = "."
+  outfolder = ""
 )
 }
 \arguments{
@@ -40,8 +40,7 @@ units/relative OD (molecules/cell).}
 \item{plate_type}{type of plate. numeric, i.e. '96' for 96-well plate.
 Defines the rows and columns used for plotting figures. Defaults to '96'.}
 
-\item{outfolder}{path to folder where output files should be saved. Defaults
-to current working directory.}
+\item{outfolder}{path to folder where output files should be saved.}
 }
 \value{
 a data.frame with columns for each FP/cell calculation
@@ -61,7 +60,7 @@ equivalent FP' and cells are 'particles of equivalent microspheres'.
     flu_channels = c("red1red1"), flu_labels = c("mCherry"),
     remove_wells = c("A11"),
     get_rfu_od = TRUE, get_mol_cell = TRUE,
-    outfolder = file.path("plots")
+    outfolder = "plots"
   )
 }
 }

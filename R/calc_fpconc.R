@@ -32,8 +32,7 @@
 #'   conversion) and 0.79 for OD700.
 #' @param plate_type type of plate. numeric, i.e. '96' for 96-well plate.
 #'   Defines the rows and columns used for plotting figures. Defaults to '96'.
-#' @param outfolder path to folder where output files should be saved. Defaults
-#'   to current working directory.
+#' @param outfolder path to folder where output files should be saved.
 #'
 #' @return a data.frame with columns for each FP/cell calculation
 #' @export
@@ -48,7 +47,8 @@
 #'   remove_wells = c("A11"),
 #'   get_rfu_vol = TRUE, get_mol_vol = TRUE,
 #'   od_specific_total_volume = 3.6, odmeasure = "OD700", odmeasure_conversion = 0.79,
-#'   outfolder = file.path("plots"))
+#'   outfolder = "plots"
+#' )
 #' }
 calc_fpconc <- function(data_csv,
                         timecourse = TRUE,
@@ -61,7 +61,7 @@ calc_fpconc <- function(data_csv,
                         odmeasure = NULL, # "OD600" or "OD700" # which OD measurement is being used in the data?
                         odmeasure_conversion = NULL, # how to convert odmeasure to OD600 # typically 1 for OD600, 0.79 for OD700
                         plate_type = 96,
-                        outfolder = "."){
+                        outfolder = ""){
 
   # Messages -------------------------------------------------
 
@@ -100,6 +100,13 @@ calc_fpconc <- function(data_csv,
   }
 
   # Location for saved plots -------------------------------------------------
+
+  # check if parent directory exists
+  parent_folder <- dirname(outfolder)
+  if(!dir.exists(parent_folder)){
+    message("Error: Please specify a valid path for the location 'outfolder' where files should be saved.")
+    return()
+  }
 
   # make folder if it doesn't exist already
   ifelse(test = !dir.exists(file.path(outfolder)), yes = dir.create(file.path(outfolder)), no = FALSE)

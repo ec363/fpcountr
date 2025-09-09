@@ -16,8 +16,7 @@
 #' @param data_csv path to the original data. Used for saving normalisation curve plots.
 #' @param timecourse logical. Is the data timecourse/kinetic data and does it
 #'   include a variable called 'time'?
-#' @param outfolder path to folder where output files should be saved. Defaults
-#'   to current working directory.
+#' @param outfolder path to folder where output files should be saved.
 #'
 #' @return an updated data.frame with an additional column for normalised fluorescence
 #'
