@@ -37,11 +37,10 @@ The `generate_cfs` and `process_plate` functions are based on functions from the
 
 ## Installation
 
-The package can be installed straight from GitHub:
+The package can be installed from CRAN:
 
 ```r
-# install.packages("devtools")
-devtools::install_github("ec363/fpcountr")
+install.packages("fpcountr")
 ```
 
 ## How to use FPCountR: a fully worked example
