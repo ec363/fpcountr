@@ -4,17 +4,16 @@
 \alias{get_pathlength}
 \title{Get path length in a typical 96-well plate}
 \usage{
-get_pathlength(test_volume, plot = FALSE, outfolder = ".")
+get_pathlength(test_volume, save_file = FALSE, outfolder = "")
 }
 \arguments{
 \item{test_volume}{numeric value of volume whose pathlength is required, in
 microlitres (ul)}
 
-\item{plot}{logical. Should the function plot the model and prediction?
+\item{save_file}{logical. Should the function plot the model and prediction?
 Defaults to FALSE.}
 
-\item{outfolder}{path to folder where output files should be saved. Defaults
-to current working directory.}
+\item{outfolder}{path to folder where output files should be saved.}
 }
 \description{
 Calculates the path length of an input \code{test_volume} by comparing it to a

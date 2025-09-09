@@ -16,20 +16,31 @@
 #'
 #' @param test_volume numeric value of volume whose pathlength is required, in
 #'   microlitres (ul)
-#' @param plot logical. Should the function plot the model and prediction?
+#' @param save_file logical. Should the function plot the model and prediction?
 #'   Defaults to FALSE.
-#' @param outfolder path to folder where output files should be saved. Defaults
-#'   to current working directory.
+#' @param outfolder path to folder where output files should be saved.
 #'
 #' @export
 #'
 #' @examples get_pathlength(200)
-get_pathlength <- function(test_volume, plot = FALSE, outfolder = "."){
+get_pathlength <- function(test_volume, save_file = FALSE, outfolder = ""){
 
   # Location for saved outputs -------------------------------------------------
 
-  # make folder if it doesn't exist already
-  ifelse(test = !dir.exists(file.path(outfolder)), yes = dir.create(file.path(outfolder)), no = FALSE)
+  if(save_file){
+    # check if parent directory exists
+    parent_folder <- dirname(outfolder)
+    if(!dir.exists(parent_folder)){
+      message("Error: Please specify a valid path for the location 'outfolder' where files should be saved.")
+      message("File not saved..")
+      save_file <- FALSE
+    }
+  }
+
+  if(save_file){
+    # make folder if it doesn't exist already
+    ifelse(test = !dir.exists(file.path(outfolder)), yes = dir.create(file.path(outfolder)), no = FALSE)
+  }
 
   # Get volume data -------------------------------------------------
 
@@ -64,7 +75,7 @@ get_pathlength <- function(test_volume, plot = FALSE, outfolder = "."){
 
   # Plot -------------------------------------------------
 
-  if(plot){
+  if(save_file){
 
     small_df <- data.frame(volume = test_volume,
                            pathlength = predicted_pathlength)

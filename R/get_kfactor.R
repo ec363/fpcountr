@@ -115,10 +115,6 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
           panel.grid.minor = ggplot2::element_blank()
         )
       plot1
-      # plotname <- paste0("kfactor_foldchange_conc_model_", buffer_used, ".pdf")
-      # ggplot2::ggsave(file.path(outfolder, plotname),
-      #                 plot = plot1,
-      #                 width = 8, height = 8, units = "cm")
 
       # Choose k-factor
       predicted_kfactor_foldchange <- as.numeric(stats::predict(model1, data.frame(concentration = concentration_used)))
@@ -192,10 +188,6 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
         panel.grid.minor = ggplot2::element_blank()
       )
     plot1
-    # plotname <- paste0("kfactor_foldchange_conc_model_", buffer_used, ".pdf")
-    # ggplot2::ggsave(file.path(outfolder, plotname),
-    #                 plot = plot1,
-    #                 width = 8, height = 8, units = "cm")
 
     # Choose k-factor
     predicted_kfactor_foldchange <- as.numeric(stats::predict(model2, data.frame(temperature = temperature_used)))
