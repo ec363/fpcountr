@@ -26,4 +26,4 @@ bibentry(
   doi = "10.5281/zenodo.5760027"
 )
 
-citFooter("If possible, please complete the R package citation by adding the version used (e.g. R package v0.2.0), the year that version was released (e.g. 2024), and its Zenodo DOI (e.g. doi: 10.5281/zenodo.13951238).")
+citFooter("If possible, please complete the R package citation by adding the version used (e.g. R package v1.0.0), the year that version was released (e.g. 2025), and its Zenodo DOI (10.5281/zenodo.5760027).")

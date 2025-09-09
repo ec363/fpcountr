@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![DOI](http://img.shields.io/badge/Nature_Communications-10.1038/s41467--022--34232--6-f6f8fa.svg)](https://www.nature.com/articles/s41467-022-34232-6)
-[![DOI](http://img.shields.io/badge/Zenodo-10.5281/zenodo.5760028-f6f8fa.svg)](https://doi.org/10.5281/zenodo.5760028)
+[![DOI](http://img.shields.io/badge/Zenodo-10.5281/zenodo.5760027-f6f8fa.svg)](https://doi.org/10.5281/zenodo.5760027)
 [![Vignette](http://img.shields.io/badge/fpcountr_package-Getting_Started_Vignette-f6f8fa.svg)](https://ec363.github.io/fpcountr/articles/fpcountr.html)
 <!--- colours: nat comms: ffffff, zenodo: 0d82c3, protocols.io ffffff, github: f6f8fa -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -54,4 +54,4 @@ If you use this package and find it helpful, we'd be grateful if you could cite 
 
 Csibra E and Stan GB. 2022. Absolute protein quantification using fluorescence measurements with FPCountR. _Nat Commun_ 13, 6600. doi: 10.1038/s41467-022-34232-6
 
-Csibra E. 2021. FPCountR: Fluorescent protein calibration for plate readers. R package. doi: 10.5281/zenodo.5760028 GitHub page: https://github.com/ec363/fpcountr
+Csibra E. 2021. FPCountR: Fluorescent protein calibration for plate readers. R package. doi: 10.5281/zenodo.5760027 GitHub page: https://github.com/ec363/fpcountr
