@@ -155,7 +155,8 @@ We used a Spark, so we'll use `parse_magellan_spectrum()`: this takes the absorb
 parsed_data_spectrum <- parse_magellan_spectrum(
   data_csv = "data/example_absorbance.csv",
   metadata_csv = "data/example_absorbance_meta.csv",
-  wellstart = "A1", wellend = "B12"
+  wellstart = "A1", wellend = "B12",
+  save_file = TRUE
 )
 ```
 
@@ -164,6 +165,7 @@ Arguments required:
 - `data_csv` - file path of the absorbance data file
 - `metadata_csv` - file path of the metadata file
 - `wellstart` = "A1", `wellend` = "B12" - first and last wells of the data
+- `save_file` - confirm that you'd like to save the parsed file as a CSV
   
 Warnings expected:
 
@@ -617,7 +619,8 @@ Parse the data. Here we're using a different parsing function that handles stand
 ```{r, eval=TRUE, warning=FALSE}
 parsed_data <- parse_magellan(data_csv = "data/example_fluorescence.csv",
                               metadata_csv = "conversion_factors/example_fluorescence_meta_joined.csv",
-                              timeseries = FALSE
+                              timeseries = FALSE,
+                              save_file = TRUE
 )
 ```
 
@@ -626,6 +629,7 @@ Arguments required:
 - `data_csv` - file path of the absorbance data file
 - `metadata_csv` - file path of the metadata file
 - `timeseries` - whether or not the data is a timeseries/timecourse/kinetic.
+- `save_file` - confirm that you'd like to save the parsed file as a CSV
 
 Warnings expected:
 
@@ -891,7 +895,8 @@ parsed_data <- parse_magellan(
   metadata_csv = "data/example_experiment_meta.csv",
   timeseries = TRUE,
   metadata_above = 1, # Well Positions
-  custom = TRUE, startcol = 3, endcol = 97, insert_wells_above = 0, insert_wells_below = 1
+  custom = TRUE, startcol = 3, endcol = 97, insert_wells_above = 0, insert_wells_below = 1,
+  save_file = TRUE
 )
 ```
 
@@ -902,6 +907,7 @@ Arguments required:
 - `timeseries` - whether or not the data is a timeseries/timecourse/kinetic.
 - `metadata_above` - number of lines of plate reader-produced metadata that exists above the data
 - `custom`, `startcol`, `insert_wells_above`.. - use `custom = TRUE` where the data doesn't occupy the default columns 2 to 97. The others specify where the data is located. See `?parse_magellan()`.
+- `save_file` - confirm that you'd like to save the parsed file as a CSV
 
 Warnings expected:
 

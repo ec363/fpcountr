@@ -315,7 +315,8 @@ As `fpcountr` was developed in a laboratory that used Tecan Spark instruments, w
 parsed_data <- parse_magellan(
   data_csv = "path/to/data.csv",
   metadata_csv = "path/to/metadata.csv",
-  timeseries = FALSE
+  timeseries = FALSE,
+  save_file = TRUE
 )
 ```
 
@@ -327,7 +328,8 @@ parsed_data <- parse_magellan(
   metadata_csv = "path/to/metadata.csv",
   timeseries = FALSE,
   metadata_above = 1,
-  metadata_below = 0
+  metadata_below = 0,
+  save_file = TRUE
 )
 ```
 
@@ -338,7 +340,8 @@ parsed_data <- parse_magellan(
   data_csv = "path/to/data.csv",
   metadata_csv = "path/to/metadata.csv",
   timeseries = FALSE,
-  custom = TRUE, startcol = 3, endcol = 98
+  custom = TRUE, startcol = 3, endcol = 98,
+  save_file = TRUE
 )
 ```
 
@@ -353,7 +356,8 @@ parsed_data <- parse_magellan(
   startcol = 3,
   endcol = 97,
   insert_wells_above = 0,
-  insert_wells_below = 1
+  insert_wells_below = 1,
+  save_file = TRUE
 )
 ```
 
@@ -377,7 +381,8 @@ parsed_data <- parse_magellan(
   startcol = 3,
   endcol = 97,
   insert_wells_above = 0,
-  insert_wells_below = 1
+  insert_wells_below = 1,
+  save_file = TRUE
 )
 ```
 
@@ -387,7 +392,8 @@ A separate function, `parse_magellan_spectrum()`, should be used to parse spectr
 parsed_data_spectrum <- parse_magellan_spectrum(
   data_csv = "path/to/data.csv",
   metadata_csv = "path/to/metadata.csv",
-  wellstart = "A1", wellend = "H12"
+  wellstart = "A1", wellend = "H12",
+  save_file = TRUE
 )
 ```
 
@@ -401,13 +407,15 @@ Analogous functions exist also for the SparkControl software exports. `parse_spa
 parsed_data <- parse_sparkcontrol(
   data_csv = "path/to/data.csv",
   metadata_csv = "path/to/metadata.csv",
-  timeseries = FALSE
+  timeseries = FALSE,
+  save_file = TRUE
 )
 
 parsed_data <- parse_sparkcontrol(
   data_csv = "path/to/data.csv",
   metadata_csv = "path/to/metadata.csv",
-  timeseries = TRUE
+  timeseries = TRUE,
+  save_file = TRUE
 )
 ```
 
@@ -417,7 +425,8 @@ and `parse_sparkcontrol_spectrum()` handles spectrum data:
 parsed_data_spectrum <- parse_sparkcontrol_spectrum(
   data_csv = "path/to/data.csv",
   metadata_csv = "path/to/metadata.csv",
-  wellstart = "A1", wellend = "H12"
+  wellstart = "A1", wellend = "H12",
+  save_file = TRUE
 )
 ```
 
@@ -473,7 +482,8 @@ Code:
 parsed_data <- parse_magellan_spectrum(
   data_csv = "data/example_absorbance.csv",
   metadata_csv = "data/example_absorbance_meta.csv",
-  wellstart = "A1", wellend = "B12"
+  wellstart = "A1", wellend = "B12",
+  save_file = TRUE
 )
 ```
 Parsed data:
@@ -564,7 +574,8 @@ parsed_data <- parse_magellan(
   startcol = 2,
   endcol = 25,
   insert_wells_above = 0,
-  insert_wells_below = 72
+  insert_wells_below = 72,
+  save_file = TRUE
 )
 ```
 Parsed data:
@@ -659,7 +670,8 @@ parsed_data <- parse_magellan(
   startcol = 3,
   endcol = 97,
   insert_wells_above = 0,
-  insert_wells_below = 1
+  insert_wells_below = 1,
+  save_file = TRUE
 )
 ```
 Parsed data:
