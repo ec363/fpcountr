@@ -697,7 +697,8 @@ correct format.</p>
 <code class="sourceCode R"><span><span class="va">parsed_data_spectrum</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_magellan_spectrum.html">parse_magellan_spectrum</a></span><span class="op">(</span></span>
 <span>  data_csv <span class="op">=</span> <span class="st">"data/example_absorbance.csv"</span>,</span>
 <span>  metadata_csv <span class="op">=</span> <span class="st">"data/example_absorbance_meta.csv"</span>,</span>
-<span>  wellstart <span class="op">=</span> <span class="st">"A1"</span>, wellend <span class="op">=</span> <span class="st">"B12"</span></span>
+<span>  wellstart <span class="op">=</span> <span class="st">"A1"</span>, wellend <span class="op">=</span> <span class="st">"B12"</span>,</span>
+<span>  save_file <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 24 wells identified.</span></span></code></pre>
 <p>Arguments required:</p>
@@ -709,6 +710,9 @@ correct format.</p>
 <li>
 <code>wellstart</code> = “A1”, <code>wellend</code> = “B12” - first
 and last wells of the data</li>
+<li>
+<code>save_file</code> - confirm that you’d like to save the parsed
+file as a CSV</li>
 </ul>
 <p>Warnings expected:</p>
 <ul>
@@ -6019,7 +6023,8 @@ Parsing</strong> article if you have a different setup.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_magellan.html">parse_magellan</a></span><span class="op">(</span>data_csv <span class="op">=</span> <span class="st">"data/example_fluorescence.csv"</span>,</span>
 <span>                              metadata_csv <span class="op">=</span> <span class="st">"conversion_factors/example_fluorescence_meta_joined.csv"</span>,</span>
-<span>                              timeseries <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>                              timeseries <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                              save_file <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 9 channel(s) identified.</span></span></code></pre>
 <pre><code><span><span class="co">## Channel 1: blueblue040.</span></span></code></pre>
@@ -6040,6 +6045,9 @@ Parsing</strong> article if you have a different setup.</p>
 <li>
 <code>timeseries</code> - whether or not the data is a
 timeseries/timecourse/kinetic.</li>
+<li>
+<code>save_file</code> - confirm that you’d like to save the parsed
+file as a CSV</li>
 </ul>
 <p>Warnings expected:</p>
 <ul>
@@ -7884,7 +7892,8 @@ number (OD) in hand, we are ready to process the experimental data.</p>
 <span>  metadata_csv <span class="op">=</span> <span class="st">"data/example_experiment_meta.csv"</span>,</span>
 <span>  timeseries <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  metadata_above <span class="op">=</span> <span class="fl">1</span>, <span class="co"># Well Positions</span></span>
-<span>  custom <span class="op">=</span> <span class="cn">TRUE</span>, startcol <span class="op">=</span> <span class="fl">3</span>, endcol <span class="op">=</span> <span class="fl">97</span>, insert_wells_above <span class="op">=</span> <span class="fl">0</span>, insert_wells_below <span class="op">=</span> <span class="fl">1</span></span>
+<span>  custom <span class="op">=</span> <span class="cn">TRUE</span>, startcol <span class="op">=</span> <span class="fl">3</span>, endcol <span class="op">=</span> <span class="fl">97</span>, insert_wells_above <span class="op">=</span> <span class="fl">0</span>, insert_wells_below <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  save_file <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 4 channel(s) identified.</span></span></code></pre>
 <pre><code><span><span class="co">## 96 timepoints identified.</span></span>
@@ -7910,6 +7919,9 @@ reader-produced metadata that exists above the data</li>
 <code>insert_wells_above</code>.. - use <code>custom = TRUE</code> where
 the data doesn’t occupy the default columns 2 to 97. The others specify
 where the data is located. See <code>?parse_magellan()</code>.</li>
+<li>
+<code>save_file</code> - confirm that you’d like to save the parsed
+file as a CSV</li>
 </ul>
 <p>Warnings expected:</p>
 <ul>

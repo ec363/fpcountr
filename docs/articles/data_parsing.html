@@ -1893,7 +1893,8 @@ calibrations, you might use:</p>
 <code class="sourceCode R"><span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_magellan.html">parse_magellan</a></span><span class="op">(</span></span>
 <span>  data_csv <span class="op">=</span> <span class="st">"path/to/data.csv"</span>,</span>
 <span>  metadata_csv <span class="op">=</span> <span class="st">"path/to/metadata.csv"</span>,</span>
-<span>  timeseries <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  timeseries <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  save_file <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>This function can work out the number of readings with no extra
 information, assuming that the only exported information is data, and
@@ -1908,7 +1909,8 @@ by such metadata), or <code>metadata_below</code>.</p>
 <span>  metadata_csv <span class="op">=</span> <span class="st">"path/to/metadata.csv"</span>,</span>
 <span>  timeseries <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  metadata_above <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  metadata_below <span class="op">=</span> <span class="fl">0</span></span>
+<span>  metadata_below <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  save_file <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Further, if you exported temperature data with the fluorescence data,
 causing the data to be right-shifted from the otherwise default second
@@ -1919,7 +1921,8 @@ and <code>endcol</code>.</p>
 <span>  data_csv <span class="op">=</span> <span class="st">"path/to/data.csv"</span>,</span>
 <span>  metadata_csv <span class="op">=</span> <span class="st">"path/to/metadata.csv"</span>,</span>
 <span>  timeseries <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  custom <span class="op">=</span> <span class="cn">TRUE</span>, startcol <span class="op">=</span> <span class="fl">3</span>, endcol <span class="op">=</span> <span class="fl">98</span></span>
+<span>  custom <span class="op">=</span> <span class="cn">TRUE</span>, startcol <span class="op">=</span> <span class="fl">3</span>, endcol <span class="op">=</span> <span class="fl">98</span>,</span>
+<span>  save_file <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>If the data does not include all 96 wells expected, e.g. it is
 truncated at H11 instead of H12 due to export options, you can use
@@ -1935,7 +1938,8 @@ entries for 96 wells with data containing fewer than 96 entries.</p>
 <span>  startcol <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  endcol <span class="op">=</span> <span class="fl">97</span>,</span>
 <span>  insert_wells_above <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  insert_wells_below <span class="op">=</span> <span class="fl">1</span></span>
+<span>  insert_wells_below <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  save_file <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>For timecourse/kinetic assays, such as from microbial growth curve
 experiments, choose <code>timeseries = TRUE</code> and specify:</p>
@@ -1965,7 +1969,8 @@ normally be “read_first”.</li>
 <span>  startcol <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  endcol <span class="op">=</span> <span class="fl">97</span>,</span>
 <span>  insert_wells_above <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  insert_wells_below <span class="op">=</span> <span class="fl">1</span></span>
+<span>  insert_wells_below <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  save_file <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>A separate function, <code><a href="../reference/parse_magellan_spectrum.html">parse_magellan_spectrum()</a></code>, should
 be used to parse spectrum data. It works similarly.</p>
@@ -1973,7 +1978,8 @@ be used to parse spectrum data. It works similarly.</p>
 <code class="sourceCode R"><span><span class="va">parsed_data_spectrum</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_magellan_spectrum.html">parse_magellan_spectrum</a></span><span class="op">(</span></span>
 <span>  data_csv <span class="op">=</span> <span class="st">"path/to/data.csv"</span>,</span>
 <span>  metadata_csv <span class="op">=</span> <span class="st">"path/to/metadata.csv"</span>,</span>
-<span>  wellstart <span class="op">=</span> <span class="st">"A1"</span>, wellend <span class="op">=</span> <span class="st">"H12"</span></span>
+<span>  wellstart <span class="op">=</span> <span class="st">"A1"</span>, wellend <span class="op">=</span> <span class="st">"H12"</span>,</span>
+<span>  save_file <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>It is worth sanity checking outputs to make sure that the data has
 been extracted correctly, and adjusting the customisation parameters if
@@ -1986,13 +1992,15 @@ timecourse/kinetic data:</p>
 <code class="sourceCode R"><span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_sparkcontrol.html">parse_sparkcontrol</a></span><span class="op">(</span></span>
 <span>  data_csv <span class="op">=</span> <span class="st">"path/to/data.csv"</span>,</span>
 <span>  metadata_csv <span class="op">=</span> <span class="st">"path/to/metadata.csv"</span>,</span>
-<span>  timeseries <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  timeseries <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  save_file <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_sparkcontrol.html">parse_sparkcontrol</a></span><span class="op">(</span></span>
 <span>  data_csv <span class="op">=</span> <span class="st">"path/to/data.csv"</span>,</span>
 <span>  metadata_csv <span class="op">=</span> <span class="st">"path/to/metadata.csv"</span>,</span>
-<span>  timeseries <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  timeseries <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  save_file <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>and <code><a href="../reference/parse_sparkcontrol_spectrum.html">parse_sparkcontrol_spectrum()</a></code> handles spectrum
 data:</p>
@@ -2000,7 +2008,8 @@ data:</p>
 <code class="sourceCode R"><span><span class="va">parsed_data_spectrum</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_sparkcontrol_spectrum.html">parse_sparkcontrol_spectrum</a></span><span class="op">(</span></span>
 <span>  data_csv <span class="op">=</span> <span class="st">"path/to/data.csv"</span>,</span>
 <span>  metadata_csv <span class="op">=</span> <span class="st">"path/to/metadata.csv"</span>,</span>
-<span>  wellstart <span class="op">=</span> <span class="st">"A1"</span>, wellend <span class="op">=</span> <span class="st">"H12"</span></span>
+<span>  wellstart <span class="op">=</span> <span class="st">"A1"</span>, wellend <span class="op">=</span> <span class="st">"H12"</span>,</span>
+<span>  save_file <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><br></p>
 </div>
@@ -2602,7 +2611,8 @@ mTagBFP2</strong></p>
 <code class="sourceCode R"><span><span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parse_magellan_spectrum.html">parse_magellan_spectrum</a></span><span class="op">(</span></span>
 <span>  data_csv <span class="op">=</span> <span class="st">"data/example_absorbance.csv"</span>,</span>
 <span>  metadata_csv <span class="op">=</span> <span class="st">"data/example_absorbance_meta.csv"</span>,</span>
-<span>  wellstart <span class="op">=</span> <span class="st">"A1"</span>, wellend <span class="op">=</span> <span class="st">"B12"</span></span>
+<span>  wellstart <span class="op">=</span> <span class="st">"A1"</span>, wellend <span class="op">=</span> <span class="st">"B12"</span>,</span>
+<span>  save_file <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 24 wells identified.</span></span></code></pre>
 <p>Parsed data:</p>
@@ -4003,7 +4013,8 @@ mTagBFP2</strong></p>
 <span>  startcol <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  endcol <span class="op">=</span> <span class="fl">25</span>,</span>
 <span>  insert_wells_above <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  insert_wells_below <span class="op">=</span> <span class="fl">72</span></span>
+<span>  insert_wells_below <span class="op">=</span> <span class="fl">72</span>,</span>
+<span>  save_file <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Parsed data:</p>
 <div id="bfglzvnegs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -5369,7 +5380,8 @@ mTagBFP2</strong></p>
 <span>  startcol <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  endcol <span class="op">=</span> <span class="fl">97</span>,</span>
 <span>  insert_wells_above <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  insert_wells_below <span class="op">=</span> <span class="fl">1</span></span>
+<span>  insert_wells_below <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  save_file <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Parsed data:</p>
 <div id="ewkadgwxbh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">

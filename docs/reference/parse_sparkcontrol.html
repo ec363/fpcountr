@@ -80,7 +80,12 @@ function.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">parse_sparkcontrol</span><span class="op">(</span><span class="va">data_csv</span>, <span class="va">metadata_csv</span>, timeseries <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">parse_sparkcontrol</span><span class="op">(</span></span>
+<span>  <span class="va">data_csv</span>,</span>
+<span>  <span class="va">metadata_csv</span>,</span>
+<span>  timeseries <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  save_file <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -96,6 +101,10 @@ function.</p>
 <dt>timeseries</dt>
 <dd><p>logical. Is the data a timeseries? Defaults to FALSE.</p></dd>
 
+
+<dt>save_file</dt>
+<dd><p>logical. Would you like to save the parsed file as a CSV?</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -110,13 +119,13 @@ function.</p>
 <span class="r-in"><span>  <span class="va">parsed_calib_plate</span> <span class="op">&lt;-</span> <span class="fu">parse_sparkcontrol</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    data_csv <span class="op">=</span> <span class="st">"calibrations/20210104_calibration_data.csv"</span>,</span></span>
 <span class="r-in"><span>    metadata_csv <span class="op">=</span> <span class="st">"calibrations/20210104_calibration_metadata.csv"</span>,</span></span>
-<span class="r-in"><span>    timeseries <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>    timeseries <span class="op">=</span> <span class="cn">FALSE</span>, save_file <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">parsed_data</span> <span class="op">&lt;-</span> <span class="fu">parse_sparkcontrol</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    data_csv <span class="op">=</span> <span class="st">"data/20210104_data.csv"</span>,</span></span>
 <span class="r-in"><span>    metadata_csv <span class="op">=</span> <span class="st">"data/20210104_metadata.csv"</span>,</span></span>
-<span class="r-in"><span>    timeseries <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>    timeseries <span class="op">=</span> <span class="cn">TRUE</span>, save_file <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>

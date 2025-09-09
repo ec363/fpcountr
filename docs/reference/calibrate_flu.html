@@ -90,7 +90,7 @@ conversion factors are missing.</p>
 <span>  <span class="va">flu_gain</span>,</span>
 <span>  <span class="va">flu_slug</span>,</span>
 <span>  <span class="va">flu_label</span>,</span>
-<span>  do_quench_correction <span class="op">=</span> <span class="va">do_quench_correction</span>,</span>
+<span>  <span class="va">do_quench_correction</span>,</span>
 <span>  <span class="va">conversion_factors_csv</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -102,19 +102,31 @@ conversion factors are missing.</p>
 
 
 <dt>flu_instr</dt>
-<dd><p>instrument name</p></dd>
+<dd><p>character string to represent instrument</p></dd>
 
 
 <dt>flu_channel</dt>
-<dd><p>fluorescent channel name</p></dd>
+<dd><p>the column names for the fluorescence data</p></dd>
 
 
 <dt>flu_gain</dt>
-<dd><p>gain</p></dd>
+<dd><p>gain of the fluorescence channel</p></dd>
 
 
 <dt>flu_slug</dt>
 <dd><p>name of fluorescent protein in FPbase slug format</p></dd>
+
+
+<dt>flu_label</dt>
+<dd><p>the column names to be given to
+the calibration. May be identical to flu_slug or flu_channel, but
+recommended is to make it obvious which FP is being calibrated, e.g.
+"mCherry", as channel names may be non-specifically named e.g. "red1red1".</p></dd>
+
+
+<dt>do_quench_correction</dt>
+<dd><p>logical. Should function correct for anticipated
+quenching of fluorescence, depending on the cell density?</p></dd>
 
 
 <dt>conversion_factors_csv</dt>
