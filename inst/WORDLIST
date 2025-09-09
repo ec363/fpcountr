@@ -48,6 +48,7 @@ fluordata
 fluorophore
 fluorophores
 fpbase
+hardcoded
 heatmaps
 io
 loess
@@ -64,6 +65,7 @@ pKa
 pathlength
 pathlengths
 photostability
+tidyverse
 timecourse
 timepoint
 timeseries
