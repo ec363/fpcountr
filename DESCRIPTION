@@ -1,6 +1,6 @@
 Package: fpcountr
 Title: Fluorescent Protein Calibration for Plate Readers
-Version: 1.0.0
+Version: 1.0.1
 Authors@R:
     person(given = "Eszter",
            family = "Csibra",
