@@ -1,3 +1,7 @@
+# fpcountr 1.0.2
+
+* Added single quotes around 'FPCountR' in Description.
+
 # fpcountr v1.0.1
 
 * Prepped package for CRAN submission
