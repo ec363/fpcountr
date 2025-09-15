@@ -1,3 +1,7 @@
+# fpcountr 1.0.3
+
+* Disabled running of `get_fpbase_properties()` example on CRAN as it is too slow.
+
 # fpcountr 1.0.2
 
 * Added single quotes around 'FPCountR' in Description.
