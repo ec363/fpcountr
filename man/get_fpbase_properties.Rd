@@ -39,5 +39,5 @@ Gets properties of an FP from FPbase, including the maximal excitation
 wavelength and extinction coefficient. Optionally saves these as a CSV.
 }
 \examples{
-\dontrun{get_fpbase_properties("mcherry")}
+\donttest{get_fpbase_properties("mcherry")}
 }

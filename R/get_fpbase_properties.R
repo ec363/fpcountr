@@ -23,7 +23,7 @@
 #' @importFrom dplyr %>%
 #' @importFrom rlang .data :=
 #'
-#' @examples \dontrun{get_fpbase_properties("mcherry")}
+#' @examples \donttest{get_fpbase_properties("mcherry")}
 get_fpbase_properties <- function(slug, verbose = TRUE, save_file = FALSE, outfolder = "", filename = "fp_properties.csv"){
 
   # Location for saved outputs ---------------------------------------------------------------------------------------------------
