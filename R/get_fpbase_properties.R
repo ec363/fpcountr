@@ -33,8 +33,9 @@ get_fpbase_properties <- function(slug, verbose = TRUE, save_file = FALSE, outfo
     # check if parent directory exists
     parent_folder <- dirname(outfolder)
     if(!dir.exists(parent_folder)){
-      message("Error: Please specify a valid path for the location 'outfolder' where files should be saved.")
-      return()
+      # message("Error: Please specify a valid path for the location 'outfolder' where files should be saved.")
+      # return()
+      stop("Please specify a valid path for the location 'outfolder' where files should be saved.") # replacing message/return with stop
     }
 
     # make folder if it doesn't exist already
@@ -104,7 +105,8 @@ get_fpbase_properties <- function(slug, verbose = TRUE, save_file = FALSE, outfo
 
   # Error message for slugs with no entries
   if(nrow(fp_entry)<1){
-    return(message("Error: no entries matching slug in database."))
+    # return(message("Error: no entries matching slug in database."))
+    stop("No entries matching slug in database.") # replacing message/return with stop
   }
 
   # FP properties

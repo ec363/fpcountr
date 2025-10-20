@@ -14,17 +14,21 @@
 #'   care to ensure the units are correct (buffers specified in M require
 #'   concentrations in M not mM). This value is ignored if buffer = "water".
 #' @param temperature_used numeric value of temperature in oC. Default is 25.
+#' @param verbose logical. Should outputs to the console that describe the
+#'   k-factor calculation be shown?
 #'
 #' @export
 #' @return numeric k-factor
 #'
-#' @examples get_kfactor(buffer_used = "TBS", concentration_used = 0.005, temperature_used = 30)
-get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperature_used = 25
+#' @examples get_kfactor(buffer_used = "TBS", concentration_used = 0.005, temperature_used = 30, verbose = TRUE)
+get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperature_used = 25, verbose = TRUE
 ){
 
   # Summary --------------------------------------------------
 
-  message(paste0("\nCalculating k-factor for ", buffer_used, " at concentration ", concentration_used, " at temperature ", temperature_used, " oC."))
+  if(verbose){
+    message(paste0("\nCalculating k-factor for ", buffer_used, " at concentration ", concentration_used, " at temperature ", temperature_used, " oC."))
+  }
 
   # Get k-factor data -------------------------------------------------
 
@@ -43,7 +47,9 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
     as.numeric
   reference_kfactor # should be 0.172
 
-  message(paste0("\nReference k-factor ", reference_kfactor, "."))
+  if(verbose){
+    message(paste0("\nReference k-factor ", reference_kfactor, "."))
+  }
 
   # Get k-factor - buffer fold change -------------------------------------------------
 
@@ -56,8 +62,10 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
       dplyr::filter(.data$buffer == buffer_used)
     subset_data
 
-    cat("\nK-factors available for given buffer: \n")
-    print(subset_data)
+    if(verbose){
+      cat("\nK-factors available for given buffer: \n")
+      print(subset_data)
+    }
 
     if(buffer_used == "water" | nrow(dplyr::filter(subset_data, .data$concentration == concentration_used))>0){
 
@@ -94,8 +102,10 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
       subset_data <- rbind(subset_data_water, subset_data)
       subset_data
 
-      cat("\nValues used for model (kfactor ~ concentration): \n")
-      print(subset_data)
+      if(verbose){
+        cat("\nValues used for model (kfactor ~ concentration): \n")
+        print(subset_data)
+      }
 
       # build model
       # Fit curve as (Y ~ X):
@@ -127,16 +137,19 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
   } else {
 
     # Subset by buffer - but rows don't exist
-    message("\nBuffer not in data table:\n")
-    print(kfactors_buffers_data)
-
-    message("\nUsing kfactor of water instead...")
+    if(verbose){
+      message("\nBuffer not in data table:\n")
+      print(kfactors_buffers_data)
+      message("\nUsing kfactor of water instead...")
+    }
     buffer_fc_to_use <- 1
     buffer_fc_to_use
 
   } # buffer used
 
-  message(paste0("\nChange in k-factor required for given buffer: ", round(buffer_fc_to_use, 3), "."))
+  if(verbose){
+    message(paste0("\nChange in k-factor required for given buffer: ", round(buffer_fc_to_use, 3), "."))
+  }
 
   # Get k-factor - temperature fold change -------------------------------------------------
 
@@ -149,8 +162,10 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
       dplyr::filter(.data$temperature == temperature_used)
     subset_data2
 
-    cat("\nRows found for temperature: \n")
-    print(subset_data2)
+    if(verbose){
+      cat("\nRows found for temperature: \n")
+      print(subset_data2)
+    }
 
     # Find fold change
     temperature_fc_to_use <- subset_data2 %>%
@@ -165,8 +180,10 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
 
     # 1. Interpolate with concs we have
 
-    cat("\nValues used for model (fold_change ~ temperature): \n")
-    print(kfactors_temperature_data)
+    if(verbose){
+      cat("\nValues used for model (fold_change ~ temperature): \n")
+      print(kfactors_temperature_data)
+    }
 
     # build model
     # Fit curve as (Y ~ X):
@@ -197,14 +214,18 @@ get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperatu
 
   } # temperature used
 
-  message(paste0("\nChange in k-factor required for given temperature: ", round(temperature_fc_to_use, 3), "."))
+  if(verbose){
+    message(paste0("\nChange in k-factor required for given temperature: ", round(temperature_fc_to_use, 3), "."))
+  }
 
   # Get k-factor - k-factor -------------------------------------------------
 
   kfactor_to_use <- reference_kfactor * buffer_fc_to_use * temperature_fc_to_use
   kfactor_to_use
 
-  message(paste0("\nOverall k-factor: ", round(kfactor_to_use, 3), "."))
+  if(verbose){
+    message(paste0("\nOverall k-factor: ", round(kfactor_to_use, 3), "."))
+  }
 
   # Return -------------------------------------------------
 

@@ -7,7 +7,8 @@
 get_kfactor(
   buffer_used = "water",
   concentration_used = 0,
-  temperature_used = 25
+  temperature_used = 25,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -20,6 +21,9 @@ care to ensure the units are correct (buffers specified in M require
 concentrations in M not mM). This value is ignored if buffer = "water".}
 
 \item{temperature_used}{numeric value of temperature in oC. Default is 25.}
+
+\item{verbose}{logical. Should outputs to the console that describe the
+k-factor calculation be shown?}
 }
 \value{
 numeric k-factor
@@ -33,5 +37,5 @@ and for temperatures from 25oC may be combined to get an approximate estimate
 of the k-factor for a given condition.
 }
 \examples{
-get_kfactor(buffer_used = "TBS", concentration_used = 0.005, temperature_used = 30)
+get_kfactor(buffer_used = "TBS", concentration_used = 0.005, temperature_used = 30, verbose = TRUE)
 }

@@ -102,8 +102,9 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
   # check if parent directory exists
   parent_folder <- dirname(outfolder)
   if(!dir.exists(parent_folder)){
-    message("Error: Please specify a valid path for the location 'outfolder' where files should be saved.")
-    return()
+    # message("Error: Please specify a valid path for the location 'outfolder' where files should be saved.")
+    # return()
+    stop("Please specify a valid path for the location 'outfolder' where files should be saved.") # replacing message/return with stop
   }
 
   # make folder if it doesn't exist already
@@ -194,8 +195,9 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
   if(nrow(fp_properties) == 0){
     message("Error: The FP properties table for ", protein_slug, " is empty.")
     print(fp_properties)
-    message("Stopping..")
-    return()
+    # message("Stopping..")
+    # return()
+    stop() # replacing message/return with stop
   }
   # If key fp properties are missing, throw an error here (stop later)
   if(is.na(fp_properties$ex_max) | is.na(fp_properties$ext_coeff)){
@@ -304,8 +306,9 @@ get_conc_ecmax <- function(protein_slug, protein_seq,
 
   # If key properties are missing, stop here
   if(is.na(fp_properties$ex_max) | is.na(fp_properties$ext_coeff)){
-    message("Stopping..")
-    return()
+    # message("Stopping..")
+    # return()
+    stop() # replacing message/return with stop
   }
 
   # 4. Get extinction coefficient ------------------------------------------------------------
