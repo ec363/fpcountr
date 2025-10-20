@@ -83,7 +83,8 @@ of the k-factor for a given condition.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_kfactor</span><span class="op">(</span></span>
 <span>  buffer_used <span class="op">=</span> <span class="st">"water"</span>,</span>
 <span>  concentration_used <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  temperature_used <span class="op">=</span> <span class="fl">25</span></span>
+<span>  temperature_used <span class="op">=</span> <span class="fl">25</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -104,6 +105,11 @@ concentrations in M not mM). This value is ignored if buffer = "water".</p></dd>
 <dt>temperature_used</dt>
 <dd><p>numeric value of temperature in oC. Default is 25.</p></dd>
 
+
+<dt>verbose</dt>
+<dd><p>logical. Should outputs to the console that describe the
+k-factor calculation be shown?</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -114,7 +120,7 @@ concentrations in M not mM). This value is ignored if buffer = "water".</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_kfactor</span><span class="op">(</span>buffer_used <span class="op">=</span> <span class="st">"TBS"</span>, concentration_used <span class="op">=</span> <span class="fl">0.005</span>, temperature_used <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_kfactor</span><span class="op">(</span>buffer_used <span class="op">=</span> <span class="st">"TBS"</span>, concentration_used <span class="op">=</span> <span class="fl">0.005</span>, temperature_used <span class="op">=</span> <span class="fl">30</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating k-factor for TBS at concentration 0.005 at temperature 30 oC.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
