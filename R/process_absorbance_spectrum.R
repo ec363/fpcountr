@@ -43,6 +43,7 @@
 #'   Defaults to `FALSE`.
 #'
 #' @export
+#' @return summarised data frame of absorbance values
 #'
 #' @importFrom dplyr %>%
 #' @importFrom rlang .data :=

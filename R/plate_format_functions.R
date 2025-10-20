@@ -72,6 +72,7 @@ find_plate_format <- function(plate_type, quiet = FALSE) {
 #' @param quiet logical. Should function print warning if plate size is unusual?
 #' @keywords internal
 #' @export
+#' @return list of characters corresponding to row names
 find_rows <- function(plate_type = 96, quiet = FALSE){
 
   # find number of rows
@@ -92,6 +93,7 @@ find_rows <- function(plate_type = 96, quiet = FALSE){
 #' @param quiet logical. Should function print warning if plate size is unusual?
 #' @keywords internal
 #' @export
+#' @return list of numbers corresponding to column names
 find_columns <- function(plate_type = 96, quiet = FALSE){
 
   # find number of rows

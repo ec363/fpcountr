@@ -16,6 +16,7 @@
 #' @param temperature_used numeric value of temperature in oC. Default is 25.
 #'
 #' @export
+#' @return numeric k-factor
 #'
 #' @examples get_kfactor(buffer_used = "TBS", concentration_used = 0.005, temperature_used = 30)
 get_kfactor <- function(buffer_used = "water", concentration_used = 0, temperature_used = 25

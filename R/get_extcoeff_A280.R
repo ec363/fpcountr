@@ -18,6 +18,7 @@
 #' @param outfolder path to folder where output files should be saved.
 #'
 #' @export
+#' @return data frame of extinction coefficients
 #'
 #' @importFrom dplyr %>%
 get_extcoeff_a280 <- function(protein, # "AAAWYCAAA"

@@ -6,6 +6,9 @@
 \usage{
 view_kfactors()
 }
+\value{
+No return value, called for side effects.
+}
 \description{
 Displays the data tables used for k-factor calculations in \code{get_kfactors()}, along with notes.
 }

@@ -55,6 +55,9 @@ correction. Defaults to 333nm.}
 \item{csv_only}{logical. Saves only CSV files as outputs when \code{TRUE}.
 Defaults to \code{FALSE}.}
 }
+\value{
+data frame of concentration data
+}
 \description{
 Get protein's concentration from a dilution series measured with an
 absorbance spectrum. Based on \code{get_conc_a280()}, but uses the FPbase-stated

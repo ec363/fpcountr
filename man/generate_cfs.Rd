@@ -72,6 +72,9 @@ plotting the gain vs conversion factors. Defaults to "".}
 \item{outfolder}{character string. Path to folder where output files should
 be saved.}
 }
+\value{
+data frame of conversion factors
+}
 \description{
 Generate conversion factors for fluorescent protein (FP) calibrations.
 Originally based on \code{flopr::generate_cfs()} but with numerous changes. The

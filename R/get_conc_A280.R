@@ -48,6 +48,7 @@
 #' @param outfolder path to folder where output files should be saved.
 #'
 #' @export
+#' @return data frame of concentration data
 #'
 #' @importFrom dplyr %>%
 #' @importFrom rlang .data

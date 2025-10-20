@@ -11,6 +11,9 @@ find_rows(plate_type = 96, quiet = FALSE)
 
 \item{quiet}{logical. Should function print warning if plate size is unusual?}
 }
+\value{
+list of characters corresponding to row names
+}
 \description{
 Internal function.
 }

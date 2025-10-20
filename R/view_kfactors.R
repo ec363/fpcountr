@@ -3,6 +3,7 @@
 #' Displays the data tables used for k-factor calculations in `get_kfactors()`, along with notes.
 #'
 #' @export
+#' @return No return value, called for side effects.
 #' @examples
 #' view_kfactors()
 view_kfactors <- function(){

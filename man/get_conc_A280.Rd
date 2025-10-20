@@ -60,6 +60,9 @@ correction. Defaults to 333nm.}
 
 \item{outfolder}{path to folder where output files should be saved.}
 }
+\value{
+data frame of concentration data
+}
 \description{
 Get protein's concentration from a dilution series measured with an
 absorbance spectrum. Expects 'processed' data such as that produced by

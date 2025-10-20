@@ -18,6 +18,7 @@
 #'   Defaults to `fp_properties.csv`.
 #'
 #' @export
+#' @return data frame of fluorescent protein properties
 #'
 #' @importFrom dplyr %>%
 #' @importFrom rlang .data :=

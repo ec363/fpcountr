@@ -17,6 +17,7 @@
 #' @importFrom dplyr %>%
 #'
 #' @export
+#' @return No return value, called for side effects.
 #' @examples
 #' \dontrun{
 #'   save_metadata_template(data_type = "exptdata", plate_type = 96, outfolder = ".")

@@ -37,6 +37,9 @@ specified the function gives extinction coefficients for 1\% (10mg/ml) and
 
 \item{outfolder}{path to folder where output files should be saved.}
 }
+\value{
+data frame of extinction coefficients
+}
 \description{
 Work out the theoretical molar extinction coefficient of a protein at 280nm
 (EC280, M-1cm-1) using only the protein's primary sequence, using the

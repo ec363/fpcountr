@@ -57,6 +57,7 @@
 #'   be saved.
 #'
 #' @export
+#' @return data frame of conversion factors
 #' @importFrom dplyr %>%
 #' @importFrom rlang .data :=
 #'

@@ -21,6 +21,9 @@ concentrations in M not mM). This value is ignored if buffer = "water".}
 
 \item{temperature_used}{numeric value of temperature in oC. Default is 25.}
 }
+\value{
+numeric k-factor
+}
 \description{
 Calculates k-factor of a given buffer/temperature combination according to
 data from Thermo Scientific for different buffers and temperatures. The

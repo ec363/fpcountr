@@ -11,6 +11,9 @@ find_columns(plate_type = 96, quiet = FALSE)
 
 \item{quiet}{logical. Should function print warning if plate size is unusual?}
 }
+\value{
+list of numbers corresponding to column names
+}
 \description{
 Internal function.
 }

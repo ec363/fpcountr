@@ -21,6 +21,7 @@
 #' @param outfolder path to folder where output files should be saved.
 #'
 #' @export
+#' @return numeric path length in cm
 #'
 #' @examples get_pathlength(200)
 get_pathlength <- function(test_volume, save_file = FALSE, outfolder = ""){

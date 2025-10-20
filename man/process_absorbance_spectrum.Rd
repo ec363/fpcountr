@@ -66,6 +66,9 @@ for use in path length determination. Defaults to 25.}
 \item{csv_only}{logical. Saves only CSV files as outputs when \code{TRUE}.
 Defaults to \code{FALSE}.}
 }
+\value{
+summarised data frame of absorbance values
+}
 \description{
 Processes raw absorbance spectrum data, collected as a dilution series.
 Expects 'parsed' data that is tidy and attached to appropriate metadata.

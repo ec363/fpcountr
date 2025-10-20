@@ -15,6 +15,9 @@ Defaults to FALSE.}
 
 \item{outfolder}{path to folder where output files should be saved.}
 }
+\value{
+numeric path length in cm
+}
 \description{
 Calculates the path length of an input \code{test_volume} by comparing it to a
 linear model using internal data of pathlengths vs volume. ... To work out

@@ -9,6 +9,9 @@ get_mw(protein)
 \arguments{
 \item{protein}{character string of protein sequence using the 1-letter code.}
 }
+\value{
+numeric molecular weight
+}
 \description{
 Get the molecular weight of a protein in Daltons from its sequence alone.
 Uses calculation (\url{https://web.expasy.org/compute_pi/pi_tool-doc.html}) and

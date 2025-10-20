@@ -9,6 +9,7 @@
 #' @param protein character string of protein sequence using the 1-letter code.
 #'
 #' @export
+#' @return numeric molecular weight
 #'
 #' @importFrom dplyr %>%
 get_mw <- function(protein){

@@ -31,6 +31,9 @@ Defaults to FALSE.}
 \item{filename}{How to name the output CSV file. Requires \code{.csv} at the end.
 Defaults to \code{fp_properties.csv}.}
 }
+\value{
+data frame of fluorescent protein properties
+}
 \description{
 Gets properties of an FP from FPbase, including the maximal excitation
 wavelength and extinction coefficient. Optionally saves these as a CSV.

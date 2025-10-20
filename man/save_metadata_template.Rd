@@ -15,6 +15,9 @@ experimental data ("exptdata").}
 
 \item{outfolder}{path to folder where output files should be saved.}
 }
+\value{
+No return value, called for side effects.
+}
 \description{
 Save a CSV file containing the minimum columns required by the functions that
 parse and process the given \code{data_type} in \code{fpcountr}. One of three data

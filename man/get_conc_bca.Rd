@@ -43,6 +43,9 @@ determination.}
 
 \item{outfolder}{path to the folder where output files should be saved.}
 }
+\value{
+data frame of concentration data
+}
 \description{
 Get protein's concentration from a dilution series measured with the
 bicinchoninic acid (BCA) assay. Takes two input data sets, the BCA assay data
