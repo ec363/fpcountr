@@ -222,7 +222,7 @@ process_absorbance_spectrum <- function(
   # Find kfactor for buffer
   raw_values <- raw_values %>%
     dplyr::mutate(kfactor_1cm = fpcountr::get_kfactor(buffer_used = buffer_used, concentration_used = concentration_used,
-                                                      temperature_used = temperature_used))
+                                                      temperature_used = temperature_used, verbose = TRUE))
   raw_values
 
   # Create new df

@@ -8,7 +8,7 @@
 
 # fpcountr v1.0.1
 
-* Prepped package for CRAN submission
+* Prepared package for CRAN submission
 * Updated installation instructions
 * Added bug reports link
 

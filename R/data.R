@@ -56,8 +56,8 @@
 #' containing water at different volumes. Pathlengths were derived by using the
 #' equation `pathlength (cm) = kfactor_well / kfactor_1cm`. `Kfactor_well` is
 #' defined as A975-A900 value for each well (there were 4 replicates per volume
-#' per experiment). `Kfactor_1cm` values were derived using `get_kfactors` function
-#' for water at 26oC.
+#' per experiment). `Kfactor_1cm` values were derived using the `get_kfactor()`
+#' function for water at 26oC.
 #'
 #' @format A data frame with 10 rows and 6 variables: \describe{
 #'   \item{volume}{volume in ul} \item{pathlength}{pathlength in cm}

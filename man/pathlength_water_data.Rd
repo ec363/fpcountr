@@ -17,7 +17,7 @@ A dataset containing experimentally derived pathlengths for microplate wells
 containing water at different volumes. Pathlengths were derived by using the
 equation \code{pathlength (cm) = kfactor_well / kfactor_1cm}. \code{Kfactor_well} is
 defined as A975-A900 value for each well (there were 4 replicates per volume
-per experiment). \code{Kfactor_1cm} values were derived using \code{get_kfactors} function
-for water at 26oC.
+per experiment). \code{Kfactor_1cm} values were derived using the \code{get_kfactor()}
+function for water at 26oC.
 }
 \keyword{datasets}

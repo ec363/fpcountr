@@ -117,11 +117,13 @@ Defaults to <code>fp_properties.csv</code>.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_fpbase_properties</span><span class="op">(</span><span class="st">"mcherry"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> FP data retrieved from FPbase.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              slug    name ex_max em_max ext_coeff   qy pka maturation lifetime</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 mcherry_default default    587    610     72000 0.22 4.5         15      1.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   brightness</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      15.84</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Warning in call to FPbase:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;simpleWarning in open.connection(con, "rb"): URL 'https://www.fpbase.org/api/proteins/?format=json': Timeout of 60 seconds was reached&gt;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> FP data retrieved from FPbase data stored in package.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 url    name stokes    slug  ipg_id agg ex_max em_max ext_coeff</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /protein/mcherry/ mCherry     23 mcherry 3838123   m    587    610     72000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     qy pka brightness bleach maturation lifetime cofactor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.22 4.5      15.84     68         15      1.4         </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

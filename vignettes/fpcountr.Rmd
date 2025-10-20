@@ -394,7 +394,7 @@ proteinconcs <- get_conc_ecmax(
   processed_spectrum_csv = "fp_quantification/example_absorbance_parsed_processed.csv",
   # wells_to_remove = c(),
   corr_method = "scatter", wav_to_use1 = 500, wav_to_use2 = 450,
-  outfolder = "fp_quantification/concentration",
+  outfolder = "fp_quantification/concentration"
 )
 ```
 
